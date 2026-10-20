@@ -16,7 +16,9 @@
  *       book を省略すると空白のシート（range 既定 A1:E6）を描く。空白のブックから始める節向け。
  *       macro="Hello" を付けると、「▶ 実行」の代わりに実際の操作に近い流れになる:
  *         Excel        …「マクロ」ボタン → マクロの一覧から選んで「実行」（開発 → マクロ と同じ）
- *         スプレッドシート … 関数の選択欄で選んで「▶ 実行」（Apps Script エディタと同じ）
+ *         スプレッドシート … 「スプレッドシート」と「Apps Script エディタ」の 2 つのブラウザタブを描き、
+ *                          エディタで関数を選んで「▶ 実行」→ スプレッドシートのタブで結果を見る
+ *                          （エディタには example/gas の .gs を出し、実行ログも再現する）
  *       一覧に並べる名前は macros="Hello,WriteCells"（既定は macro だけ）。GAS 側の名前は
  *       先頭を小文字にしたもの（Hello → hello）。結果が出るのは macro を選んだときだけ。
  *       menu="請求書" を付けると、スプレッドシート表示のメニューバーの「ヘルプ」の右に独自メニュー
@@ -696,7 +698,7 @@ export async function buildSheetDemo({ caption, attrs, lines, lectureAbsDir, whe
     return null;
   }
   const cap = caption ? `<figcaption class="sheetdemo__caption">${escapeHtml(caption)}</figcaption>` : '';
-  const reset = `<button type="button" class="sheetdemo__reset" disabled>↺ リセット</button>`;
+  const reset = `<button type="button" class="sheetdemo__reset">↺ リセット</button>`;
   const note =
     `<span class="sheetdemo__note">ブラウザ上での再現です</span>` +
     `<button type="button" class="sheetdemo__fullscreen" aria-pressed="false">⛶ 全画面</button>`;

@@ -12,6 +12,7 @@
   --g-surface: #f8fafd;
   --g-font: 'Google Sans', Roboto, Arial, 'Hiragino Sans', 'Noto Sans JP', system-ui, sans-serif;
   --g-mono: 'Roboto Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  container-type: inline-size;
   overflow: hidden;
   border: 1px solid var(--sl-color-gray-5);
   border-radius: 12px;
@@ -572,9 +573,9 @@ button.gbrowser__btn:disabled {
   max-height: none;
 }
 
-/* ---- 狭い画面 ---- */
+/* ---- 狭い枠（本文の欄の幅で決める） ---- */
 
-@media (max-width: 56rem) {
+@container (max-width: 44rem) {
   .gbrowser__workspace {
     grid-template-columns: 44px minmax(0, 1fr);
   }
@@ -584,7 +585,7 @@ button.gbrowser__btn:disabled {
   }
 }
 
-@media (max-width: 36rem) {
+@container (max-width: 30rem) {
   .gbrowser__workspace {
     grid-template-columns: minmax(0, 1fr);
   }

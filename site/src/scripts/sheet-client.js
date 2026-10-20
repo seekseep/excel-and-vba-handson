@@ -3,7 +3,8 @@
 //   - `::::sheetdemo` の「▶ 実行」で data-after の値に切り替え、「↺ リセット」で戻す
 //   - msgbox を書いたデモは、実行でメッセージの小窓を出し、「OK」で閉じる
 //   - macro を付けたデモは、Excel は「マクロ」の一覧から選んで「実行」、スプレッドシートは
-//     関数の選択欄で選んで「▶ 実行」したときだけ結果を出す（実際の操作の順番をなぞる）
+//     Apps Script エディタのタブで関数を選んで「▶ 実行」したときだけ結果を出す（実際の操作の順番をなぞる）
+//   - スプレッドシートは 2 つのブラウザタブ（.gbrowser）で、実行するとスプレッドシートのタブに結果が出る
 //   - ブックに置いたボタン（.sheet__button）を押すと、そのボタンのマクロを実行したことにする
 //   - スプレッドシートのメニューバーの独自メニュー（.sheet__menu）の項目も、ボタンと同じく動く
 // コードは動かさない。何が起きるかのイメージを見せるだけ。
@@ -53,7 +54,7 @@
       if (ok) ok.focus({ preventScroll: true });
     }
     setRunDisabled(demo, true);
-    demo.querySelector('.sheetdemo__reset').disabled = false;
+    demo.dataset.ran = '';
     guideStep(demo, 'done');
     refresh(demo);
   }
@@ -144,14 +145,13 @@
     demo.querySelector('.sheetdemo__macros').hidden = true;
     runMacro(demo, selected.dataset.name);
     // 違うマクロを選んだときは、もう一度「マクロ」からやり直してもらう。
-    if (demo.querySelector('.sheetdemo__reset').disabled) guideStep(demo, 'macro');
+    if (!('ran' in demo.dataset)) guideStep(demo, 'macro');
   }
 
   // 選んだマクロが、このデモで再現しているマクロなら結果を出す（実行済みなら何もしない）。
   function runMacro(demo, name) {
     var expected = demo.querySelector('.sheetdemo__bar').dataset.macro;
-    var reset = demo.querySelector('.sheetdemo__reset');
-    if (name === expected && reset && reset.disabled) run(demo);
+    if (name === expected && !('ran' in demo.dataset)) run(demo);
   }
 
   // シート上のボタンとメニューの項目。このデモで再現しているマクロなら実行し、ほかは吹き出しの文言を返す。
@@ -164,7 +164,7 @@
     }
     // macro の無いデモ（全体の結果を見せるもの）は、どのボタン・メニュー項目からでも動かす。
     if (!expected && bar && bar.hasAttribute('data-any-run')) {
-      if (demo.querySelector('.sheetdemo__reset').disabled) run(demo);
+      if (!('ran' in demo.dataset)) run(demo);
       return null;
     }
     if (!expected) return 'このデモは上の「▶ 実行」で動かします';
@@ -247,7 +247,7 @@
     var picker = demo.querySelector('.sheetdemo__macros');
     if (picker) picker.hidden = true;
     setRunDisabled(demo, false);
-    demo.querySelector('.sheetdemo__reset').disabled = true;
+    delete demo.dataset.ran;
     showDevTab(demo, false);
     guideStep(demo, 'tab');
     gasReset(demo);
@@ -464,7 +464,7 @@
     var demo = target.closest('.sheetdemo');
     if (target.closest('.sheetdemo__dev-tab')) {
       showDevTab(demo, true);
-      if (demo.querySelector('.sheetdemo__reset').disabled) guideStep(demo, 'macro');
+      if (!('ran' in demo.dataset)) guideStep(demo, 'macro');
       return;
     }
     if (target.closest('.sheetdemo__macro-open')) {

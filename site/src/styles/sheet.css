@@ -811,12 +811,14 @@ button.sheet__ribbon-big:disabled {
   }
 }
 
-/* 手順の案内（シートの上）。ページの地の色に合わせる。 */
+/* 手順の案内（シートの上）。ウィザードのステッパーの形で、番号の丸を線でつなぐ。
+   済んだ手順は丸をチェックに変え、今の手順は丸を塗る。ページの地の色に合わせる。 */
 .sheetdemo__guide {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.2rem 1.4rem;
-  margin: 0 0 0.5rem;
+  align-items: center;
+  gap: 0.4rem 0.6rem;
+  margin: 0 0 0.6rem;
   padding: 0;
   list-style: none;
   counter-reset: sheetdemo-step;
@@ -825,12 +827,34 @@ button.sheet__ribbon-big:disabled {
 }
 
 .sheetdemo__guide li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
   margin: 0;
   counter-increment: sheetdemo-step;
 }
 
 .sheetdemo__guide li::before {
-  content: counter(sheetdemo-step) '. ';
+  content: counter(sheetdemo-step);
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 1.5px solid var(--sl-color-gray-4);
+  border-radius: 50%;
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* 手順と手順のあいだの線 */
+.sheetdemo__guide li:not(:last-child)::after {
+  content: '';
+  flex: none;
+  width: 1.5rem;
+  height: 1.5px;
+  margin-left: 0.2rem;
+  background: var(--sl-color-gray-5);
 }
 
 .sheetdemo__guide li.is-current {
@@ -838,8 +862,20 @@ button.sheet__ribbon-big:disabled {
   font-weight: 700;
 }
 
-.sheetdemo__guide li.is-done {
-  text-decoration: line-through;
+.sheetdemo__guide li.is-current::before {
+  border-color: var(--sl-color-accent);
+  background: var(--sl-color-accent);
+  color: var(--sl-color-black);
+}
+
+.sheetdemo__guide li.is-done::before {
+  content: '✓';
+  border-color: var(--sl-color-accent);
+  color: var(--sl-color-text-accent);
+}
+
+.sheetdemo__guide li.is-done::after {
+  background: var(--sl-color-accent);
 }
 
 /* ---- スプレッドシートのメニューバー ----
