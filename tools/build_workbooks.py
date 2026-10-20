@@ -18,6 +18,7 @@ import random
 import zipfile
 from datetime import date
 from pathlib import Path
+from xml.sax.saxutils import escape
 
 from openpyxl import Workbook
 from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
@@ -214,21 +215,138 @@ def write_invoice_template(ws):
     ws.print_area = "A1:E33"
 
 
-def save(wb, path, end_state=None):
+def save(wb, path, end_state=None, buttons=(), start_buttons=None):
     """
     .xlsx（節を始める状態。本文のデモもこれを描く）を保存し、マクロ入りの .xlsm も作る。
     end_state(wb) を渡すと、.xlsm はその節のマクロを実行し終えた後の値まで入れた状態にする
     （次の節を、ダウンロードした .xlsm からそのまま始められるように）。
+    buttons はマクロを実行するボタン（Button の並び）。start_buttons を渡すと .xlsx にはそちらを置く
+    （5-3 のように、ボタンを自分で置く節のため）。
     """
     path.parent.mkdir(parents=True, exist_ok=True)
     wb.save(path)
+    add_buttons(wb, path, buttons if start_buttons is None else start_buttons)
     print(f"[build_workbooks] {path.relative_to(ROOT)}")
     if end_state:
         end_state(wb)
-    save_xlsm(wb, path)
+    save_xlsm(wb, path, buttons)
 
 
-def save_xlsm(wb, xlsx_path):
+# ---------------------------------------------------------------------------
+# マクロを実行するボタン（フォーム コントロールのボタン）
+# ---------------------------------------------------------------------------
+
+class Button:
+    """sheet の cell を左上に、cols 列 × rows 行の大きさで置く。押すと macro が動く。"""
+
+    def __init__(self, sheet, cell, text, macro, cols=2, rows=2):
+        self.sheet = sheet
+        self.cell = cell
+        self.text = text
+        self.macro = macro
+        self.cols = cols
+        self.rows = rows
+
+
+VML_HEAD = (
+    '<xml xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office"'
+    ' xmlns:x="urn:schemas-microsoft-com:office:excel">'
+    '<o:shapelayout v:ext="edit"><o:idmap v:ext="edit" data="{idmap}"/></o:shapelayout>'
+    '<v:shapetype id="_x0000_t201" coordsize="21600,21600" o:spt="201" path="m,l,21600r21600,l21600,xe">'
+    '<v:stroke joinstyle="miter"/>'
+    '<v:path shadowok="f" o:extrusionok="f" strokeok="f" fillok="f" o:connecttype="rect"/>'
+    '<o:lock v:ext="edit" shapetype="t"/>'
+    '</v:shapetype>'
+)
+VML_BUTTON = (
+    '<v:shape id="_x0000_s{shape_id}" type="#_x0000_t201"'
+    ' style="position:absolute;margin-left:0;margin-top:0;width:96pt;height:28pt;z-index:{z};mso-wrap-style:tight"'
+    ' o:button="t" fillcolor="buttonFace [67]" strokecolor="windowText [64]" o:insetmode="auto">'
+    '<v:fill color2="buttonFace [67]" o:detectmouseclick="t"/>'
+    '<o:lock v:ext="edit" rotation="t"/>'
+    '<v:textbox style="mso-direction-alt:auto" o:singleclick="f">'
+    '<div style="text-align:center"><font face="游ゴシック" size="220" color="#000000">{text}</font></div>'
+    '</v:textbox>'
+    '<x:ClientData ObjectType="Button">'
+    '<x:Anchor>{anchor}</x:Anchor>'
+    '<x:PrintObject>False</x:PrintObject>'
+    '<x:AutoFill>False</x:AutoFill>'
+    '<x:FmlaMacro>[0]!{macro}</x:FmlaMacro>'
+    '<x:TextHAlign>Center</x:TextHAlign>'
+    '<x:TextVAlign>Center</x:TextVAlign>'
+    '</x:ClientData>'
+    '</v:shape>'
+)
+VML_REL = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/vmlDrawing"
+VML_TYPE = '<Default Extension="vml" ContentType="application/vnd.openxmlformats-officedocument.vmlDrawing"/>'
+
+
+def _vml(sheet_index, buttons):
+    from openpyxl.utils.cell import coordinate_from_string, column_index_from_string
+
+    shapes = []
+    for k, b in enumerate(buttons, start=1):
+        letter, row = coordinate_from_string(b.cell)
+        col = column_index_from_string(letter) - 1
+        top = row - 1
+        # Anchor: 左の列, 列内のずれ(px), 上の行, 行内のずれ, 右の列, ずれ, 下の行, ずれ（列と行は 0 始まり）
+        anchor = f"{col}, 4, {top}, 3, {col + b.cols - 1}, 60, {top + b.rows - 1}, 17"
+        shapes.append(VML_BUTTON.format(
+            shape_id=sheet_index * 1024 + k, z=k, text=escape(b.text), macro=b.macro, anchor=anchor,
+        ))
+    return VML_HEAD.format(idmap=sheet_index) + "".join(shapes) + "</xml>"
+
+
+def add_buttons(wb, path, buttons):
+    """
+    保存済みのブック（.xlsx / .xlsm）にボタンを足す。openpyxl はフォーム コントロールを書けないので、
+    zip の中身を差し替える:
+      - xl/drawings/vmlDrawingN.vml … ボタンの形と、押したときに動くマクロ（FmlaMacro）
+      - シートの rels に vmlDrawing へのリレーション、シートの XML に <legacyDrawing>
+    """
+    if not buttons:
+        return
+    by_sheet = {}
+    for b in buttons:
+        by_sheet.setdefault(wb.sheetnames.index(b.sheet) + 1, []).append(b)
+    files = {}
+    with zipfile.ZipFile(path) as z:
+        infos = z.infolist()
+        for item in infos:
+            files[item.filename] = z.read(item.filename)
+    for index, sheet_buttons in by_sheet.items():
+        sheet_xml = f"xl/worksheets/sheet{index}.xml"
+        rels_path = f"xl/worksheets/_rels/sheet{index}.xml.rels"
+        vml_path = f"xl/drawings/vmlDrawing{index}.vml"
+        files[vml_path] = _vml(index, sheet_buttons).encode()
+        rel = f'<Relationship Id="rIdButtons" Type="{VML_REL}" Target="../drawings/vmlDrawing{index}.vml"/>'
+        if rels_path in files:
+            files[rels_path] = files[rels_path].decode().replace("</Relationships>", rel + "</Relationships>").encode()
+        else:
+            files[rels_path] = (
+                '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
+                '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'
+                + rel + "</Relationships>"
+            ).encode()
+        # legacyDrawing はシートの子要素の順番が決まっている（tableParts / extLst より前）
+        legacy = '<legacyDrawing xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" r:id="rIdButtons"/>'
+        text = files[sheet_xml].decode()
+        for tail in ("<tableParts", "<extLst", "</worksheet>"):
+            if tail in text:
+                text = text.replace(tail, legacy + tail, 1)
+                break
+        files[sheet_xml] = text.encode()
+    types = files["[Content_Types].xml"].decode()
+    if 'Extension="vml"' not in types:
+        types = types.replace('<Default Extension="xml"', VML_TYPE + '<Default Extension="xml"', 1)
+    files["[Content_Types].xml"] = types.encode()
+    names = [i.filename for i in infos] + [n for n in files if n not in {i.filename for i in infos}]
+    with zipfile.ZipFile(path, "w", zipfile.ZIP_DEFLATED) as z:
+        for name in names:
+            z.writestr(name, files[name])
+
+
+def save_xlsm(wb, xlsx_path, buttons=()):
     """
     その節の完成コード（example/vba/*.bas）があれば、同じ中身のマクロ入りブック（.xlsm）も作る。
     openpyxl はマクロを書けないので、.xlsx を保存してから zip の中身を差し替える:
@@ -273,19 +391,53 @@ def save_xlsm(wb, xlsx_path):
             zout.writestr(item, data)
         zout.writestr("xl/vbaProject.bin", vba)
     tmp.unlink()
+    add_buttons(wb, xlsm_path, buttons)
     print(f"[build_workbooks] {xlsm_path.relative_to(ROOT)}（マクロ入り）")
+
+
+# 節ごとのボタン。表示する文字は本文（「◯◯」ボタンを押します）と揃える
+SALES_BUTTONS = {
+    "CalcAmounts": Button("売上", "L2", "金額を計算", "CalcAmounts"),
+    "SumTotal": Button("売上", "L5", "売上合計を出す", "SumTotal"),
+    "SumByCustomer": Button("売上", "L8", "顧客別に集計", "SumByCustomer"),
+    "SumAllCustomers": Button("売上", "L11", "全顧客を集計", "SumAllCustomers"),
+    "SumTotalWithBug": Button("売上", "L14", "合計（バグあり）", "SumTotalWithBug"),
+}
+DEMO_BUTTONS = {
+    "ShowObjects": Button("売上", "L2", "ブックの情報を出す", "ShowObjects"),
+    "DecorateSales": Button("売上", "L5", "表を整える", "DecorateSales"),
+    "SplitByCustomer": Button("売上", "L8", "顧客別に分ける", "SplitByCustomer"),
+    "DeleteDemoSheets": Button("売上", "L11", "増えたシートを消す", "DeleteDemoSheets"),
+    "SaveBackup": Button("売上", "L14", "バックアップを保存", "SaveBackup"),
+}
+INVOICE_BUTTONS = {
+    "CreateInvoices": Button("顧客", "F2", "請求書を作る", "CreateInvoices"),
+    "DeleteInvoices": Button("顧客", "F5", "請求書シートを消す", "DeleteInvoices"),
+}
+FIRST_BUTTONS = {
+    "Hello": Button("Sheet1", "D2", "あいさつする", "Hello"),
+    "WriteCells": Button("Sheet1", "D5", "セルに書く", "WriteCells"),
+    "CalcTaxIncluded": Button("Sheet1", "D8", "税込価格を計算", "CalcTaxIncluded"),
+}
+
+
+def pick(table, *names):
+    return [table[n] for n in names]
 
 
 def main():
     sales = make_sales()
 
     # 2 章: 空白のブックから始める。終えた状態として、空のシートにマクロを入れたブックを作る
-    for lecture in ("01-hello-macro", "02-cells-and-variables"):
+    for lecture, buttons in (
+        ("01-hello-macro", pick(FIRST_BUTTONS, "Hello")),
+        ("02-cells-and-variables", pick(FIRST_BUTTONS, "Hello", "WriteCells", "CalcTaxIncluded")),
+    ):
         wb = Workbook()
         wb.active.title = "Sheet1"
         path = SECTIONS / "02-first-macro" / lecture / "example" / "data" / "first-macro.xlsx"
         path.parent.mkdir(parents=True, exist_ok=True)
-        save_xlsm(wb, path)
+        save_xlsm(wb, path, buttons)
 
     # 3 章: 金額が空の売上明細 + 集計欄（受講者が関数と VBA で埋める）。.xlsx はどの節も同じ
     # .xlsm は、その節のマクロを実行し終えた後の値（金額・合計・顧客別の合計）まで入れる
@@ -311,37 +463,48 @@ def main():
         for i, (name, *_rest) in enumerate(CUSTOMERS, start=5):
             wb["売上"].cell(row=i, column=10, value=totals[name])
 
-    for lecture, end_state in (
-        ("01-calc-amounts", end_31),
-        ("02-sum-and-sumif", end_32),
-        ("03-debugger-intro", end_32),
-        ("04-debugging", end_34),
+    # 前の節のブックで続ける人もいるので、章で使うボタンは最初の節から全部置いておく
+    summary = pick(SALES_BUTTONS, "CalcAmounts", "SumTotal", "SumByCustomer")
+    for lecture, end_state, buttons in (
+        ("01-calc-amounts", end_31, summary),
+        ("02-sum-and-sumif", end_32, summary),
+        ("03-debugger-intro", end_32, summary),
+        ("04-debugging", end_34, summary + pick(SALES_BUTTONS, "SumAllCustomers", "SumTotalWithBug")),
     ):
         wb = Workbook()
         ws = wb.active
         ws.title = "売上"
         write_sales_sheet(ws, sales, with_amount=False)
         write_summary_area(ws)
-        save(wb, SECTIONS / "03-reproduce-functions" / lecture / "example" / "data" / "sales.xlsx", end_state)
+        save(wb, SECTIONS / "03-reproduce-functions" / lecture / "example" / "data" / "sales.xlsx", end_state, buttons)
 
     # 4 章: 同じ表を金額まで埋めた状態（デモは集計済みの表から始める）
-    for lecture in ("01-object-model", "02-sheet-operations"):
+    for lecture, buttons in (
+        ("01-object-model", pick(DEMO_BUTTONS, "ShowObjects")),
+        ("02-sheet-operations", list(DEMO_BUTTONS.values())),
+    ):
         wb = Workbook()
         ws = wb.active
         ws.title = "売上"
         write_sales_sheet(ws, sales, with_amount=True)
         write_summary_area(ws)
-        save(wb, SECTIONS / "04-what-vba-can-do" / lecture / "example" / "data" / "sales.xlsx")
+        save(wb, SECTIONS / "04-what-vba-can-do" / lecture / "example" / "data" / "sales.xlsx", buttons=buttons)
 
     # 5 章: 金額まで埋まった売上明細 + 顧客 + 請求書テンプレート
-    for lecture in ("01-copy-template", "02-transfer-details", "03-pdf-and-button"):
+    # 「請求書シートを消す」は 5-3 で受講者が自分で置くボタンなので、5-3 を終えた .xlsm にだけ置く
+    create = pick(INVOICE_BUTTONS, "CreateInvoices")
+    for lecture, buttons, start_buttons in (
+        ("01-copy-template", create, None),
+        ("02-transfer-details", create, None),
+        ("03-pdf-and-button", list(INVOICE_BUTTONS.values()), create),
+    ):
         wb = Workbook()
         ws = wb.active
         ws.title = "売上"
         write_sales_sheet(ws, sales, with_amount=True)
         write_customer_sheet(wb.create_sheet("顧客"))
         write_invoice_template(wb.create_sheet("請求書テンプレート"))
-        save(wb, SECTIONS / "05-invoice-button" / lecture / "example" / "data" / "invoice.xlsx")
+        save(wb, SECTIONS / "05-invoice-button" / lecture / "example" / "data" / "invoice.xlsx", buttons=buttons, start_buttons=start_buttons)
 
 
 if __name__ == "__main__":

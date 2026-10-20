@@ -121,7 +121,7 @@ console.log(i, sheet.getRange(i, 6).getValue(), total);
 
 :::::platform
 ::::excel
-「開発」タブの「マクロ」を押し、一覧から `SumTotal` を選んで「実行」を押します。
+「売上」シートの **売上合計を出す** ボタンを押します（「開発」タブ →「マクロ」で `SumTotal` を選んで「実行」を押しても同じです）。
 ::::
 ::::sheets
 Apps Script エディタの関数の選択欄で `sumTotal` を選び、「▶ 実行」を押します。

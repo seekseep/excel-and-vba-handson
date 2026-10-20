@@ -61,10 +61,64 @@ function loadBook(abs) {
     books.set(abs, (async () => {
       const wb = await newWorkbook();
       await wb.xlsx.readFile(abs);
+      wb.buttons = await readButtons(abs);
       return wb;
     })());
   }
   return books.get(abs);
+}
+
+// ---- マクロを実行するボタン ----
+
+// exceljs はフォーム コントロールを読まないので、zip の中の VML（tools/build_workbooks.py が書くもの）から
+// ボタンを取り出す。返り値は Map<シート名, [{ col, row, cols, rows, text, macro }]>（col / row は 1 始まり）。
+async function readButtons(abs) {
+  const { default: JSZip } = await import('jszip');
+  const zip = await JSZip.loadAsync(await readFile(abs));
+  const text = async (name) => (zip.file(name) ? zip.file(name).async('string') : '');
+  const relsOf = (xml) =>
+    new Map([...xml.matchAll(/<Relationship\b[^>]*>/g)].map((m) => [attr(m[0], 'Id'), attr(m[0], 'Target')]));
+  const workbookRels = relsOf(await text('xl/_rels/workbook.xml.rels'));
+  const result = new Map();
+  for (const m of (await text('xl/workbook.xml')).matchAll(/<sheet\b[^>]*>/g)) {
+    const name = attr(m[0], 'name');
+    const target = workbookRels.get(attr(m[0], 'r:id'));
+    if (!name || !target) continue;
+    const sheetPath = path.posix.join('xl', target.replace(/^\/?xl\//, ''));
+    const sheetRels = relsOf(await text(path.posix.join(path.posix.dirname(sheetPath), '_rels', `${path.posix.basename(sheetPath)}.rels`)));
+    const buttons = [];
+    for (const t of sheetRels.values()) {
+      if (!/\.vml$/.test(t)) continue;
+      const vml = await text(path.posix.join(path.posix.dirname(sheetPath), t));
+      for (const shape of vml.matchAll(/<v:shape\b[\s\S]*?<\/v:shape>/g)) {
+        if (!/ObjectType="Button"/.test(shape[0])) continue;
+        const anchor = shape[0].match(/<x:Anchor>([^<]*)<\/x:Anchor>/)?.[1].split(',').map((n) => Number(n.trim()));
+        const macro = shape[0].match(/<x:FmlaMacro>(?:\[\d+\]!)?([^<]*)<\/x:FmlaMacro>/)?.[1];
+        if (!anchor || anchor.length !== 8 || !macro) continue;
+        const label = (shape[0].match(/<v:textbox\b[^>]*>([\s\S]*?)<\/v:textbox>/)?.[1] ?? '').replace(/<[^>]+>/g, '').trim();
+        const [left, , top, , right, , bottom] = anchor;
+        buttons.push({
+          col: left + 1,
+          row: top + 1,
+          cols: right - left + 1,
+          rows: bottom - top + 1,
+          text: unescapeXml(label),
+          macro: unescapeXml(macro),
+        });
+      }
+    }
+    if (buttons.length) result.set(name, buttons);
+  }
+  return result;
+}
+
+function attr(tag, name) {
+  const m = tag.match(new RegExp(`\\s${name.replace(':', '\\:')}="([^"]*)"`));
+  return m ? unescapeXml(m[1]) : null;
+}
+
+function unescapeXml(s) {
+  return s.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&apos;/g, "'").replace(/&amp;/g, '&');
 }
 
 // ---- セル番地 ----
@@ -171,14 +225,16 @@ const colWidthPx = (w) => Math.round((w ?? 8.43) * 7 + 5);
  * after = Map<"F2", 値>。指定したセルには実行後の表示を data-after に持たせる。
  */
 /** シート 1 枚の表（<table>）を描く。after は実行後の値、before は描くときに上書きする値。 */
-function renderGrid(ws, { range, highlight, after, before }) {
+function renderGrid(ws, { range, highlight, after, before, buttons = [] }) {
   const dims = ws.dimensions;
+  // 範囲を指定しないときは、ボタンまで入る大きさで描く（ボタンは表の右に置いてある）。
   const view = parseRange(range) ?? {
     top: 1,
     left: 1,
-    bottom: Math.max(dims?.bottom ?? 1, 1),
-    right: Math.max(dims?.right ?? 1, 1),
+    bottom: Math.max(dims?.bottom ?? 1, 1, ...buttons.map((b) => b.row + b.rows - 1)),
+    right: Math.max(dims?.right ?? 1, 1, ...buttons.map((b) => b.col + b.cols - 1)),
   };
+  const buttonAt = (row, col) => buttons.find((b) => b.row === row && b.col === col);
   const marks = String(highlight ?? '')
     .split(',')
     .map((s) => parseRange(s))
@@ -250,8 +306,19 @@ function renderGrid(ws, { range, highlight, after, before }) {
         attrs.push(`data-after-raw="${escapeHtml(rawValue(v))}"`);
         if ((typeof v === 'number' || v instanceof Date) && !align) attrs.push('data-after-number');
       }
+      // ボタンは左上のセルに重ねて、ボタンの大きさ（列幅の合計 × 行数）で描く。
+      const button = buttonAt(r, c);
+      let buttonHtml = '';
+      if (button) {
+        cls.push('has-button');
+        let width = 0;
+        for (let k = c; k < c + button.cols; k++) width += colWidthPx(ws.getColumn(k).width);
+        buttonHtml =
+          `<button type="button" class="sheet__button sheet__only--excel" data-macro="${escapeHtml(button.macro)}"` +
+          ` style="width:${width - 8}px;height:calc(${button.rows} * 1.55rem - 6px)">${escapeHtml(button.text)}</button>`;
+      }
       if (style.length) attrs.push(`style="${style.join(';')}"`);
-      tds.push(`<td class="${cls.join(' ')}" ${attrs.join(' ')}>${escapeHtml(shown)}</td>`);
+      tds.push(`<td class="${cls.join(' ')}" ${attrs.join(' ')}>${escapeHtml(shown)}${buttonHtml}</td>`);
     }
     rows.push(`<tr>${tds.join('')}</tr>`);
   }
@@ -276,9 +343,10 @@ function renderSheet(wb, ws, { range, highlight, after, before, sheetValues = ne
   const sheets = blank ? [ws] : wb.worksheets;
   for (const s of sheets) {
     const active = s === ws;
+    const buttons = wb.buttons?.get(s.name) ?? [];
     const table = active
-      ? renderGrid(s, { range, highlight, after, before })
-      : renderGrid(s, { before: sheetValues.get(s.name) });
+      ? renderGrid(s, { range, highlight, after, before, buttons })
+      : renderGrid(s, { before: sheetValues.get(s.name), buttons });
     panes.push(`<div class="sheet__grid" data-sheet="${escapeHtml(s.name)}"${active ? '' : ' hidden'}>${table}</div>`);
     // 空白のブックは、新しく作ったときの名前を環境ごとに出す（Excel は Book1 / Sheet1）。
     const label = blank

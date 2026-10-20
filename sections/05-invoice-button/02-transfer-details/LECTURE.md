@@ -86,14 +86,14 @@ title: 明細を書き写す
 
 :::::platform
 ::::excel
-「開発」タブの「マクロ」を押し、一覧から `CreateInvoices` を選んで「実行」を押します。
+「顧客」シートの **請求書を作る** ボタンを押します（「開発」タブ →「マクロ」で `CreateInvoices` を選んで「実行」を押しても同じです）。
 ::::
 ::::sheets
 Apps Script エディタの関数の選択欄で `createInvoices` を選び、「▶ 実行」を押します。
 ::::
 :::::
 
-::::sheetdemo[CreateInvoices を実行すると、ひまわり商事の明細と合計が入る]{book="data/invoice.xlsx" sheet="請求書テンプレート" macro="CreateInvoices" openTab="added"}
+::::sheetdemo[CreateInvoices を実行すると、ひまわり商事の明細と合計が入る]{book="data/invoice.xlsx" sheet="顧客" macro="CreateInvoices" openTab="added"}
 tabs = 請求書_ひまわり商事 <- 請求書テンプレート
 請求書_ひまわり商事!A5 = ひまわり商事 御中
 請求書_ひまわり商事!A6 = 〒104-0000 東京都中央区ひまわり 2-4-6
@@ -151,7 +151,7 @@ tabs = 請求書_ひまわり商事 <- 請求書テンプレート
 
 :::::platform
 ::::excel
-「開発」タブの「マクロ」を押し、一覧から `CreateInvoices` を選んで「実行」を押します。
+「顧客」シートの **請求書を作る** ボタンを押します（「開発」タブ →「マクロ」で `CreateInvoices` を選んで「実行」を押しても同じです）。
 ::::
 ::::sheets
 Apps Script エディタの関数の選択欄で `createInvoices` を選び、「▶ 実行」を押します。

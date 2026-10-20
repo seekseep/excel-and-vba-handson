@@ -4,6 +4,7 @@
 //   - msgbox を書いたデモは、実行でメッセージの小窓を出し、「OK」で閉じる
 //   - macro を付けたデモは、Excel は「マクロ」の一覧から選んで「実行」、スプレッドシートは
 //     関数の選択欄で選んで「▶ 実行」したときだけ結果を出す（実際の操作の順番をなぞる）
+//   - ブックに置いたボタン（.sheet__button）を押すと、そのボタンのマクロを実行したことにする
 // コードは動かさない。何が起きるかのイメージを見せるだけ。
 // 本文より先に <head> で読まれるので、クリックは document で受ける。
 (function () {
@@ -78,6 +79,41 @@
     if (name === expected) run(demo);
   }
 
+  // シート上のボタン。このデモで再現しているマクロのボタンなら実行し、ほかは吹き出しで知らせる。
+  function pressButton(button) {
+    var demo = button.closest('.sheetdemo');
+    if (!demo) return;
+    var bar = demo.querySelector('.sheetdemo__bar');
+    var expected = bar && bar.dataset.macro;
+    var reset = demo.querySelector('.sheetdemo__reset');
+    if (expected && button.dataset.macro === expected) {
+      if (reset && reset.disabled) run(demo);
+      return;
+    }
+    var target = expected && demo.querySelector('.sheet__button[data-macro="' + expected + '"]');
+    var name = target ? '「' + target.textContent + '」' : expected;
+    showHint(button, expected ? 'このデモで動くのは' + name + 'です' : 'このデモは上の「▶ 実行」で動かします');
+  }
+
+  function showHint(button, text) {
+    var cell = button.parentElement;
+    var old = cell.querySelector('.sheet__button-hint');
+    if (old) old.remove();
+    var hint = document.createElement('span');
+    hint.className = 'sheet__button-hint';
+    hint.setAttribute('role', 'status');
+    hint.textContent = text;
+    // 表の右端に置いたボタンでも見切れないよう、ボタンと同じ幅で折り返す。
+    hint.style.width = button.style.width;
+    cell.appendChild(hint);
+    // 下に並んだボタンより手前に出す。
+    cell.classList.add('is-hinting');
+    setTimeout(function () {
+      hint.remove();
+      if (!cell.querySelector('.sheet__button-hint')) cell.classList.remove('is-hinting');
+    }, 2500);
+  }
+
   function reset(demo) {
     var dialog = demo.querySelector('.sheetdemo__dialog');
     if (dialog) dialog.hidden = true;
@@ -112,6 +148,11 @@
     if (!(target instanceof Element)) return;
     // ページ内のクリックをすべて受けるので、シートの外ならすぐ抜ける。
     if (!target.closest('.sheet, .sheetdemo')) return;
+    var button = target.closest('.sheet__button');
+    if (button) {
+      pressButton(button);
+      return;
+    }
     var cell = target.closest('.sheet__cell');
     if (cell) {
       showCell(cell);

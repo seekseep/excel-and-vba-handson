@@ -35,7 +35,7 @@ title: テンプレートをコピーして宛名を書く
 | シート | 中身 |
 |---|---|
 | 売上 | 第 3 章と同じ 10 月の明細（金額まで埋まっている） |
-| 顧客 | 5 社の顧客名・郵便番号・住所・ご担当者 |
+| 顧客 | 5 社の顧客名・郵便番号・住所・ご担当者。Excel では、この章で作るマクロを動かす **請求書を作る** ボタンも置いてある |
 | 請求書テンプレート | 請求書のひな形。マクロはこれをコピーして値を埋める |
 
 請求書テンプレートのどのセルに何を書くかは、次のとおりです。
@@ -117,14 +117,14 @@ function createInvoices() {
 
 :::::platform
 ::::excel
-「開発」タブの「マクロ」を押し、一覧から `CreateInvoices` を選んで「実行」を押します。
+「顧客」シートの **請求書を作る** ボタンを押します（「開発」タブ →「マクロ」で `CreateInvoices` を選んで「実行」を押しても同じです）。
 ::::
 ::::sheets
 Apps Script エディタの関数の選択欄で `createInvoices` を選び、「▶ 実行」を押します。
 ::::
 :::::
 
-::::sheetdemo[CreateInvoices を実行すると、請求書_ひまわり商事 シートができて宛名が入る]{book="data/invoice.xlsx" sheet="請求書テンプレート" macro="CreateInvoices" openTab="added"}
+::::sheetdemo[CreateInvoices を実行すると、請求書_ひまわり商事 シートができて宛名が入る]{book="data/invoice.xlsx" sheet="顧客" macro="CreateInvoices" openTab="added"}
 tabs = 請求書_ひまわり商事 <- 請求書テンプレート
 請求書_ひまわり商事!A5 = ひまわり商事 御中
 請求書_ひまわり商事!A6 = 〒104-0000 東京都中央区ひまわり 2-4-6
