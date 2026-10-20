@@ -30,7 +30,8 @@ import {
   parseLectureOrder,
   stripLeadingH1,
 } from './libs/markdown.mjs';
-import { downloadUrlFor, parseLectureRel, startZipBasenameFor } from './libs/naming.mjs';
+import { bookUrl, doneBookOf, startBookOf } from './libs/books.mjs';
+import { parseLectureRel } from './libs/naming.mjs';
 import { DOCS_DIR, PUBLIC_DIR, REPO_SUBDIR, ROOT } from './libs/paths.mjs';
 import { expandSentinels } from './libs/sentinels.mjs';
 import { spreadsheetCopyUrl } from './libs/spreadsheets.mjs';
@@ -39,58 +40,22 @@ const MAX_FILE_BYTES = 200 * 1024;
 const PUBLISH_FLAG = 'docs';
 
 /**
- * レクチャーの source dir が配布 ZIP を持つなら、その URL を返す。対象でなければ null。
- * naming.mjs の命名規約 (<sec>-<lec>.zip) を build-downloads.mjs と共有する。
- * 本文中に手書きした `./project.zip` リンクを transformLinks でこの URL に差し替えるために使う。
- *
- * build-downloads.mjs は project 方式 (package.json) と example 方式 (example/index.html) の
- * どちらにも ZIP を出すので、両方を対象にする（この教材の example/ は index.html を持たない）。
+ * 本文の手書きセンチネルの差し替え先（links.mjs の transformLinks に渡す）。レクチャー以外では全部 null。
+ *   startBook       … `./start-book`        その節を始める状態のブック（Excel。books.mjs）
+ *   doneBook        … `./done-book`         その節を終えた状態のマクロ入りブック（Excel）
+ *   startSpreadsheet … `./start-spreadsheet` 始める状態のサンプルのスプレッドシートの「コピーを作成」URL
+ *   doneSpreadsheet  … `./done-spreadsheet`  終えた状態（Apps Script 入り）の「コピーを作成」URL
  */
-const ZIP_MARKERS = ['package.json', 'example'];
-
-async function resolveDownloadUrl(sourceDir, base) {
+async function resolveLinkTargets(sourceDir, base) {
   const parsed = parseLectureRel(sourceDir);
-  if (!parsed) return null;
-  for (const marker of ZIP_MARKERS) {
-    try {
-      await stat(path.join(ROOT, sourceDir, ...marker.split('/')));
-      return downloadUrlFor(base, parsed.sec, parsed.lec);
-    } catch (e) {
-      if (e.code !== 'ENOENT') throw e;
-    }
-  }
-  return null;
-}
-
-/**
- * 本文の `./start.zip`（その節を始める状態）の差し替え先。
- * 同じ章に前の節（example/ を持つもの）があれば、その節を終えた状態の ZIP。
- * 章の最初の節なら、練習用ブックだけの `<sec>-<lec>-start.zip`（build-downloads.mjs が作る）。
- */
-async function resolveStartUrl(sourceDir, base) {
-  const parsed = parseLectureRel(sourceDir);
-  if (!parsed) return null;
-  const secAbs = path.join(ROOT, 'sections', parsed.sec);
-  const siblings = (await readdir(secAbs, { withFileTypes: true }))
-    .filter((d) => d.isDirectory() && /^\d\d-/.test(d.name))
-    .map((d) => d.name)
-    .sort();
-  const i = siblings.indexOf(parsed.lec);
-  for (let j = i - 1; j >= 0; j--) {
-    try {
-      await stat(path.join(secAbs, siblings[j], 'example'));
-      return downloadUrlFor(base, parsed.sec, siblings[j]);
-    } catch (e) {
-      if (e.code !== 'ENOENT') throw e;
-    }
-  }
-  return `${base}/downloads/${startZipBasenameFor(parsed.sec, parsed.lec)}`;
-}
-
-/** 本文の `./spreadsheet`（節を始める状態のサンプルのスプレッドシート）の差し替え先。無ければ null。 */
-async function resolveSpreadsheetUrl(sourceDir) {
-  const parsed = parseLectureRel(sourceDir);
-  return parsed ? spreadsheetCopyUrl(parsed.sec, parsed.lec, 'start') : null;
+  if (!parsed) return {};
+  const { sec, lec } = parsed;
+  return {
+    startBook: bookUrl(base, await startBookOf(sec, lec)),
+    doneBook: bookUrl(base, await doneBookOf(sec, lec)),
+    startSpreadsheet: await spreadsheetCopyUrl(sec, lec, 'start'),
+    doneSpreadsheet: await spreadsheetCopyUrl(sec, lec, 'done'),
+  };
 }
 
 async function syncFile({
@@ -112,17 +77,12 @@ async function syncFile({
   const { data: srcFm, body: bodyAfterFm } = parseFrontmatter(raw);
   const title = srcFm.title || '名称不明';
   const description = srcFm.description || extractDescription(bodyAfterFm);
-  const downloadUrl = await resolveDownloadUrl(sourceDir, config.base);
-  const startUrl = downloadUrl ? await resolveStartUrl(sourceDir, config.base) : null;
-  const spreadsheetUrl = await resolveSpreadsheetUrl(sourceDir);
   let body = transformLinks(stripLeadingH1(bodyAfterFm), {
     sourceDir,
     sourceSiteUrl,
     repo: config.repo,
     base: config.base,
-    downloadUrl,
-    startUrl,
-    spreadsheetUrl,
+    targets: await resolveLinkTargets(sourceDir, config.base),
   });
 
   // `::codeview` / `::assets` / `::preview` センチネルを、実ファイルから生成したブロックに展開する。

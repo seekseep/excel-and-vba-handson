@@ -18,9 +18,12 @@ site/dist/
 site/.astro/
 site/src/content/docs/
 
-# 生成物: 各章の配布 ZIP（build-downloads.mjs）
+# 生成物: 配布する練習用ブックのコピー（build-downloads.mjs）
 site/public/downloads/
 
 # Excel で開いて確かめるための一時ファイル（tools/ の生成途中のものも）
 .tmp-xlsm-test/
 *.tmp.xlsx
+
+# Python のキャッシュ（tools/ を実行するとできる）
+__pycache__/

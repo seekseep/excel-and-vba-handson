@@ -5,8 +5,7 @@
  *   - sections/ 配下のソースコードや他リソース → GitHub blob URL に変換
  *   - 画像 (`![...](...)`) → GitHub raw URL に変換 (blob は HTML を返し <img> が壊れるため)
  *   - リポジトリルート直下のファイル (AGENTS.md など) → GitHub blob URL に変換
- *   - 手書きセンチネル `./project.zip` → 生成した配布 ZIP（その節を終えた状態）の URL に差し替え
- *   - 手書きセンチネル `./start.zip` → その節を始める状態の ZIP の URL に差し替え
+ *   - 手書きセンチネル（TARGET_SENTINELS）→ その節の練習用ブック・サンプルのスプレッドシートの URL に差し替え
  */
 
 import path from 'node:path';
@@ -31,6 +30,17 @@ export function publicTargetFor(resolved, base) {
   if (!m) return null;
   return { url: `${base}/${m[1]}`, destRel: m[1] };
 }
+
+/**
+ * 本文に手書きするセンチネルと、transformLinks の targets のキーの対応（sync-lectures.mjs が値を引く）。
+ * ブックは Excel 用のダウンロード、スプレッドシートは Google ドライブの「コピーを作成」。
+ */
+const TARGET_SENTINELS = new Map([
+  ['./start-book', 'startBook'],
+  ['./done-book', 'doneBook'],
+  ['./start-spreadsheet', 'startSpreadsheet'],
+  ['./done-spreadsheet', 'doneSpreadsheet'],
+]);
 
 /** fromUrl から toUrl への相対 URL を組み立てる (末尾スラッシュ付き)。 */
 function relativeUrl(fromUrl, toUrl, hash = '') {
@@ -88,11 +98,9 @@ function resolveSiteUrl(resolved, isDirLink) {
  * @param {string} opts.sourceSiteUrl   ソースが配置されるサイト URL
  * @param {string} opts.repo            GitHub リポジトリ URL
  * @param {string} opts.base            サイトの base プレフィックス
- * @param {string|null} [opts.downloadUrl]  `./project.zip` の差し替え先 (対象外なら null)
- * @param {string|null} [opts.startUrl]     `./start.zip` の差し替え先 (対象外なら null)
- * @param {string|null} [opts.spreadsheetUrl]  `./spreadsheet` の差し替え先 (対象外なら null)
+ * @param {object} [opts.targets]       TARGET_SENTINELS の差し替え先（キーごとに URL。無いものは差し替えない）
  */
-export function transformLinks(content, { sourceDir, sourceSiteUrl, repo, base, downloadUrl = null, startUrl = null, spreadsheetUrl = null }) {
+export function transformLinks(content, { sourceDir, sourceSiteUrl, repo, base, targets = {} }) {
   // 画像 (`![alt](...)`) はソースコードのように blob URL へ飛ばすと、blob は画像
   // 本体ではなく HTML ページを返すため <img> がリンク切れになる。画像だけは
   // 画像バイト列をそのまま返す raw.githubusercontent.com に向ける。
@@ -120,16 +128,9 @@ export function transformLinks(content, { sourceDir, sourceSiteUrl, repo, base, 
     const isDirLink = pathPart.endsWith('/');
     const resolved = path.posix.normalize(path.posix.join(sourceDir, pathPart)).replace(/\/$/, '');
 
-    // 本文中の手書きセンチネル `./project.zip` を、生成した配布 ZIP の URL に差し替える。
-    if (downloadUrl && path.posix.basename(resolved) === 'project.zip') {
-      return `${prefix}(${downloadUrl}${hash}${titlePart})`;
-    }
-    if (startUrl && path.posix.basename(resolved) === 'start.zip') {
-      return `${prefix}(${startUrl}${hash}${titlePart})`;
-    }
-    // `./spreadsheet` は、その節のサンプルのスプレッドシートを「コピーを作成」する URL（sections/spreadsheets.json）。
-    if (spreadsheetUrl && pathPart === './spreadsheet') {
-      return `${prefix}(${spreadsheetUrl}${titlePart})`;
+    const targetKey = TARGET_SENTINELS.get(pathPart);
+    if (targetKey && targets[targetKey]) {
+      return `${prefix}(${targets[targetKey]}${titlePart})`;
     }
 
     if (PUBLIC_ASSETS.has(path.posix.basename(resolved))) {

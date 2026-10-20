@@ -2,20 +2,18 @@
  * `:::download` コンテナディレクティブを「大きなダウンロードボタン」に変換する remark プラグイン。
  *
  * 中に書いた通常のリンクの URL とラベルを取り出し、`<a class="download-button">` に変換する。
- * URL の解決（`./project.zip` → 実際の配布 ZIP URL）は sync-lectures.mjs 側が済ませているため、
+ * URL の解決（`./start-book` → 実際のブックの URL など）は sync-lectures.mjs 側が済ませているため、
  * ここではリンクをボタンの見た目に変えるだけ。装飾は site/src/styles/download.css で当てる。
  *
  * 使い方（Markdown）:
  *   :::download
- *   [サンプルコードをダウンロード](./project.zip)
- *   [サンプルのスプレッドシートをコピー](./spreadsheet)
+ *   [練習用ブックをダウンロード](./start-book)
+ *   [サンプルのスプレッドシートをコピー](./start-spreadsheet)
  *   :::
  *
- * 2 行目（任意）は Google スプレッドシートの「コピーを作成」へのリンク。スプレッドシートを選んでいるときだけ出し、
- * そのときの ZIP のボタンは「コードをダウンロード」にする（スプレッドシート用の ZIP はコードだけ）。
+ * Google スプレッドシートの「コピーを作成」へのリンクはスプレッドシートを選んでいるときだけ、
+ * それ以外（Excel のブック）は、スプレッドシートのリンクが並んでいるときは Excel を選んでいるときだけ出す。
  */
-
-import { platformZips } from './lib/platform-zip.mjs';
 
 /** containerDirective を再帰的に拾うシンプルな visitor。 */
 function visit(node, callback) {
@@ -63,8 +61,6 @@ function button({ href, label, className = [], icon = 'download', download = tru
   };
 }
 
-const textNodes = (value) => [{ type: 'text', value }];
-
 export default function remarkDownload() {
   return (tree) => {
     visit(tree, (node) => {
@@ -72,30 +68,15 @@ export default function remarkDownload() {
       if (node.name !== 'download') return;
 
       const links = findLinks(node);
-      const zip = links.find((l) => !SPREADSHEET_RE.test(l.url));
-      const sheet = links.find((l) => SPREADSHEET_RE.test(l.url));
-      if (!zip && !sheet) return;
+      if (links.length === 0) return;
+      const isSheet = (l) => SPREADSHEET_RE.test(l.url);
+      const hasSheet = links.some(isSheet);
 
-      const buttons = [];
-      // スプレッドシートは、サンプルのスプレッドシートを自分のドライブにコピーして始める（ブックの ZIP は要らない）。
-      if (sheet) {
-        buttons.push(button({ href: sheet.url, label: sheet.children, className: ['platform-only--sheets'], icon: 'copy', download: false }));
-      }
-      if (zip) {
-        // Office マクロ系で環境ごとの ZIP があるときは、Excel 用とスプレッドシート用のボタンを両方作り、
-        // 選んでいる環境のほうだけを見せる（platform.css の platform-only--*）。
-        const variants = platformZips(zip.url);
-        if (variants) {
-          for (const v of variants) {
-            // スプレッドシート用の ZIP はコードだけなので、サンプルのスプレッドシートがある節ではそう書く。
-            const label = v.platform === 'sheets' && sheet ? textNodes('コードをダウンロード') : zip.children;
-            buttons.push(button({ href: v.url, label, className: [`platform-only--${v.platform}`] }));
-          }
-        } else {
-          // 練習用ブックだけの ZIP。サンプルのスプレッドシートがあれば、スプレッドシートでは出さない。
-          buttons.push(button({ href: zip.url, label: zip.children, className: sheet ? ['platform-only--excel'] : [] }));
-        }
-      }
+      const buttons = links.map((l) =>
+        isSheet(l)
+          ? button({ href: l.url, label: l.children, className: ['platform-only--sheets'], icon: 'copy', download: false })
+          : button({ href: l.url, label: l.children, className: hasSheet ? ['platform-only--excel'] : [] }),
+      );
 
       if (buttons.length === 1) {
         Object.assign(node, buttons[0]);

@@ -10,8 +10,8 @@ title: デバッグする
 3-3 の続きです。3-3 で覚えたデバッガーを使って、間違いのあるマクロの原因を探します。
 
 :::download
-[練習用ブックと完成コードをダウンロード](./project.zip)
-[サンプルのスプレッドシートをコピー](./spreadsheet)
+[練習用ブックをダウンロード](./done-book)
+[サンプルのスプレッドシートをコピー](./done-spreadsheet)
 :::
 
 ## 間違いのあるマクロを用意する
@@ -20,10 +20,10 @@ title: デバッグする
 
 :::::platform
 ::::excel
-ZIP の `data/sales.xlsm` には、`DebugPractice` がもう入っていて、「売上」シートにはそれを動かす **合計（バグあり）** ボタンも置いてあります（開くときに [マクロを有効にする](../../00-setup/01-excel/LECTURE.md#ダウンロードしたマクロ入りのブック) 必要があります）。自分のブックで続けている人は、ZIP の `vba/DebugPractice.bas` を VBE の「ファイル」→「ファイルのインポート」で読み込むか、本文末尾の完成コードからコピーして、新しい標準モジュールに貼ります。
+ダウンロードした `sales-3-4.xlsm` には、`DebugPractice` がもう入っていて、「売上」シートにはそれを動かす **合計（バグあり）** ボタンも置いてあります（開くときに [マクロを有効にする](../../00-setup/01-excel/LECTURE.md#ダウンロードしたマクロ入りのブック) 必要があります）。自分のブックで続けている人は、本文末尾の完成コードから `DebugPractice` の中身をコピーして、新しい標準モジュールに貼ります。
 ::::
 ::::sheets
-エディタの「ファイル」の横の **＋** →「スクリプト」で `DebugPractice` というファイルを作り、本文末尾の完成コードから `gas/DebugPractice.gs` の中身を貼ります。
+上のボタンでコピーするサンプルには、`DebugPractice` がもう入っています。自分のスプレッドシートで続けている人は、エディタの「ファイル」の横の **＋** →「スクリプト」で `DebugPractice` というファイルを作り、本文末尾の完成コードから中身を貼ります。
 ::::
 :::::
 
@@ -38,7 +38,7 @@ Apps Script エディタの関数の選択欄で `sumTotalWithBug` を選び、�
 ::::
 :::::
 
-::::sheetdemo[SumTotalWithBug を実行すると、J2 が 67,330 になる（関数の 68,580 と合わない）]{book="data/sales.xlsx" sheet="売上" macro="SumTotalWithBug" macros="CalcAmounts,SumAllCustomers,SumByCustomer,SumTotal,SumTotalWithBug"}
+::::sheetdemo[SumTotalWithBug を実行すると、J2 が 67,330 になる（関数の 68,580 と合わない）]{book="book/sales.xlsx" sheet="売上" macro="SumTotalWithBug" macros="CalcAmounts,SumAllCustomers,SumByCustomer,SumTotal,SumTotalWithBug"}
 before F2:F31 = 1250, 2500, 1360, 1650, 1800, 6800, 360, 1200, 1250, 600, 11000, 60, 1100, 8160, 1800, 6800, 1100, 8160, 600, 120, 900, 360, 250, 1250, 250, 500, 2500, 3200, 500, 1200
 before I2 = 68580
 J2 = 67330

@@ -10,8 +10,8 @@ title: デバッガーの紹介
 3-2 の続きです。3-2 で書いた `SumTotal` を使って、**デバッガー** の使い方を覚えます。
 
 :::download
-[この節を始めるブックをダウンロード](./start.zip)
-[サンプルのスプレッドシートをコピー](./spreadsheet)
+[この節を始めるブックをダウンロード](./start-book)
+[サンプルのスプレッドシートをコピー](./start-spreadsheet)
 :::
 
 前の節から続けている人は、そのブックのまま進めてください。ここから始める人は、上のボタンから 3-2（SUM と SUMIF を再現する）を終えた状態のブックをダウンロードしてください。Excel では、マクロ入りのブック（`.xlsm`）を開くときに [マクロを有効にする](../../00-setup/01-excel/LECTURE.md#ダウンロードしたマクロ入りのブック) 必要があります。スプレッドシートでは、上の「サンプルのスプレッドシートをコピー」で自分のドライブにコピーを作り、「コードをダウンロード」の ZIP にある `gas/` のコードを Apps Script エディタに貼って、前の節を終えた状態にしてから進めてください。
@@ -129,7 +129,7 @@ Apps Script エディタの関数の選択欄で `sumTotal` を選び、「▶ �
 ::::
 :::::
 
-::::sheetdemo[ログを足した SumTotal を実行すると、1 行ごとの途中経過が出る]{book="data/sales.xlsx" sheet="売上" macro="SumTotal" macros="CalcAmounts,SumTotal,SumByCustomer"}
+::::sheetdemo[ログを足した SumTotal を実行すると、1 行ごとの途中経過が出る]{book="book/sales.xlsx" sheet="売上" macro="SumTotal" macros="CalcAmounts,SumTotal,SumByCustomer"}
 before F2:F31 = 1250, 2500, 1360, 1650, 1800, 6800, 360, 1200, 1250, 600, 11000, 60, 1100, 8160, 1800, 6800, 1100, 8160, 600, 120, 900, 360, 250, 1250, 250, 500, 2500, 3200, 500, 1200
 J2 = 68580
 log = 2             1250          1250

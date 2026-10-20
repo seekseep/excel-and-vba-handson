@@ -10,8 +10,8 @@ title: 明細を書き写す
 5-1 の続きです。5-1 のブックとモジュールをそのまま使います。
 
 :::download
-[この節を始めるブックをダウンロード](./start.zip)
-[サンプルのスプレッドシートをコピー](./spreadsheet)
+[この節を始めるブックをダウンロード](./start-book)
+[サンプルのスプレッドシートをコピー](./start-spreadsheet)
 :::
 
 前の節から続けている人は、そのブックのまま進めてください。ここから始める人は、上のボタンから 5-1（テンプレートをコピーして宛名を書く）を終えた状態のブックをダウンロードしてください。Excel では、マクロ入りのブック（`.xlsm`）を開くときに [マクロを有効にする](../../00-setup/01-excel/LECTURE.md#ダウンロードしたマクロ入りのブック) 必要があります。スプレッドシートでは、上の「サンプルのスプレッドシートをコピー」で自分のドライブにコピーを作り、「コードをダウンロード」の ZIP にある `gas/` のコードを Apps Script エディタに貼って、前の節を終えた状態にしてから進めてください。
@@ -94,7 +94,7 @@ Apps Script エディタの関数の選択欄で `createInvoices` を選び、�
 ::::
 :::::
 
-::::sheetdemo[CreateInvoices を実行すると、ひまわり商事の明細と合計が入る]{book="data/invoice.xlsx" sheet="顧客" macro="CreateInvoices" openTab="added"}
+::::sheetdemo[CreateInvoices を実行すると、ひまわり商事の明細と合計が入る]{book="book/invoice.xlsx" sheet="顧客" macro="CreateInvoices" openTab="added"}
 tabs = 請求書_ひまわり商事 <- 請求書テンプレート
 請求書_ひまわり商事!A5 = ひまわり商事 御中
 請求書_ひまわり商事!A6 = 〒104-0000 東京都中央区ひまわり 2-4-6
@@ -159,7 +159,7 @@ Apps Script エディタの関数の選択欄で `createInvoices` を選び、�
 ::::
 :::::
 
-::::sheetdemo[CreateInvoices を実行すると、5 社分の請求書シートができる]{book="data/invoice.xlsx" sheet="顧客" macro="CreateInvoices" macros="CreateInvoices,DeleteInvoices"}
+::::sheetdemo[CreateInvoices を実行すると、5 社分の請求書シートができる]{book="book/invoice.xlsx" sheet="顧客" macro="CreateInvoices" macros="CreateInvoices,DeleteInvoices"}
 tabs = 請求書_ひまわり商事 <- 請求書テンプレート, 請求書_あおば設計事務所 <- 請求書テンプレート, 請求書_みなと物産 <- 請求書テンプレート, 請求書_さくら学習塾 <- 請求書テンプレート, 請求書_こもれび珈琲 <- 請求書テンプレート
 請求書_ひまわり商事!A5 = ひまわり商事 御中
 請求書_ひまわり商事!A6 = 〒104-0000 東京都中央区ひまわり 2-4-6

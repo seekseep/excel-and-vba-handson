@@ -31,7 +31,7 @@ git clone https://github.com/seekseep/genfig-skill.git ~/.claude/skills/genfig
 
 - Excel ／ スプレッドシートをナビゲーションバーで選ぶと、全ページの手順とコードが切り替わる
 - 練習用ブックを描いて、マクロを実行したときの様子をその場で再現するデモ
-- 節ごとの完成コードの表示と、環境ごとに中身を分けた ZIP のダウンロード
+- 節ごとの完成コードの表示と、環境ごとの受け取り方（Excel はブックのダウンロード、スプレッドシートは Google ドライブのサンプルのコピー）
 - よくある質問、確認クイズ、注意書きなどの書き方
 
 Office マクロ（VBA ＋ GAS）のほかに、Cloudflare、Docker と PostgreSQL、ブラウザだけで動くアプリ（ゲームなど）の教材にも対応しています。

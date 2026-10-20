@@ -1,10 +1,11 @@
 /**
- * `::::editor{title="..." zip="URL" open="main.js"}` コンテナディレクティブを、簡易エディタ UI
+ * `::::editor{title="..." book="URL" sheet="URL" open="main.js"}` コンテナディレクティブを、簡易エディタ UI
  * `<section class="editor">`（左=ファイル一覧・右=コード）に変換する remark プラグイン。
  *
  * 属性:
  *   title … ヘッダの文言（省略時は「このステップの完成例」）
- *   zip   … ZIP ダウンロードボタンのリンク先。省略するとボタンを出さない（デモなど配布物が無い場合）
+ *   book  … 節を終えた状態のマクロ入りブック（.xlsm）のダウンロード URL。Excel を選んでいるときだけボタンを出す。
+ *           省略するとボタンを出さない（デモなど配るものが無い場合）
  *   sheet … 節を終えた状態のサンプルのスプレッドシート（Apps Script 入り）の「コピーを作成」URL。
  *           スプレッドシートを選んでいるときだけボタンを出す（sentinels.mjs が spreadsheets.json から渡す）
  *   open  … 最初に開くファイル名（省略時は先頭）
@@ -13,15 +14,13 @@
  * コードフェンス（各 fence の meta に `data-file="<相対パス>"`）。このプラグインは:
  *   - 各コードフェンスからファイル名を読み取り（meta は消して Expressive Code の枠を出さない）
  *   - 左のファイル切り替えボタン、右のコードペインを組み立てる
- *   - ヘッダに ZIP ダウンロードボタンを付ける
+ *   - ヘッダにブックのダウンロード・スプレッドシートのコピーのボタンを付ける
  * タブ切り替えの挙動は site/src/scripts/editor-client.js（全ページに inline 注入）。
  * 装飾は site/src/styles/editor.css。
  *
- * NOTE: 中で ZIP ボタンを自前生成するため remark-download には依存しない。
+ * NOTE: 中でボタンを自前生成するため remark-download には依存しない。
  * コンテナは 4 コロン（::::）で開く（中にコードフェンスを含むため 3 コロンでもよいが統一）。
  */
-
-import { platformZips } from './lib/platform-zip.mjs';
 
 const NAME = 'editor';
 const FILE_META_RE = /data-file="([^"]*)"/;
@@ -51,18 +50,6 @@ function text(value) {
   return { type: 'text', value };
 }
 
-/**
- * remark-download と同じ見た目の ZIP ダウンロードボタンを作る。
- * 環境ごとの ZIP があるときは両方作り、選んでいる環境のほうだけを見せる（platform.css）。
- */
-function downloadButton(zipUrl) {
-  const variants = platformZips(zipUrl);
-  if (variants) {
-    return el('span', ['download-buttons'], variants.map((v) => singleButton(v.url, `platform-only--${v.platform}`)));
-  }
-  return singleButton(zipUrl);
-}
-
 /** 完成版のサンプルのスプレッドシートを「コピーを作成」するボタン（新しいタブで開く）。 */
 function sheetButton(sheetUrl) {
   return {
@@ -83,16 +70,17 @@ function sheetButton(sheetUrl) {
   };
 }
 
-function singleButton(zipUrl, extraClass) {
+/** 完成ブックのダウンロードボタン（remark-download と同じ見た目）。 */
+function bookButton(bookUrl) {
   return {
     type: 'element',
     data: {
       hName: 'a',
-      hProperties: { className: ['download-button', ...(extraClass ? [extraClass] : [])], href: zipUrl, download: true },
+      hProperties: { className: ['download-button', 'platform-only--excel'], href: bookUrl, download: true },
     },
     children: [
       el('span', ['download-button__icon'], [], { 'aria-hidden': 'true' }),
-      el('span', ['download-button__label'], [text('コードをダウンロード')]),
+      el('span', ['download-button__label'], [text('完成ブックをダウンロード')]),
     ],
   };
 }
@@ -104,7 +92,6 @@ export default function remarkEditor() {
       if (node.name !== NAME) return;
 
       const attrs = node.attributes || {};
-      const zipUrl = attrs.zip;
 
       // コードフェンスを集め、ファイル名を取り出す。
       const codeNodes = node.children.filter((c) => c.type === 'code');
@@ -136,7 +123,7 @@ export default function remarkEditor() {
       const headerChildren = [el('span', ['editor__title'], [text(attrs.title || DEFAULT_TITLE)])];
       const actions = [];
       if (attrs.sheet) actions.push(sheetButton(attrs.sheet));
-      if (zipUrl) actions.push(downloadButton(zipUrl));
+      if (attrs.book) actions.push(bookButton(attrs.book));
       if (actions.length > 0) headerChildren.push(el('span', ['editor__actions'], actions));
 
       const header = el('div', ['editor__header'], headerChildren);

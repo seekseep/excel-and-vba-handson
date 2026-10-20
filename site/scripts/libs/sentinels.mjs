@@ -1,14 +1,15 @@
 /**
  * LECTURE.md 中のセンチネルを、実ファイルから生成したブロックへ展開するモジュール。
- * sync-lectures.mjs から呼ばれる（`./project.zip` 差し替えと同じ「sync 時展開」方式）。
+ * sync-lectures.mjs から呼ばれる（`./done-book` などの差し替えと同じ「sync 時展開」方式）。
  *
  * 対応センチネル:
  *
  *   ::codeview              … コードを簡易エディタ UI で表示する。左にファイル一覧、右にコード。
  *                             既定の対象は現在レクチャーの example/（＝「このステップの完成例」）で、
- *                             このときだけ ZIP ダウンロードボタンが付く。
+ *                             このときだけ、節を終えた状態のブック（Excel）とスプレッドシート
+ *                             （Google ドライブ）を受け取るボタンが付く。
  *   ::codeview{path="demos/on-vs-once"}   表示するディレクトリ（レクチャーからの相対パス）。
- *                                         既定は "example"。デモには配布 ZIP が無いので
+ *                                         既定は "example"。デモには配るものが無いので
  *                                         ボタンは出ない。
  *   ::codeview{defaultFile="main.js"}     最初に開くファイル（既定は先頭）。
  *   ::codeview[見出し]{...}                ヘッダの文言を上書きする（既定は example なら
@@ -26,7 +27,7 @@
  *   ::preview{height="220"}        iframe の高さ（px）を上書きする（既定は CSS の 480px）。
  *   ::preview[キャプション]{...}    figcaption を付けられる。
  *
- *   ::::sheetdemo / ::sheetcode … スプレッドシートの表示。書き方は sheets.mjs を参照。
+ *   ::::sheetdemo / ::::formulademo / ::sheetcode … スプレッドシートの表示。書き方は sheets.mjs を参照。
  *
  * 生成物: エディタは `::::editor{...}` コンテナ（remark-editor.mjs が <section class="editor">
  * に変換）＋コードフェンス。プレビューは生 HTML の <figure><iframe></figure>。
@@ -37,7 +38,8 @@ import path from 'node:path';
 
 import { walkFiles } from './fs-walk.mjs';
 import { ROOT } from './paths.mjs';
-import { assetsDownloadUrlFor, downloadUrlFor, previewUrlFor } from './naming.mjs';
+import { bookUrl, doneBookOf } from './books.mjs';
+import { assetsDownloadUrlFor, previewUrlFor } from './naming.mjs';
 import { expandSheetSentinels } from './sheets.mjs';
 import { spreadsheetCopyUrl } from './spreadsheets.mjs';
 
@@ -45,7 +47,7 @@ const CODEVIEW_RE = /^::codeview(?:\[([^\]]*)\])?(?:\{([^}]*)\})?\s*$/;
 const PREVIEW_RE = /^::preview(?:\[([^\]]*)\])?(?:\{([^}]*)\})?\s*$/;
 const ASSETS_RE = /^::assets(?:\[([^\]]*)\])?(?:\{([^}]*)\})?\s*$/;
 
-// ::codeview{path="..."} の既定値。ここだけが配布 ZIP を持つ。
+// ::codeview{path="..."} の既定値。ここだけが完成したブックとスプレッドシートを配る。
 const EXAMPLE_DIR = 'example';
 
 const IGNORE_DIRS = new Set(['node_modules', '.git']);
@@ -98,10 +100,10 @@ function normalizeCodePath(input) {
 /**
  * コードのあるディレクトリから、簡易エディタ UI ブロック（Markdown）を作る。
  * ディレクトリが無い／コードファイルが 1 つも無ければ null。
- * zipUrl は配布 ZIP がある場合だけ渡す（デモには無い）。sheetUrl は節を終えた状態のサンプルの
- * スプレッドシート（Apps Script 入り）の「コピーを作成」URL で、ある節だけ渡す。
+ * bookUrl は節を終えた状態のマクロ入りブック（Excel）、sheetUrl は節を終えた状態のサンプルの
+ * スプレッドシート（Apps Script 入り）の「コピーを作成」URL。どちらも、ある節だけ渡す（デモには無い）。
  */
-async function buildEditorBlock({ srcAbs, zipUrl, sheetUrl, defaultFile, title }) {
+async function buildEditorBlock({ srcAbs, bookUrl, sheetUrl, defaultFile, title }) {
   let all;
   try {
     all = await walkFiles(srcAbs, { ignoreDirs: IGNORE_DIRS, ignoreNames: IGNORE_NAMES });
@@ -113,10 +115,10 @@ async function buildEditorBlock({ srcAbs, zipUrl, sheetUrl, defaultFile, title }
   if (codeFiles.length === 0) return null;
 
   const out = [];
-  const zipAttr = zipUrl ? ` zip="${zipUrl}"` : '';
+  const bookAttr = bookUrl ? ` book="${bookUrl}"` : '';
   const sheetAttr = sheetUrl ? ` sheet="${sheetUrl}"` : '';
   const openAttr = defaultFile ? ` open="${defaultFile}"` : '';
-  out.push(`::::editor{title="${title}"${zipAttr}${sheetAttr}${openAttr}}`);
+  out.push(`::::editor{title="${title}"${bookAttr}${sheetAttr}${openAttr}}`);
   for (const rel of codeFiles) {
     const lang = CODE_EXT.get(path.extname(rel).toLowerCase());
     const content = (await readFile(path.join(srcAbs, ...rel.split('/')), 'utf8')).replace(/\n+$/, '');
@@ -189,7 +191,7 @@ export async function expandSentinels(body, { lectureAbsDir, sec, lec, base, whe
   const inLecture = Boolean(sec && lec);
   const where = inLecture ? `sections/${sec}/${lec}` : (label || 'docs');
   // レクチャー以外では、センチネルが1つも無ければ何もしない。
-  if (!inLecture && !/^::(codeview|preview|assets|::sheetdemo|sheetcode)\b/m.test(body)) return body;
+  if (!inLecture && !/^::(codeview|preview|assets|::sheetdemo|::formulademo|sheetcode)\b/m.test(body)) return body;
   const exampleAbs = inLecture ? path.join(lectureAbsDir, EXAMPLE_DIR) : null;
   // `::::sheetdemo` / `::sheetcode`（スプレッドシート表示）は sheets.mjs で展開する。
   // レクチャー以外（概要ページなど）では、src="<sec>/<lec>" で指したレクチャーのブックを使う。
@@ -218,8 +220,8 @@ export async function expandSentinels(body, { lectureAbsDir, sec, lec, base, whe
       const isExample = rel === EXAMPLE_DIR;
       const block = await buildEditorBlock({
         srcAbs: path.join(lectureAbsDir, ...rel.split('/')),
-        // 配布 ZIP があるのは example/ だけ（build-downloads.mjs の対象）。
-        zipUrl: isExample ? downloadUrlFor(base, sec, lec) : null,
+        // 完成したブックとスプレッドシートを配るのは example/ だけ。
+        bookUrl: isExample ? bookUrl(base, await doneBookOf(sec, lec)) : null,
         sheetUrl: isExample ? await spreadsheetCopyUrl(sec, lec, 'done') : null,
         defaultFile: attrs.defaultFile,
         title: cv[1] ? cv[1].trim() : isExample ? 'このステップの完成例' : 'このデモのコード',

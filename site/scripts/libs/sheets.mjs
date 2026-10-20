@@ -1,7 +1,7 @@
 /**
  * スプレッドシート表示のセンチネル（sentinels.mjs から呼ばれる）。
  *
- *   ::::sheetdemo[キャプション]{book="data/sales.xlsx" sheet="売上" range="A1:F8"}
+ *   ::::sheetdemo[キャプション]{book="book/sales.xlsx" sheet="売上" range="A1:F8"}
  *   F2:F31 = 1250, 360, 600
  *   J2 = 68580
  *   ::::
@@ -27,7 +27,9 @@
  *       独自メニューを出すデモは、本物と同じくスプレッドシートではメニューからだけ動かす
  *       （Apps Script エディタの「▶ 実行」や上の「▶ 実行」は出さない）。
  *
- *   ::sheetcode{book="data/sales.xlsx" sheet="売上" range="A1:F8" code="SalesSummary" macro="CalcAmounts"}
+ *   ::::formulademo … 関数を 1 つずつ入れる様子を見せる。書き方は buildFormulaDemo の上を参照。
+ *
+ *   ::sheetcode{book="book/sales.xlsx" sheet="売上" range="A1:F8" code="SalesSummary" macro="CalcAmounts"}
  *     … VBA ／ GAS のコードと、そのコードが扱うシートを左右に並べる。
  *       code="SalesSummary" で vba/SalesSummary.bas と gas/SalesSummary.gs を対にする。
  *       macro="CalcAmounts" で VBA は Sub CalcAmounts、GAS は function calcAmounts だけを切り出す
@@ -46,7 +48,7 @@
  * 装飾は site/src/styles/sheet.css。
  */
 
-import { readdir, readFile } from 'node:fs/promises';
+import { access, readdir, readFile } from 'node:fs/promises';
 import path from 'node:path';
 
 export const SHEETDEMO_OPEN_RE = /^::::sheetdemo(?:\[([^\]]*)\])?(?:\{([^}]*)\})?\s*$/;
@@ -232,7 +234,7 @@ const colWidthPx = (w) => Math.round((w ?? 8.43) * 7 + 5);
  * after = Map<"F2", 値>。指定したセルには実行後の表示を data-after に持たせる。
  */
 /** シート 1 枚の表（<table>）を描く。after は実行後の値、before は描くときに上書きする値。 */
-function renderGrid(ws, { range, highlight, after, before, buttons = [] }) {
+function renderGrid(ws, { range, highlight, after, before, buttons = [], cellAttrs }) {
   const dims = ws.dimensions;
   // 範囲を指定しないときは、ボタンまで入る大きさで描く（ボタンは表の右に置いてある）。
   const view = parseRange(range) ?? {
@@ -289,6 +291,12 @@ function renderGrid(ws, { range, highlight, after, before, buttons = [] }) {
       if (align === 'center' || align === 'right' || align === 'left') style.push(`text-align:${align}`);
       else if (isNumberLike(value)) cls.push('is-number');
       if (marks.some((m) => inRange(m, r, c))) cls.push('is-highlight');
+      // ::::formulademo で式を入れるセル。属性は buildFormulaDemo が作る（数値なら右寄せにしておく）。
+      const extra = cellAttrs?.get(ref);
+      if (extra) {
+        attrs.push(...extra.attrs);
+        if (extra.number && !align && !cls.includes('is-number')) cls.push('is-number');
+      }
       const merge = mergeAt(r, c);
       if (merge) {
         const cs = Math.min(merge.right, view.right) - c + 1;
@@ -301,8 +309,9 @@ function renderGrid(ws, { range, highlight, after, before, buttons = [] }) {
       // Excel と同じく、左寄せの文字は右隣のセルが空ならそこまではみ出して見せる。
       const nextRef = `${numToCol(c + 1)}${r}`;
       const nextValue = before?.has(nextRef) ? before.get(nextRef) : ws.getCell(r, c + 1).value;
-      const hasText = shown !== '' || after?.has(ref);
-      const nextEmpty = formatValue(nextValue) === '' && !after?.has(nextRef) && !mergeAt(r, c + 1) && !hidden(r, c + 1);
+      const willFill = (k) => after?.has(k) || cellAttrs?.has(k);
+      const hasText = shown !== '' || willFill(ref);
+      const nextEmpty = formatValue(nextValue) === '' && !willFill(nextRef) && !mergeAt(r, c + 1) && !hidden(r, c + 1);
       if (hasText && nextEmpty && !merge && c < view.right && !cls.includes('is-number') && align !== 'right' && align !== 'center') {
         cls.push('is-overflow');
       }
@@ -344,7 +353,7 @@ function renderGrid(ws, { range, highlight, after, before, buttons = [] }) {
  *   extraTabs       … 実行で増えるシート [{ name, from }]。from のシートをコピーした中身に
  *                     sheetValues.get(name) を上書きして描き、実行するまで隠しておく
  */
-function renderSheet(wb, ws, { range, highlight, after, before, sheetValues = new Map(), extraTabs = [], fileName, ribbon = '', menubar = false, menu, blank = false }) {
+function renderSheet(wb, ws, { range, highlight, after, before, sheetValues = new Map(), extraTabs = [], fileName, ribbon = '', menubar = false, menu, blank = false, cellAttrs }) {
   const panes = [];
   const tabs = [];
   const sheets = blank ? [ws] : wb.worksheets;
@@ -352,7 +361,7 @@ function renderSheet(wb, ws, { range, highlight, after, before, sheetValues = ne
     const active = s === ws;
     const buttons = wb.buttons?.get(s.name) ?? [];
     const table = active
-      ? renderGrid(s, { range, highlight, after, before, buttons })
+      ? renderGrid(s, { range, highlight, after, before, buttons, cellAttrs })
       : renderGrid(s, { before: sheetValues.get(s.name), buttons });
     panes.push(`<div class="sheet__grid" data-sheet="${escapeHtml(s.name)}"${active ? '' : ' hidden'}>${table}</div>`);
     // 空白のブックは、新しく作ったときの名前を環境ごとに出す（Excel は Book1 / Sheet1）。
@@ -449,14 +458,41 @@ function lectureDirFor(attrs, lectureAbsDir) {
   return path.join(lectureAbsDir, '..', '..', parts[0], parts[1]);
 }
 
+/**
+ * book 属性（節のディレクトリからの相対パス。練習用ブックは節の book/ にある）を絶対パスにする。
+ * .xlsx は、同じ章の前の節と中身が同じなら置いていない（tools/build_workbooks.py）ので、
+ * その節に無ければ同じ章の前の節を順にさかのぼって探す。どこにも無ければその節のパスを返す。
+ */
+async function resolveBookPath(lectureDir, rel) {
+  const parts = rel.split('/');
+  const own = path.join(lectureDir, ...parts);
+  const secDir = path.dirname(lectureDir);
+  let lectures;
+  try {
+    lectures = (await readdir(secDir)).filter((n) => /^\d\d-/.test(n)).sort();
+  } catch {
+    return own;
+  }
+  for (let i = lectures.indexOf(path.basename(lectureDir)); i >= 0; i--) {
+    const candidate = path.join(secDir, lectures[i], ...parts);
+    try {
+      await access(candidate);
+      return candidate;
+    } catch {
+      // 前の節へ
+    }
+  }
+  return own;
+}
+
 function safeRel(rel) {
   const s = String(rel ?? '').trim().replace(/^\/+/, '');
   if (!s || s.split('/').some((seg) => seg === '..' || seg === '.')) return null;
   return s;
 }
 
-async function sheetHtml(attrs, lectureAbsDir, after, { allowBlank = false, ribbon = '', menubar = false, before, sheetValues, extraTabs } = {}) {
-  const common = { highlight: attrs.highlight, after, ribbon, menubar, menu: attrs.menu, before, sheetValues, extraTabs };
+async function sheetHtml(attrs, lectureAbsDir, after, { allowBlank = false, ribbon = '', menubar = false, before, sheetValues, extraTabs, cellAttrs } = {}) {
+  const common = { highlight: attrs.highlight, after, ribbon, menubar, menu: attrs.menu, before, sheetValues, extraTabs, cellAttrs };
   // book を指定しないときは空白のブック。シート名は sheet 属性（既定 Sheet1）。
   if (allowBlank && !attrs.book) {
     const wb = await newWorkbook();
@@ -466,7 +502,7 @@ async function sheetHtml(attrs, lectureAbsDir, after, { allowBlank = false, ribb
   const dir = lectureDirFor(attrs, lectureAbsDir);
   const rel = safeRel(attrs.book);
   if (!dir || !rel) return { error: `invalid book="${attrs.book ?? ''}"` };
-  const abs = path.join(dir, 'example', ...rel.split('/'));
+  const abs = await resolveBookPath(dir, rel);
   let wb;
   try {
     wb = await loadBook(abs);
@@ -581,17 +617,46 @@ function dialogHtml(msg) {
 
 // ---- Excel のリボン（::::sheetdemo の macro 属性） ----
 
-// リボンのボタンのアイコン（色は currentColor）。形は Excel のものに似せた簡単な線画。
+// リボンのボタンのアイコン（色は currentColor）。形は Excel のものに似せた簡単な線画で、
+// 面は薄く塗って（fill-opacity）2 色に見せる。
 const svg = (body) =>
-  `<svg class="sheet__ribbon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${body}</svg>`;
+  `<svg class="sheet__ribbon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${body}</svg>`;
+const tint = 'fill="currentColor" fill-opacity="0.15"';
+const solid = 'fill="currentColor" stroke="none"';
 const RIBBON_ICONS = {
-  vb: svg('<rect x="3" y="4" width="18" height="16" rx="1.5"/><path d="M9 9l-3 3 3 3M15 9l3 3-3 3"/>'),
-  macro: svg('<rect x="3" y="4" width="18" height="16" rx="1.5"/><path d="M7 9h6M7 13h6M7 17h4"/><path d="M16 12l3 2-3 2z" fill="currentColor"/>'),
-  addin: svg('<path d="M10 4h4v3a2 2 0 1 0 0 4v3h-3a2 2 0 1 0-4 0H4v-4a2 2 0 1 0 0-4V4z"/>'),
-  insert: svg('<rect x="3" y="7" width="12" height="9" rx="1"/><path d="M18 5v6M15 8h6"/>'),
-  design: svg('<path d="M4 20l4-1 11-11-3-3L5 16z"/><path d="M14 6l3 3"/>'),
-  paste: svg('<rect x="5" y="5" width="12" height="15" rx="1.5"/><path d="M9 3h4v4H9z"/>'),
-  style: svg('<rect x="3" y="5" width="18" height="14" rx="1"/><path d="M3 10h18M9 5v14"/>'),
+  // エディタの窓と、コードの < >
+  vb: svg(
+    `<rect x="2.5" y="4" width="19" height="16" rx="2" ${tint}/><path d="M2.5 8h19"/>` +
+      `<path d="M9.5 11.5L7 14l2.5 2.5M14.5 11.5L17 14l-2.5 2.5"/>`,
+  ),
+  // 命令の並んだ紙と、実行の ▶
+  macro: svg(
+    `<path d="M5 3h9l4 4v6" ${tint}/><path d="M5 3v18h7"/><path d="M14 3v4h4"/><path d="M8 9h6M8 12.5h5M8 16h3"/>` +
+      `<circle cx="17.5" cy="17.5" r="4.5" ${solid}/><path d="M16.3 15.6v3.8l3.1-1.9z" fill="#fff" stroke="none"/>`,
+  ),
+  // パズルのピース
+  addin: svg(
+    `<path d="M3.5 7.5h5a2.5 2.5 0 1 1 5 0h5v5a2.5 2.5 0 1 1 0 5v3.5h-15z" ${tint}/>`,
+  ),
+  // フォームのボタンと、足す ＋
+  insert: svg(
+    `<rect x="2.5" y="9" width="13" height="8" rx="1.5" ${tint}/><path d="M6 13h6"/><path d="M19 3.5v6M16 6.5h6"/>`,
+  ),
+  // 三角定規と鉛筆
+  design: svg(
+    `<path d="M3 21V9l12 12z" ${tint}/><path d="M6.5 17.5v-3l3 3z"/>` +
+      `<path d="M18 3l3 3-9 9-4 1 1-4z" fill="#fff"/><path d="M16 5l3 3"/>`,
+  ),
+  // クリップボード
+  paste: svg(
+    `<rect x="4.5" y="5" width="13" height="16" rx="1.5" ${tint}/><rect x="8" y="3" width="6" height="4" rx="1" fill="#fff"/>` +
+      `<path d="M8 11h6M8 14.5h6M8 18h4"/>`,
+  ),
+  // 色を付けたセルの並び
+  style: svg(
+    `<rect x="3" y="5" width="18" height="14" rx="1.5"/><path d="M3 9.7h18M3 14.3h18M10 5v14"/>` +
+      `<rect x="3" y="5" width="7" height="4.7" ${solid} fill-opacity="0.35"/>`,
+  ),
 };
 
 /** 大きいボタン（アイコンの下に文字）。このデモでは押せない。 */
@@ -786,6 +851,315 @@ export async function buildSheetDemo({ caption, attrs, lines, lectureAbsDir, whe
   return `<figure class="sheetdemo not-content"${openAdded}>${buttons}${guide}${body}${logPanel}${cap}</figure>`;
 }
 
+// ---- ::::formulademo ----
+//
+//   ::::formulademo[キャプション]{book="book/sales.xlsx" sheet="売上"}
+//   F2 = =D2*E2 | 単価 × 数量
+//   F3:F31 <- F2 | F2 を F31 までコピーする
+//   I5 = =SUMIF($B$2:$B$31, H5, $F$2:$F$31) | H5 の顧客の合計
+//   ::::
+//     … 関数を 1 つずつ入れていく様子を、「次へ ▶」で 1 手ずつ見せる。
+//       `セル = =式` は式を入れる手順、`範囲 <- セル` はそのセルを範囲にコピーする手順（相対参照がずれる）。
+//       `|` の右は手順の説明（`式` のようにバッククォートで囲むとコードの書体になる）。
+//       式の結果はブックの値から計算する（使える関数は SUM / SUMIF と四則演算だけ）。
+//       式のセルを選ぶと、Excel で式を編集するときと同じく、式が読んでいるセルを色の枠で囲む。
+//       SUMIF は、条件に合って足された行にも色を付ける。
+
+export const FORMULADEMO_OPEN_RE = /^::::formulademo(?:\[([^\]]*)\])?(?:\{([^}]*)\})?\s*$/;
+
+const FORMULA_STEP_RE = /^\s*([A-Za-z]+\d+)\s*=\s*(=[^|]+?)\s*(?:\|\s*(.*))?$/;
+const COPY_STEP_RE = /^\s*([A-Za-z]+\d+(?::[A-Za-z]+\d+)?)\s*<-\s*([A-Za-z]+\d+)\s*(?:\|\s*(.*))?$/;
+
+// 式の字句。参照（$ 付き・範囲も）・文字列・数値・関数名・記号。
+const TOKEN_RE =
+  /(\s+)|("(?:[^"]|"")*")|(\$?[A-Za-z]{1,3}\$?\d+(?::\$?[A-Za-z]{1,3}\$?\d+)?)|(\d+(?:\.\d+)?)|([A-Za-z_][A-Za-z0-9_.]*)|(<>|<=|>=|[-+*/(),=<>&])/y;
+
+function tokenize(src) {
+  const out = [];
+  TOKEN_RE.lastIndex = 0;
+  while (TOKEN_RE.lastIndex < src.length) {
+    const at = TOKEN_RE.lastIndex;
+    const m = TOKEN_RE.exec(src);
+    if (!m) throw new Error(`cannot read formula at "${src.slice(at)}"`);
+    const kind = m[1] ? 'space' : m[2] ? 'string' : m[3] ? 'ref' : m[4] ? 'number' : m[5] ? 'name' : 'op';
+    out.push({ kind, text: m[0] });
+  }
+  return out;
+}
+
+const REF_PART_RE = /^(\$?)([A-Za-z]+)(\$?)(\d+)$/;
+
+/** 1 つの番地（`$B$2` など）を、相対参照の部分だけ dr 行・dc 列ずらす。 */
+function shiftRef(ref, dr, dc) {
+  const m = ref.match(REF_PART_RE);
+  const col = m[1] ? colToNum(m[2]) : colToNum(m[2]) + dc;
+  const row = m[3] ? Number(m[4]) : Number(m[4]) + dr;
+  return `${m[1]}${numToCol(col)}${m[3]}${row}`;
+}
+
+/** 式をコピーしたときと同じく、相対参照だけをずらした式にする。 */
+function shiftFormula(formula, dr, dc) {
+  return tokenize(formula)
+    .map((t) => (t.kind === 'ref' ? t.text.split(':').map((r) => shiftRef(r, dr, dc)).join(':') : t.text))
+    .join('');
+}
+
+/** `$B$2:$B$31` → `B2:B31`（色分けと枠に使う、$ を取った形）。 */
+const plainRef = (ref) => ref.replace(/\$/g, '').toUpperCase();
+
+/**
+ * 式を計算する。getValue(ref) でセルの値を読む。
+ * 返り値は { value, matches }。matches は SUMIF で条件に合ったセル（条件の範囲と足す範囲の両方）。
+ */
+function evaluate(formula, getValue) {
+  const tokens = tokenize(formula.replace(/^=/, '')).filter((t) => t.kind !== 'space');
+  const matches = [];
+  let i = 0;
+  const peek = () => tokens[i]?.text;
+  const take = (text) => {
+    if (peek() !== text) throw new Error(`expected "${text}" in ${formula}`);
+    i++;
+  };
+  const cellsOf = (ref) => {
+    const r = parseRange(plainRef(ref));
+    const list = [];
+    for (let row = r.top; row <= r.bottom; row++) for (let col = r.left; col <= r.right; col++) list.push(`${numToCol(col)}${row}`);
+    return list;
+  };
+  const num = (v) => (typeof v === 'number' ? v : Number(v) || 0);
+  const same = (a, b) =>
+    typeof a === 'number' || typeof b === 'number' ? num(a) === num(b) : String(a ?? '').toLowerCase() === String(b ?? '').toLowerCase();
+
+  const FUNCS = {
+    SUM: (args) => args.flat().reduce((sum, a) => sum + (typeof a.value === 'number' ? a.value : 0), 0),
+    SUMIF: ([range, crit, sumRange]) => {
+      const target = sumRange ?? range;
+      const want = crit[0]?.value;
+      let sum = 0;
+      range.forEach((c, k) => {
+        if (!same(c.value, want)) return;
+        const add = target[k];
+        matches.push(c.ref, add.ref);
+        if (typeof add.value === 'number') sum += add.value;
+      });
+      return sum;
+    },
+  };
+
+  // 引数は「セルの並び」で扱う（[{ ref, value }]。数値や文字列は ref の無い 1 個の並び）。
+  const asList = (v) => (Array.isArray(v) ? v : [{ ref: null, value: v }]);
+  const scalar = (v) => (Array.isArray(v) ? v[0]?.value : v);
+
+  function primary() {
+    const t = tokens[i++];
+    if (!t) throw new Error(`unexpected end of ${formula}`);
+    if (t.kind === 'number') return Number(t.text);
+    if (t.kind === 'string') return t.text.slice(1, -1).replace(/""/g, '"');
+    if (t.kind === 'ref') return cellsOf(t.text).map((ref) => ({ ref, value: getValue(ref) }));
+    if (t.kind === 'name') {
+      const fn = FUNCS[t.text.toUpperCase()];
+      if (!fn) throw new Error(`unsupported function ${t.text} in ${formula}`);
+      take('(');
+      const args = [];
+      if (peek() !== ')') {
+        args.push(asList(expr()));
+        while (peek() === ',') {
+          i++;
+          args.push(asList(expr()));
+        }
+      }
+      take(')');
+      return fn(args);
+    }
+    if (t.text === '(') {
+      const v = expr();
+      take(')');
+      return v;
+    }
+    if (t.text === '-') return -num(scalar(primary()));
+    throw new Error(`unexpected "${t.text}" in ${formula}`);
+  }
+  function term() {
+    let v = primary();
+    while (peek() === '*' || peek() === '/') {
+      const op = tokens[i++].text;
+      const b = num(scalar(primary()));
+      v = op === '*' ? num(scalar(v)) * b : num(scalar(v)) / b;
+    }
+    return v;
+  }
+  function expr() {
+    let v = term();
+    while (peek() === '+' || peek() === '-') {
+      const op = tokens[i++].text;
+      const b = num(scalar(term()));
+      v = op === '+' ? num(scalar(v)) + b : num(scalar(v)) - b;
+    }
+    return v;
+  }
+  const value = scalar(expr());
+  if (i < tokens.length) throw new Error(`unexpected "${tokens[i].text}" in ${formula}`);
+  return { value, matches };
+}
+
+/**
+ * 式の色分け。Excel が式の編集中にするのと同じく、出てきた参照ごとに色を決める（同じ参照は同じ色）。
+ * 返り値は { html, refs: [{ range, color }] }。html は数式バーに出す、参照に色を付けた式。
+ */
+function colorFormula(formula) {
+  const colors = new Map();
+  const html = tokenize(formula)
+    .map((t) => {
+      if (t.kind !== 'ref') return escapeHtml(t.text);
+      const key = plainRef(t.text);
+      if (!colors.has(key)) colors.set(key, colors.size % FREF_COLORS);
+      return `<span class="fref fref--${colors.get(key)}">${escapeHtml(t.text)}</span>`;
+    })
+    .join('');
+  return { html, refs: [...colors].map(([range, color]) => ({ range, color })) };
+}
+
+const FREF_COLORS = 6;
+
+/** 説明の文。`式` だけをコードの書体にする（ほかはそのまま文字として出す）。 */
+function inlineHtml(text) {
+  return String(text ?? '')
+    .split(/(`[^`]*`)/)
+    .map((part) => (/^`.*`$/.test(part) ? `<code>${escapeHtml(part.slice(1, -1))}</code>` : escapeHtml(part)))
+    .join('');
+}
+
+export async function buildFormulaDemo({ caption, attrs, lines, lectureAbsDir, where }) {
+  const dir = lectureDirFor(attrs, lectureAbsDir);
+  const rel = safeRel(attrs.book);
+  if (!dir || !rel) {
+    console.warn(`[sheets] ::::formulademo needs book="<path>" in ${where} (skipped)`);
+    return null;
+  }
+  let wb;
+  try {
+    wb = await loadBook(path.join(dir, ...rel.split('/')));
+  } catch (e) {
+    console.warn(`[sheets] ::::formulademo cannot read ${rel} (${e.code ?? e.message}) in ${where} (skipped)`);
+    return null;
+  }
+  const ws = attrs.sheet ? wb.getWorksheet(attrs.sheet) : wb.worksheets[0];
+  if (!ws) {
+    console.warn(`[sheets] ::::formulademo: no sheet "${attrs.sheet}" in ${rel} (${where})`);
+    return null;
+  }
+
+  // 手順を順に適用しながら、セルごとの式と値を求める。後の手順の式は前の手順の値を読む。
+  const values = new Map();
+  const getValue = (ref) => {
+    if (values.has(ref)) return values.get(ref);
+    const v = ws.getCell(ref).value;
+    if (v && typeof v === 'object') return 'result' in v ? v.result : 'richText' in v ? v.richText.map((t) => t.text).join('') : null;
+    return v;
+  };
+  const cells = new Map(); // ref → { step, formula, value, matches }
+  const steps = [];
+  for (const line of lines) {
+    if (!line.trim()) continue;
+    const put = (ref, formula, step) => {
+      const { value, matches } = evaluate(formula, getValue);
+      values.set(ref, value);
+      cells.set(ref, { step, formula, value, matches });
+    };
+    try {
+      const f = line.match(FORMULA_STEP_RE);
+      if (f) {
+        const ref = f[1].toUpperCase();
+        const step = steps.length + 1;
+        put(ref, f[2], step);
+        steps.push({ label: `${ref} に式を入れる`, title: `${ref} に <code>${escapeHtml(f[2])}</code> を入れる`, note: f[3], focus: ref });
+        continue;
+      }
+      const c = line.match(COPY_STEP_RE);
+      if (c) {
+        const src = c[2].toUpperCase();
+        const from = cells.get(src);
+        if (!from) throw new Error(`${src} has no formula to copy`);
+        const r = parseRange(c[1].toUpperCase());
+        const s = parseRef(src);
+        const step = steps.length + 1;
+        let first = null;
+        for (let row = r.top; row <= r.bottom; row++) {
+          for (let col = r.left; col <= r.right; col++) {
+            const ref = `${numToCol(col)}${row}`;
+            if (ref === src) continue;
+            first ??= ref;
+            put(ref, shiftFormula(from.formula, row - s.row, col - s.col), step);
+          }
+        }
+        const last = `${numToCol(r.right)}${r.bottom}`;
+        steps.push({ label: `${last} までコピー`, title: `${src} を ${last} までコピーする`, note: c[3], focus: first });
+        continue;
+      }
+      console.warn(`[sheets] ::::formulademo: cannot read "${line}" in ${where}`);
+    } catch (e) {
+      console.warn(`[sheets] ::::formulademo: ${e.message} ("${line.trim()}" in ${where})`);
+    }
+  }
+  if (!steps.length) return null;
+
+  const cellAttrs = new Map();
+  for (const [ref, c] of cells) {
+    const { html, refs } = colorFormula(c.formula);
+    const attrs = [
+      `data-fstep="${c.step}"`,
+      `data-fshow="${escapeHtml(formatValue(c.value, ws.getCell(ref).numFmt))}"`,
+      `data-fraw="${escapeHtml(c.formula)}"`,
+      `data-fhtml="${escapeHtml(html)}"`,
+      `data-frefs="${refs.map((x) => `${x.range}|${x.color}`).join(' ')}"`,
+    ];
+    if (c.matches.length) attrs.push(`data-fmatch="${[...new Set(c.matches)].join(' ')}"`);
+    cellAttrs.set(ref, { attrs, number: typeof c.value === 'number' });
+  }
+  const { html, error } = await sheetHtml(attrs, lectureAbsDir, null, { cellAttrs });
+  if (error) {
+    console.warn(`[sheets] ::::formulademo ${error} in ${where} (skipped)`);
+    return null;
+  }
+
+  const bar =
+    `<div class="sheetdemo__bar">` +
+    `<button type="button" class="fdemo__prev" disabled>◀ 前へ</button>` +
+    `<button type="button" class="fdemo__next">次へ ▶</button>` +
+    `<button type="button" class="sheetdemo__reset">↺ 最初から</button>` +
+    `<span class="sheetdemo__note">ブラウザ上での再現です</span>` +
+    `<button type="button" class="sheetdemo__fullscreen" aria-pressed="false">⛶ 全画面</button>` +
+    `</div>`;
+  const guide =
+    `<ol class="sheetdemo__guide fdemo__steps" aria-label="手順">` +
+    steps.map((s, k) => `<li data-fstep="${k + 1}"><button type="button" class="fdemo__goto">${escapeHtml(s.label)}</button></li>`).join('') +
+    `</ol>`;
+  const explain =
+    `<div class="fdemo__explain" aria-live="polite">` +
+    `<div class="fdemo__say" data-fstep="0"><p class="fdemo__say-title">「次へ ▶」で、式を 1 つずつ入れていきます</p>` +
+    `<p class="fdemo__say-note">式のセルを押すと、その式が読んでいるセルが色の枠で囲まれます。</p></div>` +
+    steps
+      .map(
+        (s, k) =>
+          `<div class="fdemo__say" data-fstep="${k + 1}" data-focus="${s.focus}" hidden>` +
+          `<p class="fdemo__say-title">${s.title}</p>` +
+          (s.note ? `<p class="fdemo__say-note">${inlineHtml(s.note)}</p>` : '') +
+          `</div>`,
+      )
+      .join('') +
+    `</div>`;
+  const cap = caption ? `<figcaption class="sheetdemo__caption">${escapeHtml(caption)}</figcaption>` : '';
+  return (
+    `<figure class="sheetdemo fdemo not-content" data-fsteps="${steps.length}" data-fstep="0">` +
+    bar +
+    guide +
+    explain +
+    `<div class="sheetdemo__stage">${html}</div>` +
+    cap +
+    `</figure>`
+  );
+}
+
 // ---- スプレッドシート表示のブラウザ枠（::::sheetdemo{macro=...}） ----
 
 /** example/gas/*.gs から `function <name>(` を含むファイルを探す。{ file, src } か null。 */
@@ -919,6 +1293,7 @@ function sheetTitleOf(attrs) {
 /**
  * 2 つのタブを持つブラウザの枠。Excel 表示では枠もエディタも隠し、シート（stage）だけを出す。
  * どちらのタブを出すかは .gbrowser の data-pane（sheet-client.js が切り替える）。
+ * 左の信号機（macOS）と右のウィンドウボタン（Windows）は両方描き、<html data-os> で片方だけ出す（gbrowser.css）。
  */
 function browserHtml(editor, stage, sheetTitle) {
   const tab = (pane, cls, title, active) =>
@@ -937,6 +1312,7 @@ function browserHtml(editor, stage, sheetTitle) {
     tab('editor', 'gas', '無題のプロジェクト - プロジェクト エディタ - Apps Script', true) +
     `<span class="gbrowser__newtab" aria-hidden="true">＋</span>` +
     `</div>` +
+    `<span class="gbrowser__winctrl" aria-hidden="true"><i class="gbrowser__winctrl-min"></i><i class="gbrowser__winctrl-max"></i><i class="gbrowser__winctrl-close"></i></span>` +
     `</div>` +
     `<div class="gbrowser__navbar" aria-hidden="true">` +
     `<span class="gbrowser__nav">${gIcon(G_ICONS.back)}</span>` +
@@ -1042,11 +1418,11 @@ export async function buildSheetCode({ attrs, lectureAbsDir, where }) {
 }
 
 /**
- * 本文中の `::::sheetdemo` 〜 `::::` と `::sheetcode` を展開する。
+ * 本文中の `::::sheetdemo` 〜 `::::`・`::::formulademo` 〜 `::::` と `::sheetcode` を展開する。
  * レクチャーの外（example/ を持たない docs）では呼ばない。
  */
 export async function expandSheetSentinels(body, { lectureAbsDir, where, parseAttrs }) {
-  if (!/^::(::)?sheet(demo|code)\b/m.test(body)) return body;
+  if (!/^::(::)?(sheet(demo|code)|formulademo)\b/m.test(body)) return body;
   const lines = body.split('\n');
   const out = [];
   for (let i = 0; i < lines.length; i++) {
@@ -1060,6 +1436,22 @@ export async function expandSheetSentinels(body, { lectureAbsDir, where, parseAt
       const block = await buildSheetDemo({
         caption: demo[1]?.trim(),
         attrs: parseAttrs(demo[2]),
+        lines: inner,
+        lectureAbsDir,
+        where,
+      });
+      if (block) out.push(block);
+      continue;
+    }
+    const fd = line.match(FORMULADEMO_OPEN_RE);
+    if (fd) {
+      const inner = [];
+      let j = i + 1;
+      while (j < lines.length && !CLOSE_RE.test(lines[j])) inner.push(lines[j++]);
+      i = j;
+      const block = await buildFormulaDemo({
+        caption: fd[1]?.trim(),
+        attrs: parseAttrs(fd[2]),
         lines: inner,
         lectureAbsDir,
         where,

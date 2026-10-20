@@ -1176,3 +1176,116 @@ button.sheet__menubar-item:focus-visible,
   white-space: normal;
   pointer-events: none;
 }
+
+/* ---- ::::formulademo（関数を 1 つずつ入れる） ----
+   式のセルを選ぶと、読んでいる範囲を色の枠で囲む（Excel の式の編集中と同じ見せ方）。
+   色は数式バーの参照の文字色とそろえる。シートの画面と同じく、ダークモードでも同じ色のままにする。 */
+
+.fdemo {
+  --fref-0: #1f6fd1;
+  --fref-1: #d23c32;
+  --fref-2: #7b45c4;
+  --fref-3: #18884a;
+  --fref-4: #c06a00;
+  --fref-5: #b8327f;
+}
+
+.fdemo .sheet__grid {
+  position: relative;
+}
+
+.fdemo__box {
+  position: absolute;
+  z-index: 0;
+  border: 2px solid var(--fref-color);
+  background: color-mix(in srgb, var(--fref-color) 9%, transparent);
+  pointer-events: none;
+}
+
+.fref {
+  font-weight: 700;
+}
+
+.fdemo__box--0, .fref--0 { --fref-color: var(--fref-0); color: var(--fref-0); }
+.fdemo__box--1, .fref--1 { --fref-color: var(--fref-1); color: var(--fref-1); }
+.fdemo__box--2, .fref--2 { --fref-color: var(--fref-2); color: var(--fref-2); }
+.fdemo__box--3, .fref--3 { --fref-color: var(--fref-3); color: var(--fref-3); }
+.fdemo__box--4, .fref--4 { --fref-color: var(--fref-4); color: var(--fref-4); }
+.fdemo__box--5, .fref--5 { --fref-color: var(--fref-5); color: var(--fref-5); }
+
+/* SUMIF で条件に合って足された行 */
+.sheet__cell.is-fmatch {
+  box-shadow: inset 0 0 0 9999px rgba(255, 196, 0, 0.32);
+}
+
+.sheet__cell.is-fflash {
+  animation: fdemo-flash 0.9s ease-out;
+}
+
+@keyframes fdemo-flash {
+  from {
+    box-shadow: inset 0 0 0 9999px rgba(33, 115, 70, 0.35);
+  }
+  to {
+    box-shadow: inset 0 0 0 9999px rgba(33, 115, 70, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sheet__cell.is-fflash {
+    animation: none;
+  }
+}
+
+.sheetdemo__bar .fdemo__next:not(:disabled) {
+  border-color: #217346;
+  background: #217346;
+  color: #fff;
+}
+
+:root[data-platform='sheets'] .sheetdemo__bar .fdemo__next:not(:disabled) {
+  border-color: #1a73e8;
+  background: #1a73e8;
+}
+
+/* 手順の案内は押すとその手順へ飛べる（丸ごと押せるよう、li に cursor を付ける）。 */
+.fdemo__steps li {
+  cursor: pointer;
+}
+
+.fdemo__goto {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.fdemo__goto:focus-visible {
+  outline: 2px solid var(--sl-color-accent);
+  outline-offset: 2px;
+}
+
+.fdemo__explain {
+  margin: 0 0 0.6rem;
+  padding: 0.55rem 0.8rem;
+  border-left: 3px solid var(--sl-color-accent);
+  border-radius: 0 0.4rem 0.4rem 0;
+  background: var(--sl-color-gray-6);
+  font-size: var(--sl-text-sm);
+}
+
+.fdemo__say p {
+  margin: 0;
+}
+
+.fdemo__say-title {
+  font-weight: 700;
+  color: var(--sl-color-white);
+}
+
+.fdemo__say-note {
+  margin-top: 0.2rem !important;
+  color: var(--sl-color-gray-2);
+}

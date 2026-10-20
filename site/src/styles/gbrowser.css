@@ -143,6 +143,63 @@
   font-size: 15px;
 }
 
+/* ---- OS ごとのウィンドウボタン ----
+   macOS は左の信号機、Windows は右の「最小化・最大化・閉じる」。どちらを出すかは <html data-os>（platform-client.js）。 */
+
+:root[data-os='windows'] .gbrowser__lights,
+:root:not([data-os='windows']) .gbrowser__winctrl {
+  display: none;
+}
+
+.gbrowser__winctrl {
+  display: flex;
+  flex: none;
+  align-self: stretch;
+  /* タブバーの上と右の余白を打ち消して、本物と同じくボタンを枠の角に付ける。 */
+  margin: -0.45rem -0.6rem 0 0;
+}
+
+.gbrowser__winctrl i {
+  position: relative;
+  width: 46px;
+  color: #1f1f1f;
+}
+
+.gbrowser__winctrl i::before,
+.gbrowser__winctrl i::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+
+.gbrowser__winctrl-min::before {
+  width: 10px;
+  height: 1px;
+  background: currentColor;
+  transform: translate(-50%, -50%);
+}
+
+.gbrowser__winctrl-max::before {
+  width: 9px;
+  height: 9px;
+  border: 1px solid currentColor;
+  border-radius: 1px;
+  transform: translate(-50%, -50%);
+}
+
+.gbrowser__winctrl-close::before,
+.gbrowser__winctrl-close::after {
+  width: 12px;
+  height: 1px;
+  background: currentColor;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.gbrowser__winctrl-close::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
 /* ファビコン。スプレッドシートは緑の表、Apps Script は 4 色の印（どちらも簡略化した形）。 */
 .gbrowser__favicon {
   flex: none;
@@ -184,7 +241,8 @@
   flex: none;
 }
 
-.gbrowser svg {
+/* 中に入れた Excel のリボンの線画（.sheet__ribbon-icon）は塗らない。 */
+.gbrowser svg:not(.sheet__ribbon-icon) {
   width: 18px;
   height: 18px;
   fill: currentColor;
@@ -592,6 +650,7 @@ button.gbrowser__btn:disabled {
 
   .gbrowser__rail,
   .gbrowser__lights,
+  .gbrowser__winctrl,
   .gbrowser__newtab,
   .gbrowser__deploy,
   .gbrowser__tool,

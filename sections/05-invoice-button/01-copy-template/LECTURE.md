@@ -16,13 +16,13 @@ title: テンプレートをコピーして宛名を書く
 ## 準備
 
 :::download
-[練習用ブックをダウンロード](./start.zip)
-[サンプルのスプレッドシートをコピー](./spreadsheet)
+[練習用ブックをダウンロード](./start-book)
+[サンプルのスプレッドシートをコピー](./start-spreadsheet)
 :::
 
 :::::platform
 ::::excel
-1. `data/invoice.xlsx` を Excel で開き、**Excel マクロ有効ブック（\*.xlsm）** として保存する。PDF はこのブックと同じフォルダにできるので、デスクトップなど分かりやすい場所に保存してください
+1. ダウンロードした練習用ブック `invoice-5-1-start.xlsx` を Excel で開き、**Excel マクロ有効ブック（\*.xlsm）** として保存する。PDF はこのブックと同じフォルダにできるので、デスクトップなど分かりやすい場所に保存してください
 2. `Alt` + `F11` で VBE を開き、「挿入」→「標準モジュール」
 ::::
 ::::sheets
@@ -125,7 +125,7 @@ Apps Script エディタの関数の選択欄で `createInvoices` を選び、�
 ::::
 :::::
 
-::::sheetdemo[CreateInvoices を実行すると、請求書_ひまわり商事 シートができて宛名が入る]{book="data/invoice.xlsx" sheet="顧客" macro="CreateInvoices" openTab="added"}
+::::sheetdemo[CreateInvoices を実行すると、請求書_ひまわり商事 シートができて宛名が入る]{book="book/invoice.xlsx" sheet="顧客" macro="CreateInvoices" openTab="added"}
 tabs = 請求書_ひまわり商事 <- 請求書テンプレート
 請求書_ひまわり商事!A5 = ひまわり商事 御中
 請求書_ひまわり商事!A6 = 〒104-0000 東京都中央区ひまわり 2-4-6

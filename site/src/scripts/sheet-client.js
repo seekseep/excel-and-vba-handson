@@ -7,6 +7,7 @@
 //   - スプレッドシートは 2 つのブラウザタブ（.gbrowser）で、実行するとスプレッドシートのタブに結果が出る
 //   - ブックに置いたボタン（.sheet__button）を押すと、そのボタンのマクロを実行したことにする
 //   - スプレッドシートのメニューバーの独自メニュー（.sheet__menu）の項目も、ボタンと同じく動く
+//   - `::::formulademo` は「次へ ▶」で式を 1 つずつ入れ、式のセルを選ぶと読んでいるセルを色の枠で囲む
 // コードは動かさない。何が起きるかのイメージを見せるだけ。
 // 本文より先に <head> で読まれるので、クリックは document で受ける。
 (function () {
@@ -17,9 +18,123 @@
     });
     cell.classList.add('is-selected');
     sheet.querySelector('.sheet__namebox').textContent = cell.dataset.ref;
-    sheet.querySelector('.sheet__formula').textContent =
-      cell.dataset.raw !== undefined ? cell.dataset.raw : cell.textContent;
+    var formula = sheet.querySelector('.sheet__formula');
+    // ::::formulademo の式は、参照に色を付けたもの（ビルド時に作った HTML）を出す。
+    if (cell.dataset.fhtml && cell.classList.contains('is-fset')) formula.innerHTML = cell.dataset.fhtml;
+    else formula.textContent = cell.dataset.raw !== undefined ? cell.dataset.raw : cell.textContent;
+    drawRefs(sheet, cell);
   }
+
+  // ---- ::::formulademo（関数を 1 つずつ入れる） ----
+
+  function cellAt(sheet, ref) {
+    return sheet.querySelector('.sheet__grid:not([hidden]) .sheet__cell[data-ref="' + ref + '"]');
+  }
+
+  // 選んだセルの式が読んでいる範囲を、Excel の式の編集中と同じく色の枠で囲む。
+  // 枠はグリッドの中に重ねるので、スクロールしてもセルと一緒に動く。
+  function drawRefs(sheet, cell) {
+    sheet.querySelectorAll('.fdemo__box').forEach(function (b) {
+      b.remove();
+    });
+    sheet.querySelectorAll('.sheet__cell.is-fmatch').forEach(function (c) {
+      c.classList.remove('is-fmatch');
+    });
+    if (!cell || !cell.dataset.frefs || !cell.classList.contains('is-fset')) return;
+    var grid = cell.closest('.sheet__grid');
+    var g = grid.getBoundingClientRect();
+    cell.dataset.frefs.split(' ').forEach(function (item) {
+      var parts = item.split('|');
+      var ends = parts[0].split(':');
+      var a = cellAt(sheet, ends[0]);
+      var b = cellAt(sheet, ends[1] || ends[0]);
+      if (!a || !b) return;
+      var r1 = a.getBoundingClientRect();
+      var r2 = b.getBoundingClientRect();
+      var box = document.createElement('div');
+      box.className = 'fdemo__box fdemo__box--' + parts[1];
+      box.style.left = r1.left - g.left - grid.clientLeft + grid.scrollLeft + 'px';
+      box.style.top = r1.top - g.top - grid.clientTop + grid.scrollTop + 'px';
+      box.style.width = r2.right - r1.left + 'px';
+      box.style.height = r2.bottom - r1.top + 'px';
+      grid.appendChild(box);
+    });
+    // SUMIF で条件に合って足された行。
+    (cell.dataset.fmatch || '').split(' ').forEach(function (ref) {
+      var c = ref && cellAt(sheet, ref);
+      if (c) c.classList.add('is-fmatch');
+    });
+  }
+
+  // セルがグリッドの見えている範囲の外にあれば、見える位置までスクロールする（ページは動かさない）。
+  function scrollCellIntoGrid(cell) {
+    var grid = cell.closest('.sheet__grid');
+    var g = grid.getBoundingClientRect();
+    var r = cell.getBoundingClientRect();
+    // 見出しの行・列（sticky）に隠れないよう、その分だけ余白を取る。
+    var head = 28;
+    if (r.top < g.top + head) grid.scrollTop -= g.top + head - r.top;
+    else if (r.bottom > g.bottom) grid.scrollTop += r.bottom - g.bottom + 8;
+    if (r.left < g.left + 42) grid.scrollLeft -= g.left + 42 - r.left;
+    else if (r.right > g.right) grid.scrollLeft += r.right - g.right + 8;
+  }
+
+  // k 番目の手順まで入れた状態にする（0 は何も入れていない状態）。
+  function fdemoGo(demo, k) {
+    var n = Number(demo.dataset.fsteps);
+    k = Math.max(0, Math.min(n, k));
+    var prev = Number(demo.dataset.fstep || 0);
+    demo.dataset.fstep = String(k);
+    demo.querySelectorAll('.sheet__cell[data-fstep]').forEach(function (cell) {
+      var s = Number(cell.dataset.fstep);
+      var on = s <= k;
+      cell.textContent = on ? cell.dataset.fshow : '';
+      if (on) cell.dataset.raw = cell.dataset.fraw;
+      else delete cell.dataset.raw;
+      cell.classList.toggle('is-fset', on);
+      cell.classList.remove('is-fflash');
+      // 今の手順で入ったセルを一瞬光らせる（進んだときだけ）。
+      if (on && s === k && k > prev) {
+        void cell.offsetWidth;
+        cell.classList.add('is-fflash');
+      }
+    });
+    demo.querySelectorAll('.fdemo__steps li').forEach(function (li) {
+      var j = Number(li.dataset.fstep);
+      li.classList.toggle('is-done', j < k);
+      li.classList.toggle('is-current', j === k);
+    });
+    var say = null;
+    demo.querySelectorAll('.fdemo__say').forEach(function (d) {
+      var on = Number(d.dataset.fstep) === k;
+      d.hidden = !on;
+      if (on) say = d;
+    });
+    demo.querySelector('.fdemo__prev').disabled = k === 0;
+    demo.querySelector('.fdemo__next').disabled = k === n;
+    var sheet = demo.querySelector('.sheet');
+    var focus = say && say.dataset.focus ? cellAt(sheet, say.dataset.focus) : null;
+    if (focus) {
+      showCell(focus);
+      scrollCellIntoGrid(focus);
+      // スクロールで位置が変わるので、枠は描き直す。
+      drawRefs(sheet, focus);
+    } else {
+      sheet.querySelectorAll('.sheet__cell.is-selected').forEach(function (c) {
+        c.classList.remove('is-selected');
+      });
+      sheet.querySelector('.sheet__namebox').textContent = '';
+      sheet.querySelector('.sheet__formula').textContent = '';
+      drawRefs(sheet, null);
+    }
+  }
+
+  // 全画面などで大きさが変わったら、選んでいるセルの枠を描き直す。
+  window.addEventListener('resize', function () {
+    document.querySelectorAll('.fdemo .sheet__cell.is-selected').forEach(function (cell) {
+      drawRefs(cell.closest('.sheet'), cell);
+    });
+  });
 
   function run(demo) {
     demo.querySelectorAll('.sheet__cell[data-after]').forEach(function (cell) {
@@ -462,6 +577,15 @@
       return;
     }
     var demo = target.closest('.sheetdemo');
+    if (demo && demo.classList.contains('fdemo')) {
+      var k = Number(demo.dataset.fstep || 0);
+      var step = target.closest('.fdemo__steps li');
+      if (target.closest('.fdemo__next')) fdemoGo(demo, k + 1);
+      else if (target.closest('.fdemo__prev')) fdemoGo(demo, k - 1);
+      else if (target.closest('.sheetdemo__reset')) fdemoGo(demo, 0);
+      else if (step) fdemoGo(demo, Number(step.dataset.fstep));
+      return;
+    }
     if (target.closest('.sheetdemo__dev-tab')) {
       showDevTab(demo, true);
       if (!('ran' in demo.dataset)) guideStep(demo, 'macro');

@@ -1,10 +1,10 @@
 /**
  * レクチャーのパス・配布物の命名規約を一元管理するモジュール。
  *
- *   sections/<sec>/<lec>/example        … 動くコード（配布 ZIP / プレビューの元）
- *   sections/<sec>/<lec>/demos/<name>   … 解説用の小さなデモ（プレビューのみ。ZIP 化しない）
- *   downloads/<sec>-<lec>.zip           … 配布 ZIP（build-downloads.mjs）
+ *   sections/<sec>/<lec>/example        … 完成コード（本文の ::codeview / プレビューの元）
+ *   sections/<sec>/<lec>/demos/<name>   … 解説用の小さなデモ（プレビューのみ）
  *   downloads/<sec>-<lec>-assets.zip    … 素材だけの ZIP（example/assets/ がある節のみ）
+ * 練習用ブック（sections/<sec>/<lec>/book/）の配布名と URL は books.mjs。
  *   preview/<sec>-<lec>/                … ライブプレビュー（build-previews.mjs）
  *   preview/<sec>-<lec>--<name>/        … デモのライブプレビュー（同上）
  */
@@ -17,7 +17,7 @@ export function parseLectureRel(lectureRel) {
   return m ? { sec: m[1], lec: m[2] } : null;
 }
 
-/** レクチャーの動くコードのディレクトリ（`sections/<sec>/<lec>/example`）。 */
+/** レクチャーの完成コードのディレクトリ（`sections/<sec>/<lec>/example`）。 */
 export function exampleDirOf(lectureRel) {
   return `${lectureRel}/example`;
 }
@@ -41,32 +41,6 @@ export function demoDirOf(lectureRel, name) {
  */
 export function previewNameOf(sec, lec, demo) {
   return demo ? `${sec}-${lec}--${demo}` : `${sec}-${lec}`;
-}
-
-/** 配布 ZIP のファイル名（`<sec>-<lec>.zip`）。 */
-export function zipBasenameFor(sec, lec) {
-  return `${sec}-${lec}.zip`;
-}
-
-/**
- * 環境ごとの配布 ZIP のファイル名（`<sec>-<lec>-excel.zip` / `<sec>-<lec>-sheets.zip`）。
- * Office マクロ系で、Excel には vba/、スプレッドシートには gas/ だけを入れる。
- */
-export function platformZipBasenameFor(sec, lec, platform) {
-  return `${sec}-${lec}-${platform}.zip`;
-}
-
-/**
- * 節を始める状態の ZIP のファイル名（`<sec>-<lec>-start.zip`）。章の最初の節にだけ作る
- * （練習用ブックだけを入れる）。2 つ目以降の節は、前の節を終えた状態の ZIP がそのまま始める状態になる。
- */
-export function startZipBasenameFor(sec, lec) {
-  return `${sec}-${lec}-start.zip`;
-}
-
-/** サイト上の配布 ZIP への URL（`<base>/downloads/<sec>-<lec>.zip`）。 */
-export function downloadUrlFor(base, sec, lec) {
-  return `${base}/downloads/${zipBasenameFor(sec, lec)}`;
 }
 
 /** 素材だけの ZIP のファイル名（`<sec>-<lec>-assets.zip`）。 */

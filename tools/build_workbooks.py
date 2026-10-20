@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 """
-各レクチャーの example/data/ に置く練習用ブックを生成する。
+各レクチャーの book/ に置く練習用ブックを生成する。
 
-  - .xlsx … マクロなし。章の最初の節を始めるときと、スプレッドシートで使う（アップロードして変換する）
+  - .xlsx … マクロなし。節を始める状態。本文の表計算デモが描き、章の最初の節ではそのまま配る。
+           同じ章で中身が変わらない節には置かない（デモは src= で最初の節のブックを指す）
   - .xlsm … .xlsx と同じ中身に、その節を終えた状態のマクロ（example/vba/*.bas）を入れたもの。
-           Excel 用の ZIP にはこちらだけを入れる（build-downloads.mjs）
+           Excel の受講者がダウンロードするのはこちら（build-downloads.mjs）
+スプレッドシートの受講者は、Google ドライブのサンプルをコピーして始める（sections/spreadsheets.json）。
 .xlsm のマクロの部分（vbaProject.bin）は tools/vba_project.py が仕様どおりに組み立てる（Excel は不要）。
 
 使い方（保守者のみ。受講者は実行しない）:
@@ -215,21 +217,24 @@ def write_invoice_template(ws):
     ws.print_area = "A1:E33"
 
 
-def save(wb, path, end_state=None, buttons=(), start_buttons=None):
+def save(wb, lecture_dir, name, end_state=None, buttons=(), start_buttons=None, with_start=True):
     """
     .xlsx（節を始める状態。本文のデモもこれを描く）を保存し、マクロ入りの .xlsm も作る。
+    with_start=False なら .xlsx は作らない（同じ章の前の節と同じ中身のとき）。
     end_state(wb) を渡すと、.xlsm はその節のマクロを実行し終えた後の値まで入れた状態にする
     （次の節を、ダウンロードした .xlsm からそのまま始められるように）。
     buttons はマクロを実行するボタン（Button の並び）。start_buttons を渡すと .xlsx にはそちらを置く
     （5-3 のように、ボタンを自分で置く節のため）。
     """
-    path.parent.mkdir(parents=True, exist_ok=True)
-    wb.save(path)
-    add_buttons(wb, path, buttons if start_buttons is None else start_buttons)
-    print(f"[build_workbooks] {path.relative_to(ROOT)}")
+    if with_start:
+        path = lecture_dir / "book" / f"{name}.xlsx"
+        path.parent.mkdir(parents=True, exist_ok=True)
+        wb.save(path)
+        add_buttons(wb, path, buttons if start_buttons is None else start_buttons)
+        print(f"[build_workbooks] {path.relative_to(ROOT)}")
     if end_state:
         end_state(wb)
-    save_xlsm(wb, path, buttons)
+    save_xlsm(wb, lecture_dir, name, buttons)
 
 
 # ---------------------------------------------------------------------------
@@ -346,7 +351,7 @@ def add_buttons(wb, path, buttons):
             z.writestr(name, files[name])
 
 
-def save_xlsm(wb, xlsx_path, buttons=()):
+def save_xlsm(wb, lecture_dir, name, buttons=()):
     """
     その節の完成コード（example/vba/*.bas）があれば、同じ中身のマクロ入りブック（.xlsm）も作る。
     openpyxl はマクロを書けないので、.xlsx を保存してから zip の中身を差し替える:
@@ -354,7 +359,7 @@ def save_xlsm(wb, xlsx_path, buttons=()):
       - ブックの種類を「マクロ有効」に変え、vbaProject.bin へのリレーションを足す
       - ブックとシートにコード名（ThisWorkbook / Sheet1 …）を付ける（VBA の部品と対応させるため）
     """
-    vba_dir = xlsx_path.parent.parent / "vba"
+    vba_dir = lecture_dir / "example" / "vba"
     bas_files = sorted(vba_dir.glob("*.bas"))
     if not bas_files:
         return
@@ -363,8 +368,9 @@ def save_xlsm(wb, xlsx_path, buttons=()):
     for i, ws in enumerate(wb.worksheets, start=1):
         ws.sheet_properties.codeName = f"Sheet{i}"
         sheet_names.append(f"Sheet{i}")
-    xlsm_path = xlsx_path.with_suffix(".xlsm")
-    tmp = xlsx_path.with_suffix(".tmp.xlsx")
+    xlsm_path = lecture_dir / "book" / f"{name}.xlsm"
+    tmp = lecture_dir / "book" / f"{name}.tmp.xlsx"
+    tmp.parent.mkdir(parents=True, exist_ok=True)
     wb.save(tmp)
     vba = build_vba_project([(p.stem, p.read_text()) for p in bas_files], sheet_names)
     with zipfile.ZipFile(tmp) as zin, zipfile.ZipFile(xlsm_path, "w", zipfile.ZIP_DEFLATED) as zout:
@@ -435,11 +441,9 @@ def main():
     ):
         wb = Workbook()
         wb.active.title = "Sheet1"
-        path = SECTIONS / "02-first-macro" / lecture / "example" / "data" / "first-macro.xlsx"
-        path.parent.mkdir(parents=True, exist_ok=True)
-        save_xlsm(wb, path, buttons)
+        save_xlsm(wb, SECTIONS / "02-first-macro" / lecture, "first-macro", buttons)
 
-    # 3 章: 金額が空の売上明細 + 集計欄（受講者が関数と VBA で埋める）。.xlsx はどの節も同じ
+    # 3 章: 金額が空の売上明細 + 集計欄（受講者が関数と VBA で埋める）。.xlsx は 3-1〜3-3 で同じ
     # .xlsm は、その節のマクロを実行し終えた後の値（金額・合計・顧客別の合計）まで入れる
     totals = {}
     for _, customer, _, price, quantity in sales:
@@ -465,18 +469,18 @@ def main():
 
     # 前の節のブックで続ける人もいるので、章で使うボタンは最初の節から全部置いておく
     summary = pick(SALES_BUTTONS, "CalcAmounts", "SumTotal", "SumByCustomer")
-    for lecture, end_state, buttons in (
-        ("01-calc-amounts", end_31, summary),
-        ("02-sum-and-sumif", end_32, summary),
-        ("03-debugger-intro", end_32, summary),
-        ("04-debugging", end_34, summary + pick(SALES_BUTTONS, "SumAllCustomers", "SumTotalWithBug")),
+    for lecture, end_state, buttons, with_start in (
+        ("01-calc-amounts", end_31, summary, True),
+        ("02-sum-and-sumif", end_32, summary, False),
+        ("03-debugger-intro", end_32, summary, False),
+        ("04-debugging", end_34, summary + pick(SALES_BUTTONS, "SumAllCustomers", "SumTotalWithBug"), True),
     ):
         wb = Workbook()
         ws = wb.active
         ws.title = "売上"
         write_sales_sheet(ws, sales, with_amount=False)
         write_summary_area(ws)
-        save(wb, SECTIONS / "03-reproduce-functions" / lecture / "example" / "data" / "sales.xlsx", end_state, buttons)
+        save(wb, SECTIONS / "03-reproduce-functions" / lecture, "sales", end_state, buttons, with_start=with_start)
 
     # 4 章: 同じ表を金額まで埋めた状態（デモは集計済みの表から始める）
     for lecture, buttons in (
@@ -488,15 +492,16 @@ def main():
         ws.title = "売上"
         write_sales_sheet(ws, sales, with_amount=True)
         write_summary_area(ws)
-        save(wb, SECTIONS / "04-what-vba-can-do" / lecture / "example" / "data" / "sales.xlsx", buttons=buttons)
+        save(wb, SECTIONS / "04-what-vba-can-do" / lecture, "sales", buttons=buttons)
 
     # 5 章: 金額まで埋まった売上明細 + 顧客 + 請求書テンプレート
-    # 「請求書シートを消す」は 5-3 で受講者が自分で置くボタンなので、5-3 を終えた .xlsm にだけ置く
+    # 「請求書シートを消す」は 5-3 で受講者が自分で置くボタンなので、5-3 を終えた .xlsm にだけ置く。
+    # .xlsx は 5-1〜5-3 で同じ
     create = pick(INVOICE_BUTTONS, "CreateInvoices")
-    for lecture, buttons, start_buttons in (
-        ("01-copy-template", create, None),
-        ("02-transfer-details", create, None),
-        ("03-pdf-and-button", list(INVOICE_BUTTONS.values()), create),
+    for lecture, buttons, start_buttons, with_start in (
+        ("01-copy-template", create, None, True),
+        ("02-transfer-details", create, None, False),
+        ("03-pdf-and-button", list(INVOICE_BUTTONS.values()), create, False),
     ):
         wb = Workbook()
         ws = wb.active
@@ -504,7 +509,7 @@ def main():
         write_sales_sheet(ws, sales, with_amount=True)
         write_customer_sheet(wb.create_sheet("顧客"))
         write_invoice_template(wb.create_sheet("請求書テンプレート"))
-        save(wb, SECTIONS / "05-invoice-button" / lecture / "example" / "data" / "invoice.xlsx", buttons=buttons, start_buttons=start_buttons)
+        save(wb, SECTIONS / "05-invoice-button" / lecture, "invoice", buttons=buttons, start_buttons=start_buttons, with_start=with_start)
 
 
 if __name__ == "__main__":

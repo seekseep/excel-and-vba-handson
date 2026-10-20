@@ -62,6 +62,17 @@
 
   document.documentElement.dataset.platform = load();
 
+  // 表計算デモのブラウザの枠を、見ている人の OS の Chrome に寄せる（gbrowser.css が <html data-os> を見る）。
+  // userAgentData は Chromium 系にしか無いので、Safari / Firefox は navigator.platform で見る。
+  // 参加者は Windows が多い想定なので、macOS と分かったときだけ macOS の見た目にする。
+  function detectOs() {
+    var data = navigator.userAgentData;
+    var name = (data && data.platform) || navigator.platform || navigator.userAgent || '';
+    return /mac/i.test(name) ? 'mac' : 'windows';
+  }
+
+  document.documentElement.dataset.os = detectOs();
+
   function setup() {
     // 切り替えはナビゲーションバーの選択欄（src/components/ThemeSelect.astro）と、
     // 進め方のページの大きなボタン（::platform-choice）で行う。

@@ -10,11 +10,11 @@ title: シートとファイルを操作する
 4-1 の続きです。シートを作る、表を飾る、ファイルを保存する。第 5 章の請求書づくりに必要な部品を、講師のデモで一通り見ていきます。
 
 :::download
-[練習用ブックとデモのコードをダウンロード](./project.zip)
-[サンプルのスプレッドシートをコピー](./spreadsheet)
+[練習用ブックをダウンロード](./done-book)
+[サンプルのスプレッドシートをコピー](./done-spreadsheet)
 :::
 
-Excel のブックでは、「売上」シートの右側に、この節のデモ（**表を整える**・**顧客別に分ける**・**増えたシートを消す**・**バックアップを保存**）と 4-1 の **ブックの情報を出す** のボタンが置いてあります。スプレッドシートでは、ZIP の `gas/ObjectDemo.gs` を貼り、Apps Script エディタから実行します。
+Excel のブックでは、「売上」シートの右側に、この節のデモ（**表を整える**・**顧客別に分ける**・**増えたシートを消す**・**バックアップを保存**）と 4-1 の **ブックの情報を出す** のボタンが置いてあります。スプレッドシートでは、上のボタンでコピーするサンプルにデモのコードが入っているので、Apps Script エディタから実行します。
 
 ## デモ 1: 表を飾る（`DecorateSales`）
 
@@ -122,7 +122,7 @@ Apps Script エディタの関数の選択欄で `splitByCustomer` を選び、�
 ::::
 :::::
 
-::::sheetdemo[SplitByCustomer を実行すると、顧客ごとのシートが 5 枚増える]{book="data/sales.xlsx" sheet="売上" macro="SplitByCustomer" macros="ShowObjects,DecorateSales,SplitByCustomer,DeleteDemoSheets,SaveBackup"}
+::::sheetdemo[SplitByCustomer を実行すると、顧客ごとのシートが 5 枚増える]{book="book/sales.xlsx" sheet="売上" macro="SplitByCustomer" macros="ShowObjects,DecorateSales,SplitByCustomer,DeleteDemoSheets,SaveBackup"}
 tabs = ひまわり商事, あおば設計事務所, みなと物産, さくら学習塾, こもれび珈琲
 ひまわり商事!A1:F1 = 日付, 顧客, 商品, 単価, 数量, 金額
 ひまわり商事!A2:F2 = 2026/10/07, ひまわり商事, ホッチキス, 680, 2, 1360
