@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="420" viewBox="0 0 960 420" font-family="'Hiragino Sans','Noto Sans JP','Yu Gothic','Segoe UI',sans-serif">
+<defs><marker id="aR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#475569"/></marker><marker id="aRsub" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#94a3b8"/></marker></defs>
+<rect x="0" y="0" width="960" height="420" fill="#ffffff"/>
+<text x="480" y="44" text-anchor="middle" font-size="21" fill="#0f172a" font-weight="700">「売上」シート</text>
+<rect x="40" y="80" width="520" height="300" rx="16" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2.0"/>
+<text x="300" y="116" text-anchor="middle" font-size="17" fill="#475569" font-weight="600">A〜F 列  売上明細</text>
+<rect x="60" y="140" width="74" height="40" rx="6" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2.0"/>
+<text x="97" y="166" text-anchor="middle" font-size="13" fill="#475569" font-weight="400">日付</text>
+<rect x="142" y="140" width="74" height="40" rx="6" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2.0"/>
+<text x="179" y="166" text-anchor="middle" font-size="13" fill="#475569" font-weight="400">顧客</text>
+<rect x="224" y="140" width="74" height="40" rx="6" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2.0"/>
+<text x="261" y="166" text-anchor="middle" font-size="13" fill="#475569" font-weight="400">商品</text>
+<rect x="306" y="140" width="74" height="40" rx="6" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2.0"/>
+<text x="343" y="166" text-anchor="middle" font-size="13" fill="#475569" font-weight="400">単価</text>
+<rect x="388" y="140" width="74" height="40" rx="6" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2.0"/>
+<text x="425" y="166" text-anchor="middle" font-size="13" fill="#475569" font-weight="400">数量</text>
+<rect x="470" y="140" width="74" height="40" rx="6" fill="#ffedd5" stroke="#f97316" stroke-width="2.0"/>
+<text x="507" y="166" text-anchor="middle" font-size="13" fill="#475569" font-weight="400">金額</text>
+<text x="300" y="230" text-anchor="middle" font-size="15" fill="#475569" font-weight="400">2〜31 行目に 30 件</text>
+<text x="300" y="290" text-anchor="middle" font-size="13" fill="#475569" font-weight="400">F 列（金額）は空。関数か VBA で埋める</text>
+<rect x="600" y="80" width="320" height="300" rx="16" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2.0"/>
+<text x="760" y="116" text-anchor="middle" font-size="17" fill="#475569" font-weight="600">H〜J 列  集計欄</text>
+<rect x="620" y="140" width="90" height="40" rx="6" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2.0"/>
+<text x="665" y="166" text-anchor="middle" font-size="13" fill="#475569" font-weight="400">H 項目</text>
+<rect x="716" y="140" width="90" height="40" rx="6" fill="#fef9c3" stroke="#f59e0b" stroke-width="2.0"/>
+<text x="761" y="166" text-anchor="middle" font-size="13" fill="#475569" font-weight="400">I 関数</text>
+<rect x="812" y="140" width="90" height="40" rx="6" fill="#dbeafe" stroke="#3b82f6" stroke-width="2.0"/>
+<text x="857" y="166" text-anchor="middle" font-size="13" fill="#475569" font-weight="400">J VBA</text>
+<text x="760" y="230" text-anchor="middle" font-size="15" fill="#475569" font-weight="400">2 行目  売上合計</text>
+<text x="760" y="262" text-anchor="middle" font-size="15" fill="#475569" font-weight="400">5〜9 行目  顧客別の合計</text>
+<text x="760" y="320" text-anchor="middle" font-size="13" fill="#475569" font-weight="400">I と J が同じなら正解</text>
+</svg>

@@ -1,0 +1,89 @@
+/* `::::platform`（remark-platform.mjs）の Excel ／ スプレッドシート切り替えタブ。
+   どちらを出すかは <html data-platform="excel|sheets">（platform-client.js）で決める。 */
+
+.platform {
+  --platform-excel: #217346;
+  --platform-sheets: #188038;
+  margin: 1.5rem 0;
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.platform__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  margin: 0 !important;
+  border-bottom: 1px solid var(--sl-color-gray-5);
+  background-color: var(--sl-color-gray-6);
+}
+
+.platform__tab {
+  margin: 0 !important;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-bottom: 3px solid transparent;
+  background: none;
+  color: var(--sl-color-gray-3);
+  font: inherit;
+  font-size: var(--sl-text-sm);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.platform__tab:hover {
+  color: var(--sl-color-white);
+}
+
+.platform__panel {
+  margin: 0 !important;
+  padding: 0.25rem 1rem 1rem;
+}
+
+.platform__panel > :first-child {
+  margin-top: 0.75rem;
+}
+
+/* 既定（未選択含む）は Excel。 */
+:root:not([data-platform='sheets']) .platform__panel--sheets,
+:root[data-platform='sheets'] .platform__panel--excel {
+  display: none;
+}
+
+:root:not([data-platform='sheets']) .platform__tab--excel,
+:root[data-platform='sheets'] .platform__tab--sheets {
+  border-bottom-color: var(--platform-excel);
+  color: var(--sl-color-white);
+}
+
+:root[data-platform='sheets'] .platform__tab--sheets {
+  border-bottom-color: var(--platform-sheets);
+}
+
+/* 片方の環境にしか無い手順は、もう片方を選んでいても出しておく（注記付き）。 */
+.platform--only-excel .platform__panel--excel,
+.platform--only-sheets .platform__panel--sheets {
+  display: block !important;
+}
+
+.platform--only-excel .platform__tab,
+.platform--only-sheets .platform__tab {
+  cursor: default;
+}
+
+:root[data-platform='sheets'] .platform--only-excel .platform__tabs::after {
+  content: 'スプレッドシートでは不要な手順です';
+}
+
+:root:not([data-platform='sheets']) .platform--only-sheets .platform__tabs::after {
+  content: 'Excel では不要な手順です';
+}
+
+.platform__tabs::after {
+  align-self: center;
+  margin-inline-start: auto;
+  padding: 0 1rem;
+  color: var(--sl-color-gray-3);
+  font-size: var(--sl-text-xs);
+}

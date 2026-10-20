@@ -1,0 +1,354 @@
+/* `::::sheetdemo` / `::sheetcode`（libs/sheets.mjs）のシート表示。
+   Excel が主なので既定は Excel 風。<html data-platform="sheets">（platform-client.js）のときだけ
+   Google スプレッドシート風にする。表計算ソフトの画面はダークモードでも白いので、色は固定する。 */
+
+.sheet {
+  --sheet-accent: #217346;
+  --sheet-grid: #d4d4d4;
+  --sheet-head-bg: #f3f3f3;
+  --sheet-head-fg: #444;
+  --sheet-head-border: #c6c6c6;
+  --sheet-select: #217346;
+  --sheet-changed: #c6efce;
+  --sheet-highlight: rgba(33, 115, 70, 0.12);
+  --sheet-font: 'Yu Gothic UI', 'Meiryo UI', 'Hiragino Sans', system-ui, sans-serif;
+  border: 1px solid var(--sheet-head-border);
+  border-radius: 0.4rem;
+  overflow: hidden;
+  background: #fff;
+  color: #222;
+  font-family: var(--sheet-font);
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+:root[data-platform='sheets'] .sheet {
+  --sheet-accent: #188038;
+  --sheet-grid: #e2e3e3;
+  --sheet-head-bg: #f8f9fa;
+  --sheet-head-fg: #575a5e;
+  --sheet-head-border: #dadce0;
+  --sheet-select: #1a73e8;
+  --sheet-changed: #d2e3fc;
+  --sheet-highlight: rgba(26, 115, 232, 0.1);
+  --sheet-font: Arial, 'Hiragino Sans', 'Noto Sans JP', system-ui, sans-serif;
+}
+
+/* ---- タイトルバー ---- */
+
+.sheet__titlebar {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.3rem 0.7rem;
+  background: var(--sheet-accent);
+  color: #fff;
+  font-size: 12px;
+}
+
+:root[data-platform='sheets'] .sheet__titlebar {
+  background: #f9fbfd;
+  color: #1f1f1f;
+  border-bottom: 1px solid var(--sheet-head-border);
+}
+
+.sheet__app {
+  font-weight: 700;
+}
+
+.sheet__app--sheets::before {
+  content: '';
+  display: inline-block;
+  width: 0.75em;
+  height: 0.95em;
+  margin-inline-end: 0.35em;
+  vertical-align: -0.1em;
+  border-radius: 2px;
+  background: var(--sheet-accent);
+}
+
+:root:not([data-platform='sheets']) .sheet__app--sheets,
+:root[data-platform='sheets'] .sheet__app--excel {
+  display: none;
+}
+
+.sheet__file {
+  opacity: 0.85;
+}
+
+/* ---- 数式バー ---- */
+
+.sheet__formulabar {
+  display: flex;
+  align-items: stretch;
+  min-height: 1.9rem;
+  border-bottom: 1px solid var(--sheet-head-border);
+  background: #fff;
+}
+
+.sheet__namebox {
+  flex: 0 0 4.5rem;
+  padding: 0.3rem 0.5rem;
+  border-right: 1px solid var(--sheet-head-border);
+  font-size: 12px;
+}
+
+.sheet__fx {
+  padding: 0.3rem 0.6rem;
+  border-right: 1px solid var(--sheet-head-border);
+  color: #777;
+  font-style: italic;
+  font-family: Georgia, serif;
+}
+
+.sheet__formula {
+  flex: 1;
+  min-width: 0;
+  padding: 0.3rem 0.6rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* ---- グリッド ---- */
+
+.sheet__grid {
+  max-height: 24rem;
+  overflow: auto;
+  background: #fff;
+}
+
+.sheet__table {
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: fixed;
+  width: max-content;
+  margin: 0;
+}
+
+.sheet__rowhead-col {
+  width: 2.6rem;
+}
+
+.sheet__table th,
+.sheet__table td {
+  height: 1.55rem;
+  padding: 0 0.3rem;
+  border: 0;
+  border-right: 1px solid var(--sheet-grid);
+  border-bottom: 1px solid var(--sheet-grid);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: clip;
+  vertical-align: middle;
+}
+
+.sheet__colhead,
+.sheet__rowhead,
+.sheet__corner {
+  background: var(--sheet-head-bg);
+  color: var(--sheet-head-fg);
+  font-weight: 400;
+  font-size: 12px;
+  text-align: center;
+  border-color: var(--sheet-head-border) !important;
+}
+
+/* 見出しは固定して、スクロールしても行・列が分かるようにする。 */
+.sheet__colhead,
+.sheet__corner {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.sheet__rowhead,
+.sheet__corner {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+}
+
+.sheet__corner {
+  z-index: 3;
+}
+
+.sheet__cell {
+  cursor: cell;
+}
+
+.sheet__cell.is-number {
+  text-align: right;
+}
+
+.sheet__cell.is-bold {
+  font-weight: 700;
+}
+
+.sheet__cell.is-highlight {
+  box-shadow: inset 0 0 0 9999px var(--sheet-highlight);
+}
+
+.sheet__cell.is-selected {
+  outline: 2px solid var(--sheet-select);
+  outline-offset: -2px;
+}
+
+/* 実行で書き換わったセル。光ったあと、薄い色を残して「変わった所」を見せ続ける。 */
+.sheet__cell.is-changed {
+  animation: sheet-changed 0.9s ease-out both;
+}
+
+@keyframes sheet-changed {
+  from {
+    box-shadow: inset 0 0 0 9999px var(--sheet-select);
+    color: #fff;
+  }
+  to {
+    box-shadow: inset 0 0 0 9999px var(--sheet-changed);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sheet__cell.is-changed {
+    animation: none;
+    box-shadow: inset 0 0 0 9999px var(--sheet-changed);
+  }
+}
+
+/* ---- シートタブ ---- */
+
+.sheet__tabs {
+  display: flex;
+  gap: 0;
+  padding: 0 0.5rem;
+  border-top: 1px solid var(--sheet-head-border);
+  background: var(--sheet-head-bg);
+  overflow-x: auto;
+  font-size: 12px;
+}
+
+.sheet__tab {
+  padding: 0.3rem 0.9rem;
+  color: var(--sheet-head-fg);
+  white-space: nowrap;
+}
+
+.sheet__tab.is-active {
+  background: #fff;
+  color: var(--sheet-accent);
+  font-weight: 700;
+  border-bottom: 2px solid var(--sheet-accent);
+}
+
+:root[data-platform='sheets'] .sheet__tab.is-active {
+  background: #e1e9f7;
+  color: #0b57d0;
+  border-bottom: 0;
+  border-radius: 0 0 0.3rem 0.3rem;
+}
+
+/* ---- ::::sheetdemo ---- */
+
+.sheetdemo {
+  margin: 1.5rem 0;
+}
+
+.sheetdemo__bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.sheetdemo__bar button {
+  padding: 0.35rem 0.9rem;
+  border: 1px solid var(--sl-color-gray-4);
+  border-radius: 0.4rem;
+  background: var(--sl-color-gray-6);
+  color: var(--sl-color-white);
+  font: inherit;
+  font-size: var(--sl-text-sm);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.sheetdemo__bar .sheetdemo__run:not(:disabled) {
+  border-color: #217346;
+  background: #217346;
+  color: #fff;
+}
+
+:root[data-platform='sheets'] .sheetdemo__bar .sheetdemo__run:not(:disabled) {
+  border-color: #1a73e8;
+  background: #1a73e8;
+}
+
+.sheetdemo__bar button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.sheetdemo__note {
+  margin-inline-start: auto;
+  color: var(--sl-color-gray-3);
+  font-size: var(--sl-text-xs);
+}
+
+.sheetdemo__caption {
+  margin-top: 0.5rem;
+  color: var(--sl-color-gray-3);
+  font-size: var(--sl-text-sm);
+  text-align: center;
+}
+
+/* ---- ::sheetcode ---- */
+
+.sheetcode {
+  display: grid;
+  gap: 1rem;
+  margin: 1.5rem 0;
+  align-items: start;
+}
+
+/* 幅があるときだけ左右に並べる。狭いときはコード → シートの順に縦に積む。 */
+@media (min-width: 72rem) {
+  .sheetcode {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+}
+
+.sheetcode > * {
+  margin-top: 0 !important;
+  min-width: 0;
+}
+
+.sheetcode__code.platform {
+  margin: 0;
+}
+
+.sheetcode__panel.platform__panel {
+  padding: 0;
+}
+
+.sheetcode__panel.platform__panel > :first-child {
+  margin-top: 0;
+}
+
+.sheetcode__panel .expressive-code {
+  margin: 0 !important;
+}
+
+.sheetcode__panel .expressive-code pre {
+  border: 0;
+  border-radius: 0;
+}
+
+.sheetcode__file {
+  padding: 0.35rem 0.9rem;
+  border-bottom: 1px solid var(--sl-color-gray-5);
+  color: var(--sl-color-gray-3);
+  font-family: var(--sl-font-mono, monospace);
+  font-size: var(--sl-text-xs);
+}

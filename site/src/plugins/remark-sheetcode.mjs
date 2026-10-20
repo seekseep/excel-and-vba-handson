@@ -1,0 +1,85 @@
+/**
+ * `::::sheetcode` コンテナディレクティブを「左=コード（VBA ／ GAS のタブ）、右=シート」に
+ * 並べる remark プラグイン。
+ *
+ * コンテナは sync-lectures.mjs（libs/sheets.mjs）が `::sheetcode{...}` から生成する。中身は
+ *   - コードフェンス（meta に `data-platform="excel|sheets"` と `data-file="<相対パス>"`）
+ *   - シートの生 HTML（<div class="sheet">）
+ *
+ * タブは `::::platform` と同じクラス（platform__tab / platform__panel）を使うので、
+ * 切り替えと保存（localStorage）は site/src/scripts/platform-client.js がそのまま受け持つ。
+ * どこかで切り替えると、ページ内のほかのブロックも次に開くページもそろう。
+ * 装飾は site/src/styles/sheet.css。
+ */
+
+const NAME = 'sheetcode';
+const PLATFORM_META_RE = /data-platform="(excel|sheets)"/;
+const FILE_META_RE = /data-file="([^"]*)"/;
+const LABELS = { excel: 'Excel（VBA）', sheets: 'スプレッドシート（GAS）' };
+
+function visit(node, callback) {
+  if (!node || !Array.isArray(node.children)) return;
+  for (const child of node.children) {
+    callback(child);
+    visit(child, callback);
+  }
+}
+
+function el(hName, className, children, extraProps = {}) {
+  return {
+    type: 'element',
+    data: { hName, hProperties: { className, ...extraProps } },
+    children: children || [],
+  };
+}
+
+function text(value) {
+  return { type: 'text', value };
+}
+
+export default function remarkSheetcode() {
+  return (tree) => {
+    visit(tree, (node) => {
+      if (node.type !== 'containerDirective' || node.name !== NAME) return;
+
+      const codes = [];
+      for (const c of node.children) {
+        if (c.type !== 'code') continue;
+        const meta = c.meta || '';
+        const key = meta.match(PLATFORM_META_RE)?.[1];
+        if (!key) continue;
+        const file = meta.match(FILE_META_RE)?.[1] ?? '';
+        c.meta = null; // Expressive Code にファイル名枠を出させない（ファイル名は自前で出す）
+        codes.push({ key, file, code: c });
+      }
+      const sheet = node.children.filter((c) => c.type === 'html');
+      if (codes.length === 0) return;
+
+      const tabs = codes.map((p) =>
+        el('button', ['platform__tab', `platform__tab--${p.key}`], [text(LABELS[p.key])], {
+          type: 'button',
+          'data-platform': p.key,
+        }),
+      );
+      const panels = codes.map((p) =>
+        el('div', ['platform__panel', `platform__panel--${p.key}`, 'sheetcode__panel'], [
+          el('div', ['sheetcode__file'], [text(p.file)]),
+          p.code,
+        ], { 'data-platform': p.key }),
+      );
+
+      // 片方しか無いときは `::::platform` と同じく、もう片方を選んでいても出しておく。
+      const only = codes.length === 1 ? [`platform--only-${codes[0].key}`] : [];
+
+      node.type = 'sheetcodeContainer';
+      node.data = { hName: 'div', hProperties: { className: ['sheetcode'] } };
+      node.children = [
+        el('div', ['sheetcode__code', 'platform', ...only], [
+          el('div', ['platform__tabs'], tabs, { role: 'tablist' }),
+          ...panels,
+        ]),
+        el('div', ['sheetcode__sheet'], sheet),
+      ];
+    });
+  };
+}

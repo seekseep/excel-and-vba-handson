@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="640" viewBox="0 0 760 640" font-family="'Hiragino Sans','Noto Sans JP','Yu Gothic','Segoe UI',sans-serif">
+<defs><marker id="aR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#475569"/></marker><marker id="aRsub" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#94a3b8"/></marker></defs>
+<rect x="0" y="0" width="760" height="640" fill="#ffffff"/>
+<rect x="60" y="30" width="640" height="580" rx="8" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2.0"/>
+<text x="380" y="82" text-anchor="middle" font-size="26" fill="#0f172a" font-weight="700">請 求 書</text>
+<rect x="500" y="104" width="180" height="40" rx="6" fill="#fef9c3" stroke="#f59e0b" stroke-width="2.0"/>
+<text x="590" y="130" text-anchor="middle" font-size="13" fill="#475569" font-weight="400">E3  発行日</text>
+<rect x="90" y="160" width="300" height="110" rx="6" fill="#fef9c3" stroke="#f59e0b" stroke-width="2.0"/>
+<text x="240" y="198" text-anchor="middle" font-size="15" fill="#475569" font-weight="400">A5  宛名（〇〇 御中）</text>
+<text x="240" y="226" text-anchor="middle" font-size="13" fill="#475569" font-weight="400">A6  住所</text>
+<text x="240" y="250" text-anchor="middle" font-size="13" fill="#475569" font-weight="400">A7  ご担当者</text>
+<rect x="420" y="160" width="260" height="110" rx="6" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2.0"/>
+<text x="550" y="208" text-anchor="middle" font-size="15" fill="#475569" font-weight="400">そよかぜ文具店</text>
+<text x="550" y="236" text-anchor="middle" font-size="13" fill="#475569" font-weight="400">（テンプレートのまま）</text>
+<rect x="90" y="290" width="300" height="50" rx="6" fill="#ffedd5" stroke="#f97316" stroke-width="2.0"/>
+<text x="240" y="321" text-anchor="middle" font-size="15" fill="#475569" font-weight="400">B9  ご請求金額</text>
+<rect x="90" y="360" width="590" height="40" rx="6" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2.0"/>
+<text x="385" y="386" text-anchor="middle" font-size="13" fill="#475569" font-weight="400">11 行目  日付 ／ 商品 ／ 単価 ／ 数量 ／ 金額</text>
+<rect x="90" y="404" width="590" height="130" rx="6" fill="#dbeafe" stroke="#3b82f6" stroke-width="2.0"/>
+<text x="385" y="462" text-anchor="middle" font-size="15" fill="#475569" font-weight="400">12〜31 行目  明細（この顧客の売上を書き写す）</text>
+<text x="385" y="490" text-anchor="middle" font-size="13" fill="#475569" font-weight="400">A 日付  B 商品  C 単価  D 数量  E 金額</text>
+<rect x="500" y="550" width="180" height="40" rx="6" fill="#ffedd5" stroke="#f97316" stroke-width="2.0"/>
+<text x="590" y="576" text-anchor="middle" font-size="13" fill="#475569" font-weight="400">E33  合計</text>
+</svg>

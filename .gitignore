@@ -1,0 +1,22 @@
+node_modules/
+.DS_Store
+
+# secrets
+.env
+.env.*
+*.pem
+*.key
+
+# Excel の一時ファイル（開いている間にできる）
+~$*
+
+# genfig の確認用 PNG
+sections/**/images/*.png
+
+# Astro / site
+site/dist/
+site/.astro/
+site/src/content/docs/
+
+# 生成物: 各章の配布 ZIP（build-downloads.mjs）
+site/public/downloads/
