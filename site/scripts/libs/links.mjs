@@ -90,8 +90,9 @@ function resolveSiteUrl(resolved, isDirLink) {
  * @param {string} opts.base            サイトの base プレフィックス
  * @param {string|null} [opts.downloadUrl]  `./project.zip` の差し替え先 (対象外なら null)
  * @param {string|null} [opts.startUrl]     `./start.zip` の差し替え先 (対象外なら null)
+ * @param {string|null} [opts.spreadsheetUrl]  `./spreadsheet` の差し替え先 (対象外なら null)
  */
-export function transformLinks(content, { sourceDir, sourceSiteUrl, repo, base, downloadUrl = null, startUrl = null }) {
+export function transformLinks(content, { sourceDir, sourceSiteUrl, repo, base, downloadUrl = null, startUrl = null, spreadsheetUrl = null }) {
   // 画像 (`![alt](...)`) はソースコードのように blob URL へ飛ばすと、blob は画像
   // 本体ではなく HTML ページを返すため <img> がリンク切れになる。画像だけは
   // 画像バイト列をそのまま返す raw.githubusercontent.com に向ける。
@@ -125,6 +126,10 @@ export function transformLinks(content, { sourceDir, sourceSiteUrl, repo, base, 
     }
     if (startUrl && path.posix.basename(resolved) === 'start.zip') {
       return `${prefix}(${startUrl}${hash}${titlePart})`;
+    }
+    // `./spreadsheet` は、その節のサンプルのスプレッドシートを「コピーを作成」する URL（sections/spreadsheets.json）。
+    if (spreadsheetUrl && pathPart === './spreadsheet') {
+      return `${prefix}(${spreadsheetUrl}${titlePart})`;
     }
 
     if (PUBLIC_ASSETS.has(path.posix.basename(resolved))) {

@@ -86,6 +86,27 @@ async function resolveStartUrl(sourceDir, base) {
   return `${base}/downloads/${startZipBasenameFor(parsed.sec, parsed.lec)}`;
 }
 
+/**
+ * 本文の `./spreadsheet`（サンプルのスプレッドシート）の差し替え先。
+ * sections/spreadsheets.json に「<sec>/<lec>: Google ドライブのファイル ID」を書いておくと、
+ * そのファイルの「コピーを作成」画面の URL になる。無ければ null。
+ */
+let spreadsheets;
+async function resolveSpreadsheetUrl(sourceDir) {
+  const parsed = parseLectureRel(sourceDir);
+  if (!parsed) return null;
+  if (!spreadsheets) {
+    try {
+      spreadsheets = JSON.parse(await readFile(path.join(ROOT, 'sections', 'spreadsheets.json'), 'utf8'));
+    } catch (e) {
+      if (e.code !== 'ENOENT') throw e;
+      spreadsheets = {};
+    }
+  }
+  const id = spreadsheets[`${parsed.sec}/${parsed.lec}`];
+  return id ? `https://docs.google.com/spreadsheets/d/${id}/copy` : null;
+}
+
 async function syncFile({
   sourceFile,
   sourceDir,
@@ -107,6 +128,7 @@ async function syncFile({
   const description = srcFm.description || extractDescription(bodyAfterFm);
   const downloadUrl = await resolveDownloadUrl(sourceDir, config.base);
   const startUrl = downloadUrl ? await resolveStartUrl(sourceDir, config.base) : null;
+  const spreadsheetUrl = await resolveSpreadsheetUrl(sourceDir);
   let body = transformLinks(stripLeadingH1(bodyAfterFm), {
     sourceDir,
     sourceSiteUrl,
@@ -114,6 +136,7 @@ async function syncFile({
     base: config.base,
     downloadUrl,
     startUrl,
+    spreadsheetUrl,
   });
 
   // `::codeview` / `::assets` / `::preview` センチネルを、実ファイルから生成したブロックに展開する。

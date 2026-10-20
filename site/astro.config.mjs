@@ -106,6 +106,8 @@ export default defineConfig({
           rel: ['noopener', 'noreferrer'],
           // 外部リンクであることを示すアイコン用のクラス。装飾は external-links.css 側で付ける。
           properties: { class: 'external-link' },
+          // ダウンロード欄のボタン（remark-download のサンプルのスプレッドシート）は、クラスを上書きされないよう対象外にする。
+          test: (element) => !String(element.properties?.className ?? '').includes('download-button'),
         },
       ],
     ],

@@ -93,12 +93,13 @@ async function zipExample(lectureRel) {
   // Office マクロ系は、環境ごとの ZIP も出す（Excel は gas/ を、スプレッドシートは vba/ を入れない）。
   // 本文のダウンロードボタンは、選んでいる環境の ZIP を指す（remark-download / remark-editor）。
   // Excel は、同じ名前のマクロ入り（.xlsm）があるブックは .xlsx を入れず .xlsm だけにする。
-  // スプレッドシートはマクロを使わないので .xlsm を入れない（.xlsx をアップロードして使う）。
+  // スプレッドシートはコード（gas/）だけを入れる。ブックは、本文のリンクからサンプルのスプレッドシートを
+  // コピーして使う（sections/spreadsheets.json と remark-download の `./spreadsheet`）。
   if (files.some((f) => f.startsWith('vba/') || f.startsWith('gas/'))) {
     const hasXlsm = (f) => files.includes(f.replace(/\.xlsx$/, '.xlsm'));
     const pick = {
       excel: files.filter((f) => !f.startsWith('gas/') && !(f.endsWith('.xlsx') && hasXlsm(f))),
-      sheets: files.filter((f) => !f.startsWith('vba/') && !f.endsWith('.xlsm')),
+      sheets: files.filter((f) => f.startsWith('gas/')),
     };
     for (const platform of ['excel', 'sheets']) {
       await zipFiles(exampleAbs, pick[platform], path.join(DOWNLOADS_DIR, platformZipBasenameFor(sec, lec, platform)), lec);
