@@ -353,7 +353,7 @@ const folder = file.getParents().next();    // このスプレッドシートの
 
 ### ボタン・メニュー・開いたときに動かす
 
-利用者の操作（ボタンやメニューを押す、ファイルを開く）をきっかけにマクロを動かせます。（3 章・5 章）
+利用者の操作（ボタンやメニューを押す、ファイルを開く）をきっかけにマクロを動かせます。（5 章）
 
 :::::platform
 ::::excel
@@ -361,7 +361,7 @@ const folder = file.getParents().next();    // このスプレッドシートの
 - **開いたとき:** VBE の `ThisWorkbook` に `Private Sub Workbook_Open()` 〜 `End Sub` を書く
 ::::
 ::::sheets
-- **メニュー:** `onOpen` の中で `SpreadsheetApp.getUi().createMenu('メニュー名').addItem('項目名', '関数名').addToUi()` を書く。保存してスプレッドシートを再読み込みすると、メニューバーの「ヘルプ」の右に出る。この教材では、Excel のボタンの代わりにこのメニューから動かす
+- **メニュー:** `onOpen` の中で `SpreadsheetApp.getUi().createMenu('メニュー名').addItem('項目名', '関数名').addToUi()` を書く。保存してスプレッドシートを再読み込みすると、メニューバーの「ヘルプ」の右に出る。5-3 で、Excel のボタンの代わりに使う。それまでは Apps Script エディタで関数を選んで ▶ 実行する
 - **開いたとき:** `function onOpen() { }` という名前の関数を書く（上のメニューを足すのに使う）
 ::::
 :::::

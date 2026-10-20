@@ -1,10 +1,3 @@
-function onOpen() {
-  SpreadsheetApp.getUi()
-    .createMenu('請求書')
-    .addItem('請求書を作る', 'createInvoices')
-    .addToUi();
-}
-
 function createInvoices() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   const salesSheet = ss.getSheetByName('売上');

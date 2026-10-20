@@ -1,10 +1,3 @@
-function onOpen() {
-  SpreadsheetApp.getUi()
-    .createMenu('請求書')
-    .addItem('請求書を作る', 'createInvoices')
-    .addToUi();
-}
-
 function createInvoices() {
   // 何度実行しても同じ結果になるよう、前回の請求書シートを消してから作る
   deleteInvoices();

@@ -1,14 +1,3 @@
-function onOpen() {
-  SpreadsheetApp.getUi()
-    .createMenu('デモ')
-    .addItem('ブックの情報を出す', 'showObjects')
-    .addItem('表を整える', 'decorateSales')
-    .addItem('顧客別に分ける', 'splitByCustomer')
-    .addItem('増えたシートを消す', 'deleteDemoSheets')
-    .addItem('バックアップを保存', 'saveBackup')
-    .addToUi();
-}
-
 function showObjects() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   console.log('スプレッドシートの名前: ' + ss.getName());

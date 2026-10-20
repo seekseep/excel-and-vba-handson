@@ -1,12 +1,3 @@
-function onOpen() {
-  SpreadsheetApp.getUi()
-    .createMenu('マクロ')
-    .addItem('あいさつする', 'hello')
-    .addItem('セルに書く', 'writeCells')
-    .addItem('税込価格を計算', 'calcTaxIncluded')
-    .addToUi();
-}
-
 function hello() {
   SpreadsheetApp.getUi().alert('こんにちは、Apps Script！');
 }

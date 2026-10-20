@@ -34,11 +34,11 @@ ZIP の `data/sales.xlsm` には、`DebugPractice` がもう入っていて、�
 「売上」シートの **合計（バグあり）** ボタンを押します（「開発」タブ →「マクロ」で `SumTotalWithBug` を選んで「実行」を押しても同じです）。
 ::::
 ::::sheets
-`SalesSummary` の `onOpen` の `.addToUi()` の上に `.addItem('合計（バグあり）', 'sumTotalWithBug')` を足して保存し、スプレッドシートのタブを再読み込みします。メニューの「売上集計」→「合計（バグあり）」を押します（Apps Script エディタの関数の選択欄で `sumTotalWithBug` を選んで「▶ 実行」を押しても同じです）。
+Apps Script エディタの関数の選択欄で `sumTotalWithBug` を選び、「▶ 実行」を押します。
 ::::
 :::::
 
-::::sheetdemo[SumTotalWithBug を実行すると、J2 が 67,330 になる（関数の 68,580 と合わない）]{book="data/sales.xlsx" menu="売上集計" sheet="売上" macro="SumTotalWithBug" macros="CalcAmounts,SumAllCustomers,SumByCustomer,SumTotal,SumTotalWithBug"}
+::::sheetdemo[SumTotalWithBug を実行すると、J2 が 67,330 になる（関数の 68,580 と合わない）]{book="data/sales.xlsx" sheet="売上" macro="SumTotalWithBug" macros="CalcAmounts,SumAllCustomers,SumByCustomer,SumTotal,SumTotalWithBug"}
 before F2:F31 = 1250, 2500, 1360, 1650, 1800, 6800, 360, 1200, 1250, 600, 11000, 60, 1100, 8160, 1800, 6800, 1100, 8160, 600, 120, 900, 360, 250, 1250, 250, 500, 2500, 3200, 500, 1200
 before I2 = 68580
 J2 = 67330

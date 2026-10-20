@@ -125,11 +125,11 @@ console.log(i, sheet.getRange(i, 6).getValue(), total);
 「売上」シートの **売上合計を出す** ボタンを押します（「開発」タブ →「マクロ」で `SumTotal` を選んで「実行」を押しても同じです）。
 ::::
 ::::sheets
-メニューの「売上集計」→「売上合計を出す」を押します（Apps Script エディタの関数の選択欄で `sumTotal` を選んで「▶ 実行」を押しても同じです）。
+Apps Script エディタの関数の選択欄で `sumTotal` を選び、「▶ 実行」を押します。
 ::::
 :::::
 
-::::sheetdemo[ログを足した SumTotal を実行すると、1 行ごとの途中経過が出る]{book="data/sales.xlsx" menu="売上集計" sheet="売上" macro="SumTotal" macros="CalcAmounts,SumTotal,SumByCustomer"}
+::::sheetdemo[ログを足した SumTotal を実行すると、1 行ごとの途中経過が出る]{book="data/sales.xlsx" sheet="売上" macro="SumTotal" macros="CalcAmounts,SumTotal,SumByCustomer"}
 before F2:F31 = 1250, 2500, 1360, 1650, 1800, 6800, 360, 1200, 1250, 600, 11000, 60, 1100, 8160, 1800, 6800, 1100, 8160, 600, 120, 900, 360, 250, 1250, 250, 500, 2500, 3200, 500, 1200
 J2 = 68580
 log = 2             1250          1250

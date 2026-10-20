@@ -1,14 +1,3 @@
-function onOpen() {
-  SpreadsheetApp.getUi()
-    .createMenu('売上集計')
-    .addItem('金額を計算', 'calcAmounts')
-    .addItem('売上合計を出す', 'sumTotal')
-    .addItem('顧客別に集計', 'sumByCustomer')
-    .addItem('全顧客を集計', 'sumAllCustomers')
-    .addItem('合計（バグあり）', 'sumTotalWithBug')
-    .addToUi();
-}
-
 function calcAmounts() {
   const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('売上');
   const lastRow = sheet.getLastRow();

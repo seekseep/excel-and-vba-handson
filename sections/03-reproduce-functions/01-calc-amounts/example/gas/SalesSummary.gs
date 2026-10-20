@@ -1,10 +1,3 @@
-function onOpen() {
-  SpreadsheetApp.getUi()
-    .createMenu('売上集計')
-    .addItem('金額を計算', 'calcAmounts')
-    .addToUi();
-}
-
 function calcAmounts() {
   const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('売上');
   const lastRow = sheet.getLastRow();
