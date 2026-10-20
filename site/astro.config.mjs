@@ -177,7 +177,13 @@ export default defineConfig({
         { label: '3. Excel関数をVBAで再現しよう', items: [{ autogenerate: { directory: '03-reproduce-functions' } }] },
         { label: '4. VBAだからできること', items: [{ autogenerate: { directory: '04-what-vba-can-do' } }] },
         { label: '5. ボタンひとつで請求書を作ろう', items: [{ autogenerate: { directory: '05-invoice-button' } }] },
-        { label: '過去のハンズオン', link: '/past-handson/' },
+        {
+          label: '付録',
+          items: [
+            { label: '過去のハンズオン', link: '/past-handson/' },
+            { label: 'この資料の作り方', link: '/how-this-was-made/' },
+          ],
+        },
       ],
       editLink: {
         baseUrl: `${repoUrl}/edit/main/`,

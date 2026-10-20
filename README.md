@@ -81,9 +81,10 @@ tabs = 請求書_ひまわり商事 <- 請求書テンプレート
 請求書_ひまわり商事!B9 = 13420
 ::::
 
-## 過去のハンズオン
+## 付録
 
-これまでに作ったハンズオンの一覧は [過去のハンズオン](./sections/PAST-HANDSON.md) にあります。
+- [過去のハンズオン](./sections/PAST-HANDSON.md) … これまでに作ったハンズオンの一覧
+- [この資料の作り方](./sections/HOW-THIS-WAS-MADE.md) … この教材を作るのに使った Claude Code のスキル（genfig と handson-builder）の紹介
 
 ## このリポジトリについて
 
