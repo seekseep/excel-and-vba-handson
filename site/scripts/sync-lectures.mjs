@@ -33,6 +33,7 @@ import {
 import { downloadUrlFor, parseLectureRel, startZipBasenameFor } from './libs/naming.mjs';
 import { DOCS_DIR, PUBLIC_DIR, REPO_SUBDIR, ROOT } from './libs/paths.mjs';
 import { expandSentinels } from './libs/sentinels.mjs';
+import { spreadsheetCopyUrl } from './libs/spreadsheets.mjs';
 
 const MAX_FILE_BYTES = 200 * 1024;
 const PUBLISH_FLAG = 'docs';
@@ -86,25 +87,10 @@ async function resolveStartUrl(sourceDir, base) {
   return `${base}/downloads/${startZipBasenameFor(parsed.sec, parsed.lec)}`;
 }
 
-/**
- * 本文の `./spreadsheet`（サンプルのスプレッドシート）の差し替え先。
- * sections/spreadsheets.json に「<sec>/<lec>: Google ドライブのファイル ID」を書いておくと、
- * そのファイルの「コピーを作成」画面の URL になる。無ければ null。
- */
-let spreadsheets;
+/** 本文の `./spreadsheet`（節を始める状態のサンプルのスプレッドシート）の差し替え先。無ければ null。 */
 async function resolveSpreadsheetUrl(sourceDir) {
   const parsed = parseLectureRel(sourceDir);
-  if (!parsed) return null;
-  if (!spreadsheets) {
-    try {
-      spreadsheets = JSON.parse(await readFile(path.join(ROOT, 'sections', 'spreadsheets.json'), 'utf8'));
-    } catch (e) {
-      if (e.code !== 'ENOENT') throw e;
-      spreadsheets = {};
-    }
-  }
-  const id = spreadsheets[`${parsed.sec}/${parsed.lec}`];
-  return id ? `https://docs.google.com/spreadsheets/d/${id}/copy` : null;
+  return parsed ? spreadsheetCopyUrl(parsed.sec, parsed.lec, 'start') : null;
 }
 
 async function syncFile({

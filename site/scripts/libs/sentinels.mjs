@@ -39,6 +39,7 @@ import { walkFiles } from './fs-walk.mjs';
 import { ROOT } from './paths.mjs';
 import { assetsDownloadUrlFor, downloadUrlFor, previewUrlFor } from './naming.mjs';
 import { expandSheetSentinels } from './sheets.mjs';
+import { spreadsheetCopyUrl } from './spreadsheets.mjs';
 
 const CODEVIEW_RE = /^::codeview(?:\[([^\]]*)\])?(?:\{([^}]*)\})?\s*$/;
 const PREVIEW_RE = /^::preview(?:\[([^\]]*)\])?(?:\{([^}]*)\})?\s*$/;
@@ -97,9 +98,10 @@ function normalizeCodePath(input) {
 /**
  * コードのあるディレクトリから、簡易エディタ UI ブロック（Markdown）を作る。
  * ディレクトリが無い／コードファイルが 1 つも無ければ null。
- * zipUrl は配布 ZIP がある場合だけ渡す（デモには無い）。
+ * zipUrl は配布 ZIP がある場合だけ渡す（デモには無い）。sheetUrl は節を終えた状態のサンプルの
+ * スプレッドシート（Apps Script 入り）の「コピーを作成」URL で、ある節だけ渡す。
  */
-async function buildEditorBlock({ srcAbs, zipUrl, defaultFile, title }) {
+async function buildEditorBlock({ srcAbs, zipUrl, sheetUrl, defaultFile, title }) {
   let all;
   try {
     all = await walkFiles(srcAbs, { ignoreDirs: IGNORE_DIRS, ignoreNames: IGNORE_NAMES });
@@ -112,8 +114,9 @@ async function buildEditorBlock({ srcAbs, zipUrl, defaultFile, title }) {
 
   const out = [];
   const zipAttr = zipUrl ? ` zip="${zipUrl}"` : '';
+  const sheetAttr = sheetUrl ? ` sheet="${sheetUrl}"` : '';
   const openAttr = defaultFile ? ` open="${defaultFile}"` : '';
-  out.push(`::::editor{title="${title}"${zipAttr}${openAttr}}`);
+  out.push(`::::editor{title="${title}"${zipAttr}${sheetAttr}${openAttr}}`);
   for (const rel of codeFiles) {
     const lang = CODE_EXT.get(path.extname(rel).toLowerCase());
     const content = (await readFile(path.join(srcAbs, ...rel.split('/')), 'utf8')).replace(/\n+$/, '');
@@ -217,6 +220,7 @@ export async function expandSentinels(body, { lectureAbsDir, sec, lec, base, whe
         srcAbs: path.join(lectureAbsDir, ...rel.split('/')),
         // 配布 ZIP があるのは example/ だけ（build-downloads.mjs の対象）。
         zipUrl: isExample ? downloadUrlFor(base, sec, lec) : null,
+        sheetUrl: isExample ? await spreadsheetCopyUrl(sec, lec, 'done') : null,
         defaultFile: attrs.defaultFile,
         title: cv[1] ? cv[1].trim() : isExample ? 'このステップの完成例' : 'このデモのコード',
       });

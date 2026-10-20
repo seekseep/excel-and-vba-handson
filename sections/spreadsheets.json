@@ -1,11 +1,47 @@
 {
-  "03-reproduce-functions/01-calc-amounts": "1dKXjfOTeFneVAQqdilwOc8N8HI-var4PlvqJV1de45s",
-  "03-reproduce-functions/02-sum-and-sumif": "1ADWHkZi_WGlfQnwybQgl2RJ3soIybaJ0KvbjfIhipEk",
-  "03-reproduce-functions/03-debugger-intro": "1z-QZaUUQE16eX5DWR6dNH4ugcjYTKyGj-4cBWq3RmTo",
-  "03-reproduce-functions/04-debugging": "1ssaMrkA0wsYOUzuXTzQl3EZTdRSflofPXEPet7Lllt0",
-  "04-what-vba-can-do/01-object-model": "1BnGhXLaJeGeiMHd9iWFpEGPBDKfdoOyaJcqcmK2mL84",
-  "04-what-vba-can-do/02-sheet-operations": "1QqYmQoXO22ixT4b14zZew1omSVm72sn6xNdmKAtiNV0",
-  "05-invoice-button/01-copy-template": "1t53OWA3ODjkKDrMNz_iQcLTNh_FB8RNgvGwpFeYGYEA",
-  "05-invoice-button/02-transfer-details": "1d-eTk3bGMWkxfhb8nbJWnXdDl-lwj9GfEoQAI2RMpsk",
-  "05-invoice-button/03-pdf-and-button": "1DiiD6xPg-QJfV9yn7P2wBNBTCRJ1ytjsWKobGRcUaWY"
+  "03-reproduce-functions/01-calc-amounts": {
+    "start": "1dKXjfOTeFneVAQqdilwOc8N8HI-var4PlvqJV1de45s",
+    "done": "1AXxj7u_DWTfgz-IinbMLlVUM8LmbjH8B04Xl8dBZpnA",
+    "script": "17JgmTX_lRbQZKkStJWe_GtxF7dBJaM4A38C1uPCV36nyWw8Ueb6nlTFe"
+  },
+  "03-reproduce-functions/02-sum-and-sumif": {
+    "start": "1ADWHkZi_WGlfQnwybQgl2RJ3soIybaJ0KvbjfIhipEk",
+    "done": "1geF81VSmJLdp2LGM6gfvxQ7a4kLoVan48OirxWjmhK4",
+    "script": "1BOnOGAbWSlEMqxHGbrbxFiPBGEwnBDKQDqy9T-Dmwo2XQgdfNEaO2Nzm"
+  },
+  "03-reproduce-functions/03-debugger-intro": {
+    "start": "1z-QZaUUQE16eX5DWR6dNH4ugcjYTKyGj-4cBWq3RmTo",
+    "done": "199gQNf68azX2U3EO7vrhv0e75uSMnqK3EQPV39UBlTo",
+    "script": "1jXEyx9OGrCHRAQ6hfMp4eP88x2T1Xl2KxX1bypDxU-38baE6QkRQHvs_"
+  },
+  "03-reproduce-functions/04-debugging": {
+    "start": "1ssaMrkA0wsYOUzuXTzQl3EZTdRSflofPXEPet7Lllt0",
+    "done": "1o7HVEcTTX9ekIgz4Id3JLWlWxI1xwtsaITS4WbZ-j-0",
+    "script": "1Sc7p0yLy4soBDtcooVPpIzapYKqcvgCG72GiMKozwV0M14TZS3tBwdxJ"
+  },
+  "04-what-vba-can-do/01-object-model": {
+    "start": "1BnGhXLaJeGeiMHd9iWFpEGPBDKfdoOyaJcqcmK2mL84",
+    "done": "1vKHomsSJR5J7lL78pw528nX9obYjSWn9rKcLD47V6Q8",
+    "script": "1abbhTksKaKIJQDRvbn7ZmJ4SxOZxExcJdjac68w7_6dLacxP2id5Bori"
+  },
+  "04-what-vba-can-do/02-sheet-operations": {
+    "start": "1QqYmQoXO22ixT4b14zZew1omSVm72sn6xNdmKAtiNV0",
+    "done": "1hFhTgTIQ2CYx7zGFnIzFqoWSkCA7J1u6JXgYFrsjrOA",
+    "script": "14YyB_NJLwPh-AaFf0EWXqXUQxFk8uEi55JaauZRVR-4aKdOgjn3aEPaG"
+  },
+  "05-invoice-button/01-copy-template": {
+    "start": "1t53OWA3ODjkKDrMNz_iQcLTNh_FB8RNgvGwpFeYGYEA",
+    "done": "1VMDIcRsjgeSrdSMMwmLa2tUeIgaSNXPXe8IqZ6Lv_ic",
+    "script": "18DvIbomyk22wrcxJfXKOSP9JoRvqWOhOnjGv0fajs48wtSRV7sLxF8wn"
+  },
+  "05-invoice-button/02-transfer-details": {
+    "start": "1d-eTk3bGMWkxfhb8nbJWnXdDl-lwj9GfEoQAI2RMpsk",
+    "done": "1-DlXu3DlZc3cU7P46qxPpmvD52QsQBAWnKnSt5pyoJY",
+    "script": "15Y6dmFZvALxXvkbKewltNPXmhzn5C7pmAgG0IGdCzx5F50DqKwyc6riQ"
+  },
+  "05-invoice-button/03-pdf-and-button": {
+    "start": "1DiiD6xPg-QJfV9yn7P2wBNBTCRJ1ytjsWKobGRcUaWY",
+    "done": "1-QS0KqPdbnP0weOJxAT3ibHQkMcEYoUkUW0tEoKCTvI",
+    "script": "1-iHod2AlQ2qwNfqfB_XDIMCwJ97XTiM8u26NFNu2z-EHeUDPYaYe9JWO"
+  }
 }

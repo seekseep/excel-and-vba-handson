@@ -131,6 +131,7 @@ export default defineConfig({
         './src/styles/faq.css',
         './src/styles/platform.css',
         './src/styles/sheet.css',
+        './src/styles/gbrowser.css',
       ],
       // テーマ切り替えの左に Excel ／ スプレッドシートの切り替えを置く。
       components: {

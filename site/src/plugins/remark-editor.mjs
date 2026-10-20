@@ -5,6 +5,8 @@
  * 属性:
  *   title … ヘッダの文言（省略時は「このステップの完成例」）
  *   zip   … ZIP ダウンロードボタンのリンク先。省略するとボタンを出さない（デモなど配布物が無い場合）
+ *   sheet … 節を終えた状態のサンプルのスプレッドシート（Apps Script 入り）の「コピーを作成」URL。
+ *           スプレッドシートを選んでいるときだけボタンを出す（sentinels.mjs が spreadsheets.json から渡す）
  *   open  … 最初に開くファイル名（省略時は先頭）
  *
  * コンテナの中身は sync-lectures.mjs（libs/sentinels.mjs）が実ファイルから生成した
@@ -61,6 +63,26 @@ function downloadButton(zipUrl) {
   return singleButton(zipUrl);
 }
 
+/** 完成版のサンプルのスプレッドシートを「コピーを作成」するボタン（新しいタブで開く）。 */
+function sheetButton(sheetUrl) {
+  return {
+    type: 'element',
+    data: {
+      hName: 'a',
+      hProperties: {
+        className: ['download-button', 'platform-only--sheets'],
+        href: sheetUrl,
+        target: '_blank',
+        rel: ['noopener', 'noreferrer'],
+      },
+    },
+    children: [
+      el('span', ['download-button__icon', 'download-button__icon--copy'], [], { 'aria-hidden': 'true' }),
+      el('span', ['download-button__label'], [text('完成版のスプレッドシートをコピー')]),
+    ],
+  };
+}
+
 function singleButton(zipUrl, extraClass) {
   return {
     type: 'element',
@@ -112,7 +134,10 @@ export default function remarkEditor() {
       );
 
       const headerChildren = [el('span', ['editor__title'], [text(attrs.title || DEFAULT_TITLE)])];
-      if (zipUrl) headerChildren.push(downloadButton(zipUrl));
+      const actions = [];
+      if (attrs.sheet) actions.push(sheetButton(attrs.sheet));
+      if (zipUrl) actions.push(downloadButton(zipUrl));
+      if (actions.length > 0) headerChildren.push(el('span', ['editor__actions'], actions));
 
       const header = el('div', ['editor__header'], headerChildren);
       const body = el('div', ['editor__body'], [

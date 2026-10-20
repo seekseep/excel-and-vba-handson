@@ -44,7 +44,7 @@
  * 装飾は site/src/styles/sheet.css。
  */
 
-import { readFile } from 'node:fs/promises';
+import { readdir, readFile } from 'node:fs/promises';
 import path from 'node:path';
 
 export const SHEETDEMO_OPEN_RE = /^::::sheetdemo(?:\[([^\]]*)\])?(?:\{([^}]*)\})?\s*$/;
@@ -536,10 +536,19 @@ const BEFORE_RE = /^\s*before\s+(.*)$/i;
 const TABS_RE = /^\s*tabs\s*=\s*(.*)$/i;
 
 /** 実行で出すログ（VBA は Debug.Print のイミディエイト ウィンドウ、GAS は console.log の実行ログ）。 */
-function logHtml(log) {
+function logHtml(log, { excelOnly = false } = {}) {
   const lines = (arr) => arr.map((l) => `<span class="sheetdemo__log-line">${escapeHtml(l)}</span>`).join('');
   const excel = log.excel.length ? log.excel : log.sheets;
   const sheets = log.sheets.length ? log.sheets : log.excel;
+  // スプレッドシートのログは、ブラウザ枠のエディタの実行ログに出す。
+  if (excelOnly) {
+    return (
+      `<div class="sheetdemo__log sheet__only--excel" hidden>` +
+      `<div class="sheetdemo__log-title">イミディエイト</div>` +
+      `<div class="sheetdemo__log-body">${lines(excel)}</div>` +
+      `</div>`
+    );
+  }
   return (
     `<div class="sheetdemo__log" hidden>` +
     `<div class="sheetdemo__log-title"><span class="sheet__only--excel">イミディエイト</span><span class="sheet__only--sheets">実行ログ</span></div>` +
@@ -566,6 +575,36 @@ function dialogHtml(msg) {
     `</div>` +
     `</div>`
   );
+}
+
+// ---- Excel のリボン（::::sheetdemo の macro 属性） ----
+
+// リボンのボタンのアイコン（色は currentColor）。形は Excel のものに似せた簡単な線画。
+const svg = (body) =>
+  `<svg class="sheet__ribbon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${body}</svg>`;
+const RIBBON_ICONS = {
+  vb: svg('<rect x="3" y="4" width="18" height="16" rx="1.5"/><path d="M9 9l-3 3 3 3M15 9l3 3-3 3"/>'),
+  macro: svg('<rect x="3" y="4" width="18" height="16" rx="1.5"/><path d="M7 9h6M7 13h6M7 17h4"/><path d="M16 12l3 2-3 2z" fill="currentColor"/>'),
+  addin: svg('<path d="M10 4h4v3a2 2 0 1 0 0 4v3h-3a2 2 0 1 0-4 0H4v-4a2 2 0 1 0 0-4V4z"/>'),
+  insert: svg('<rect x="3" y="7" width="12" height="9" rx="1"/><path d="M18 5v6M15 8h6"/>'),
+  design: svg('<path d="M4 20l4-1 11-11-3-3L5 16z"/><path d="M14 6l3 3"/>'),
+  paste: svg('<rect x="5" y="5" width="12" height="15" rx="1.5"/><path d="M9 3h4v4H9z"/>'),
+  style: svg('<rect x="3" y="5" width="18" height="14" rx="1"/><path d="M3 10h18M9 5v14"/>'),
+};
+
+/** 大きいボタン（アイコンの下に文字）。このデモでは押せない。 */
+function ribbonBig(icon, label) {
+  return `<span class="sheet__ribbon-big is-disabled">${RIBBON_ICONS[icon]}<span>${escapeHtml(label)}</span></span>`;
+}
+
+/** 小さいボタンを縦に並べた列。このデモでは押せない。 */
+function ribbonSmall(labels) {
+  return `<span class="sheet__ribbon-small">${labels.map((t) => `<span class="is-disabled">${escapeHtml(t)}</span>`).join('')}</span>`;
+}
+
+/** リボンのグループ（ボタンの並びと、その下のグループ名）。 */
+function ribbonGroup(name, body) {
+  return `<span class="sheet__ribbon-group"><span class="sheet__ribbon-group-body">${body}</span><span class="sheet__ribbon-group-name">${escapeHtml(name)}</span></span>`;
 }
 
 export async function buildSheetDemo({ caption, attrs, lines, lectureAbsDir, where }) {
@@ -626,17 +665,28 @@ export async function buildSheetDemo({ caption, attrs, lines, lectureAbsDir, whe
   const ribbon = useMacro
     ? `<div class="sheet__ribbon sheet__only--excel">` +
       `<div class="sheet__ribbon-tabs">` +
-      ['ファイル', 'ホーム', '挿入', 'ページ レイアウト', '数式', 'データ', '校閲', '表示']
+      ['ファイル', 'ホーム', '挿入', '描画', 'ページ レイアウト', '数式', 'データ', '校閲', '表示']
         .map((t) => `<span${t === 'ホーム' ? ' class="is-active sheetdemo__home-tab"' : ''}>${t}</span>`)
         .join('') +
       `<button type="button" class="sheetdemo__dev-tab is-guide">開発</button>` +
+      `<span>ヘルプ</span>` +
       `</div>` +
       `<div class="sheet__ribbon-body sheetdemo__home-body">` +
-      ['貼り付け', 'フォント', '配置', '数値', 'スタイル'].map((t) => `<span class="sheet__ribbon-btn is-disabled">${t}</span>`).join('') +
+      ribbonGroup('クリップボード', ribbonBig('paste', '貼り付け')) +
+      ribbonGroup('フォント', ribbonSmall(['游ゴシック', 'B I U'])) +
+      ribbonGroup('配置', ribbonSmall(['左揃え', '中央揃え'])) +
+      ribbonGroup('数値', ribbonSmall(['標準', '% ,'])) +
+      ribbonGroup('スタイル', ribbonBig('style', 'セルのスタイル')) +
       `</div>` +
       `<div class="sheet__ribbon-body sheetdemo__dev-body" hidden>` +
-      `<span class="sheet__ribbon-btn is-disabled">Visual Basic</span>` +
-      `<button type="button" class="sheet__ribbon-btn sheetdemo__macro-open">マクロ</button>` +
+      ribbonGroup(
+        'コード',
+        ribbonBig('vb', 'Visual Basic') +
+          `<button type="button" class="sheet__ribbon-big sheetdemo__macro-open">${RIBBON_ICONS.macro}<span>マクロ</span></button>` +
+          ribbonSmall(['マクロの記録', '相対参照で記録', 'マクロのセキュリティ']),
+      ) +
+      ribbonGroup('アドイン', ribbonBig('addin', 'アドイン') + ribbonBig('addin', 'Excel アドイン')) +
+      ribbonGroup('コントロール', ribbonBig('insert', '挿入') + ribbonBig('design', 'デザイン モード') + ribbonSmall(['プロパティ', 'コードの表示'])) +
       `</div>` +
       `</div>`
     : '';
@@ -665,38 +715,53 @@ export async function buildSheetDemo({ caption, attrs, lines, lectureAbsDir, whe
       `</ol>`;
   }
   // 独自メニューがあるときは、スプレッドシートではメニューから動かすのでエディタは出さない。
-  if (useMacro && !hasMenu) {
-    // スプレッドシート: 本文の手順（Apps Script エディタで関数を選んで実行）どおり、
-    // シートの上にエディタの画面を描く。小窓はシート側に出る。
-    const gasOptions = names
-      .map((n) => `<option value="${escapeHtml(n)}">${escapeHtml(gasNameOf(n))}</option>`)
-      .join('');
-    gasEditor =
-      `<div class="sheetdemo__gas-editor sheet__only--sheets">` +
-      `<div class="sheetdemo__gas-titlebar"><span class="sheetdemo__gas-logo"></span>Apps Script<span class="sheetdemo__gas-project">無題のプロジェクト</span></div>` +
-      `<div class="sheetdemo__gas-toolbar">` +
-      `<button type="button" class="sheetdemo__gas-run">▶ 実行</button>` +
-      `<span class="sheetdemo__gas-debug">デバッグ</span>` +
-      `<select class="sheetdemo__gas-select" aria-label="実行する関数">${gasOptions}</select>` +
-      `</div>` +
-      `</div>`;
+  // それ以外は、本物と同じく「スプレッドシート」と「Apps Script エディタ」の 2 つのブラウザタブを描き、
+  // エディタのタブで実行 → スプレッドシートのタブで結果を見る、の流れをなぞれるようにする。
+  const useBrowser = useMacro && !hasMenu;
+  if (useBrowser) {
+    const gas = await findGasFile(lectureDirFor(attrs, lectureAbsDir), gasNameOf(attrs.macro));
+    if (!gas) console.warn(`[sheets] ::::sheetdemo: function ${gasNameOf(attrs.macro)} not found in gas/*.gs (${where})`);
+    guide +=
+      `<ol class="sheetdemo__guide sheetdemo__guide--sheets sheet__only--sheets" aria-label="スプレッドシートでの動かし方">` +
+      `<li data-step="select" class="is-current">Apps Script のタブで「${escapeHtml(gasNameOf(attrs.macro))}」を選ぶ</li>` +
+      `<li data-step="run">「▶ 実行」</li>` +
+      `<li data-step="look">スプレッドシートのタブで結果を見る</li>` +
+      `</ol>`;
+    gasEditor = gasEditorHtml(gas, names, log);
   }
   if (useMacro) {
-    const items = names
+    // Excel の「マクロ」ダイアログ（Windows 版）と同じ並び。一覧は名前順で、開くと先頭が選ばれている。
+    // 実行とキャンセル以外のボタンはこのデモでは使わないので、押せない状態で描く。
+    const items = [...names]
+      .sort((a, b) => a.localeCompare(b, 'en'))
       .map((n) => `<li><button type="button" class="sheetdemo__macro-item" data-name="${escapeHtml(n)}">${escapeHtml(n)}</button></li>`)
+      .join('');
+    const unused = ['ステップ イン(S)', '編集(E)', '作成(C)', '削除(D)', 'オプション(O)...']
+      .map((t) => `<button type="button" disabled title="このデモでは使えません">${t}</button>`)
       .join('');
     picker =
       `<div class="sheetdemo__macros" hidden>` +
       `<div class="sheetdemo__macros-box" role="dialog" aria-label="マクロ">` +
-      `<div class="sheetdemo__dialog-title">マクロ</div>` +
+      `<div class="sheetdemo__macros-titlebar"><span>マクロ</span>` +
+      `<span class="sheetdemo__macros-help" aria-hidden="true">?</span>` +
+      `<button type="button" class="sheetdemo__macros-close sheetdemo__macros-cancel" aria-label="閉じる">×</button></div>` +
       `<div class="sheetdemo__macros-body">` +
-      `<div class="sheetdemo__macros-label">マクロ名:</div>` +
-      `<ul class="sheetdemo__macros-list">${items}</ul>` +
-      `<p class="sheetdemo__macros-error" role="alert" hidden>マクロを選んでください</p>` +
-      `<div class="sheetdemo__macros-actions">` +
-      `<button type="button" class="sheetdemo__macros-run">実行</button>` +
-      `<button type="button" class="sheetdemo__macros-cancel">キャンセル</button>` +
+      `<div class="sheetdemo__macros-main">` +
+      `<label class="sheetdemo__macros-label">マクロ名(M):` +
+      `<input type="text" class="sheetdemo__macros-name" autocomplete="off" spellcheck="false"></label>` +
+      `<ul class="sheetdemo__macros-list" role="listbox">${items}</ul>` +
       `</div>` +
+      `<div class="sheetdemo__macros-actions">` +
+      `<button type="button" class="sheetdemo__macros-run">実行(R)</button>` +
+      unused +
+      `</div>` +
+      `<div class="sheetdemo__macros-footer">` +
+      `<label class="sheetdemo__macros-where">マクロの保存先(A):` +
+      `<select disabled><option>開いているすべてのブック</option></select></label>` +
+      `<div class="sheetdemo__macros-desc-label">説明</div>` +
+      `<div class="sheetdemo__macros-desc"></div>` +
+      `</div>` +
+      `<button type="button" class="sheetdemo__macros-cancel sheetdemo__macros-cancel-btn">キャンセル</button>` +
       `</div>` +
       `</div>` +
       `</div>`;
@@ -711,10 +776,180 @@ export async function buildSheetDemo({ caption, attrs, lines, lectureAbsDir, whe
       `</div>`;
   }
   const dialog = hasMsg ? dialogHtml(msg) : '';
-  const logPanel = hasLog ? logHtml(log) : '';
+  const logPanel = hasLog ? logHtml(log, { excelOnly: useBrowser }) : '';
   // openTab="added" … 実行後に、増えたシートを選んだ状態にする（シートをコピーしたまま終わるマクロ）。
   const openAdded = attrs.openTab === 'added' ? ' data-open-added' : '';
-  return `<figure class="sheetdemo not-content"${openAdded}>${buttons}${guide}${gasEditor}<div class="sheetdemo__stage">${html}${picker}${dialog}</div>${logPanel}${cap}</figure>`;
+  const stage = `<div class="sheetdemo__stage">${html}${picker}${dialog}</div>`;
+  const body = useBrowser ? browserHtml(gasEditor, stage, sheetTitleOf(attrs)) : stage;
+  return `<figure class="sheetdemo not-content"${openAdded}>${buttons}${guide}${body}${logPanel}${cap}</figure>`;
+}
+
+// ---- スプレッドシート表示のブラウザ枠（::::sheetdemo{macro=...}） ----
+
+/** example/gas/*.gs から `function <name>(` を含むファイルを探す。{ file, src } か null。 */
+async function findGasFile(dir, name) {
+  if (!dir) return null;
+  const gasDir = path.join(dir, 'example', 'gas');
+  let files;
+  try {
+    files = (await readdir(gasDir)).filter((f) => f.endsWith('.gs')).sort();
+  } catch (e) {
+    if (e.code === 'ENOENT') return null;
+    throw e;
+  }
+  const start = new RegExp(`^function ${escapeRe(name)}\\s*\\(`, 'm');
+  for (const file of files) {
+    const src = await readCode(path.join(gasDir, file));
+    if (src && start.test(src)) return { file, src };
+  }
+  return null;
+}
+
+// コードの色分けは、読み比べに足りる程度の簡単なもの（キーワード・文字列・コメント・数値）。
+const GAS_TOKEN_RE =
+  /(\/\/.*$)|('(?:[^'\\]|\\.)*'|"(?:[^"\\]|\\.)*"|`(?:[^`\\]|\\.)*`)|\b(function|const|let|var|for|if|else|return|new|true|false|null|of|in|while)\b|\b(\d+(?:\.\d+)?)\b/g;
+
+function highlightGas(line) {
+  let out = '';
+  let last = 0;
+  for (const m of line.matchAll(GAS_TOKEN_RE)) {
+    out += escapeHtml(line.slice(last, m.index));
+    const cls = m[1] ? 'comment' : m[2] ? 'string' : m[3] ? 'keyword' : 'number';
+    out += `<span class="gbrowser__tok--${cls}">${escapeHtml(m[0])}</span>`;
+    last = m.index + m[0].length;
+  }
+  return out + escapeHtml(line.slice(last));
+}
+
+// Material Symbols 風の線画（塗りは currentColor）。
+const gIcon = (d) => `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${d}"/></svg>`;
+const G_ICONS = {
+  info: 'M11 7h2v2h-2zm0 4h2v6h-2zm1-9a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16z',
+  code: 'M9.4 16.6 4.8 12l4.6-4.6L8 6l-6 6 6 6zm5.2 0 4.6-4.6-4.6-4.6L16 6l6 6-6 6z',
+  history: 'M13 3a9 9 0 0 0-9 9H1l4 4 4-4H6a7 7 0 1 1 2.05 4.95l-1.42 1.42A9 9 0 1 0 13 3zm-1 5v5l4.25 2.52.77-1.28-3.52-2.09V8z',
+  alarm: 'M12 4a8 8 0 1 0 0 16 8 8 0 0 0 0-16zm0 14a6 6 0 1 1 0-12 6 6 0 0 1 0 12zm.5-10H11v5l4.2 2.5.8-1.2-3.5-2.1z',
+  list: 'M3 13h2v-2H3zm0 4h2v-2H3zm0-8h2V7H3zm4 4h14v-2H7zm0 4h14v-2H7zM7 7v2h14V7z',
+  settings:
+    'M19.4 13a7.5 7.5 0 0 0 0-2l2.1-1.6-2-3.5-2.5 1a7 7 0 0 0-1.7-1L15 3h-4l-.4 2.7a7 7 0 0 0-1.7 1l-2.5-1-2 3.5L6.6 11a7.5 7.5 0 0 0 0 2l-2.1 1.6 2 3.5 2.5-1a7 7 0 0 0 1.7 1L11 21h4l.4-2.7a7 7 0 0 0 1.7-1l2.5 1 2-3.5zM13 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z',
+  undo: 'M12.5 8a9.5 9.5 0 0 0-6.2 2.3L3 7v9h9l-3.6-3.6A7 7 0 0 1 20 15.5l2.4-.8A9.5 9.5 0 0 0 12.5 8z',
+  redo: 'M18.4 10.6A9.5 9.5 0 0 0 1.6 14.7l2.4.8A7 7 0 0 1 15.6 12.4L12 16h9V7z',
+  play: 'M8 5v14l11-7z',
+  debug: 'M12 4a8 8 0 1 0 0 16 8 8 0 0 0 0-16zm-2 11.5v-7l6 3.5z',
+  back: 'M20 11H7.8l5.6-5.6L12 4l-8 8 8 8 1.4-1.4L7.8 13H20z',
+  forward: 'M4 13h12.2l-5.6 5.6L12 20l8-8-8-8-1.4 1.4 5.6 5.6H4z',
+  reload: 'M17.6 6.4A8 8 0 1 0 19.7 14h-2.1a6 6 0 1 1-1.4-6.2L13 11h7V4z',
+};
+
+/**
+ * Apps Script エディタのタブの中身。関数の選択欄は本物と同じくファイルにある関数を上から並べ、
+ * 先頭の関数を選んだ状態で始める（デモの関数を自分で選ぶ手順を残すため）。
+ * `log.sheets`（無ければ log）は実行ログの「情報」の行として埋めておき、実行すると出す。
+ */
+function gasEditorHtml(gas, names, log) {
+  const fns = gas ? [...gas.src.matchAll(/^function (\w+)\s*\(/gm)].map((m) => m[1]) : names.map(gasNameOf);
+  const options = fns.map((n) => `<option value="${escapeHtml(n)}">${escapeHtml(n)}</option>`).join('');
+  const code = gas
+    ? gas.src
+        .split('\n')
+        .map((l, i) => {
+          const fn = l.match(/^function (\w+)\s*\(/)?.[1];
+          return (
+            `<div class="gbrowser__code-line"${fn ? ` data-function="${escapeHtml(fn)}"` : ''}>` +
+            `<span class="gbrowser__code-no">${i + 1}</span><span class="gbrowser__code-text">${highlightGas(l) || ' '}</span></div>`
+          );
+        })
+        .join('')
+    : '';
+  const info = log.sheets.length ? log.sheets : log.excel;
+  const infoRows = info
+    .map(
+      (l) =>
+        `<div class="gbrowser__log-row gbrowser__log-row--info" hidden><span class="gbrowser__log-time"></span>` +
+        `<span class="gbrowser__log-kind">情報</span><span class="gbrowser__log-text">${escapeHtml(l)}</span></div>`,
+    )
+    .join('');
+  const rail = ['info', 'code', 'history', 'alarm', 'list', 'settings']
+    .map((k) => `<span class="gbrowser__rail-icon${k === 'code' ? ' is-active' : ''}">${gIcon(G_ICONS[k])}</span>`)
+    .join('');
+  const file = gas?.file ?? 'コード.gs';
+  return (
+    `<div class="gbrowser__editor sheet__only--sheets">` +
+    `<div class="gbrowser__app-bar"><span class="gbrowser__app-logo" aria-hidden="true"></span>` +
+    `<span class="gbrowser__app-name">Apps Script</span><span class="gbrowser__project">無題のプロジェクト</span>` +
+    `<span class="gbrowser__deploy" aria-hidden="true">デプロイ</span></div>` +
+    `<div class="gbrowser__workspace">` +
+    `<div class="gbrowser__rail" aria-hidden="true">${rail}</div>` +
+    `<div class="gbrowser__files" aria-hidden="true">` +
+    `<div class="gbrowser__files-head">ファイル<span>＋</span></div>` +
+    `<div class="gbrowser__file is-active">${escapeHtml(file)}</div>` +
+    `<div class="gbrowser__files-head">ライブラリ<span>＋</span></div>` +
+    `<div class="gbrowser__files-head">サービス<span>＋</span></div>` +
+    `</div>` +
+    `<div class="gbrowser__main">` +
+    `<div class="gbrowser__toolbar">` +
+    `<span class="gbrowser__tool" aria-hidden="true">${gIcon(G_ICONS.undo)}</span>` +
+    `<span class="gbrowser__tool" aria-hidden="true">${gIcon(G_ICONS.redo)}</span>` +
+    `<span class="gbrowser__tool-sep" aria-hidden="true"></span>` +
+    `<button type="button" class="sheetdemo__gas-run gbrowser__btn">${gIcon(G_ICONS.play)}実行</button>` +
+    `<span class="gbrowser__btn is-disabled" aria-hidden="true">${gIcon(G_ICONS.debug)}デバッグ</span>` +
+    `<select class="sheetdemo__gas-select" aria-label="実行する関数">${options}</select>` +
+    `<span class="gbrowser__tool-sep" aria-hidden="true"></span>` +
+    `<span class="gbrowser__log-toggle" aria-hidden="true">実行ログ</span>` +
+    `</div>` +
+    `<div class="gbrowser__code" tabindex="0" role="region" aria-label="${escapeHtml(file)}">${code}</div>` +
+    `<div class="gbrowser__log" hidden>` +
+    `<div class="gbrowser__log-head">実行ログ</div>` +
+    `<div class="gbrowser__log-body" role="log">${infoRows}</div>` +
+    `<p class="gbrowser__notice" hidden>結果はスプレッドシートのタブに出ています。上のタブを押して切り替えましょう</p>` +
+    `</div>` +
+    `</div>` +
+    `</div>` +
+    `</div>`
+  );
+}
+
+/** ブラウザのタブに出すスプレッドシートの名前（ブックは拡張子なし、空白のブックは「無題のスプレッドシート」）。 */
+function sheetTitleOf(attrs) {
+  if (!attrs.book) return '無題のスプレッドシート';
+  return path.basename(String(attrs.book)).replace(/\.[^.]+$/, '');
+}
+
+/**
+ * 2 つのタブを持つブラウザの枠。Excel 表示では枠もエディタも隠し、シート（stage）だけを出す。
+ * どちらのタブを出すかは .gbrowser の data-pane（sheet-client.js が切り替える）。
+ */
+function browserHtml(editor, stage, sheetTitle) {
+  const tab = (pane, cls, title, active) =>
+    `<button type="button" class="gbrowser__tab${active ? ' is-active' : ''}" data-pane="${pane}" aria-pressed="${active}" title="${escapeHtml(title)}">` +
+    `<span class="gbrowser__favicon gbrowser__favicon--${cls}" aria-hidden="true"></span>` +
+    `<span class="gbrowser__tab-title">${escapeHtml(title)}</span>` +
+    `<span class="gbrowser__tab-close" aria-hidden="true">×</span>` +
+    `</button>`;
+  return (
+    `<div class="gbrowser" data-pane="editor">` +
+    `<div class="gbrowser__chrome sheet__only--sheets">` +
+    `<div class="gbrowser__tabbar">` +
+    `<span class="gbrowser__lights" aria-hidden="true"><i></i><i></i><i></i></span>` +
+    `<div class="gbrowser__tabs" role="group" aria-label="ブラウザのタブ">` +
+    tab('sheet', 'sheets', `${sheetTitle} - Google スプレッドシート`, false) +
+    tab('editor', 'gas', '無題のプロジェクト - プロジェクト エディタ - Apps Script', true) +
+    `<span class="gbrowser__newtab" aria-hidden="true">＋</span>` +
+    `</div>` +
+    `</div>` +
+    `<div class="gbrowser__navbar" aria-hidden="true">` +
+    `<span class="gbrowser__nav">${gIcon(G_ICONS.back)}</span>` +
+    `<span class="gbrowser__nav">${gIcon(G_ICONS.forward)}</span>` +
+    `<span class="gbrowser__nav">${gIcon(G_ICONS.reload)}</span>` +
+    `<span class="gbrowser__address">` +
+    `<span class="gbrowser__url gbrowser__url--sheet">docs.google.com/spreadsheets/d/1iE7bAHRi88Xa…/edit#gid=0</span>` +
+    `<span class="gbrowser__url gbrowser__url--editor">script.google.com/home/projects/14yNSgNByn…/edit</span>` +
+    `</span>` +
+    `</div>` +
+    `</div>` +
+    editor +
+    stage +
+    `</div>`
+  );
 }
 
 // ---- ::sheetcode ----

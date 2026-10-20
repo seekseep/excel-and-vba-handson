@@ -1,0 +1,611 @@
+/* `::::sheetdemo{macro=...}` のスプレッドシート表示を包むブラウザの枠（libs/sheets.mjs の browserHtml）。
+   「スプレッドシート」と「Apps Script エディタ」の 2 つのタブを持ち、エディタで実行 → スプレッドシートで
+   結果を見る、の行き来をそのまま見せる。どちらのタブを出すかは .gbrowser[data-pane]（sheet-client.js）。
+   Excel 表示では枠もエディタも隠れ（sheet__only--sheets）、中のシートだけが今までどおり出る。
+   本物の画面に合わせ、ダークモードでも中身は明るい色のままにする。 */
+
+:root[data-platform='sheets'] .gbrowser {
+  --g-blue: #0b57d0;
+  --g-text: #1f1f1f;
+  --g-sub: #444746;
+  --g-line: #dadce0;
+  --g-surface: #f8fafd;
+  --g-font: 'Google Sans', Roboto, Arial, 'Hiragino Sans', 'Noto Sans JP', system-ui, sans-serif;
+  --g-mono: 'Roboto Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  overflow: hidden;
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 12px;
+  background: #fff;
+  color: var(--g-text);
+  color-scheme: light;
+  font-family: var(--g-font);
+  font-size: 13px;
+  line-height: 1.4;
+  box-shadow: 0 2px 10px rgb(0 0 0 / 0.08);
+}
+
+/* エディタのタブを開いているときはシートを隠し、シートのタブではエディタを隠す。 */
+:root[data-platform='sheets'] .gbrowser[data-pane='editor'] > .sheetdemo__stage,
+.gbrowser[data-pane='sheet'] > .gbrowser__editor {
+  display: none;
+}
+
+/* 枠の中のシートは、枠と二重にならないよう縁を消す。 */
+:root[data-platform='sheets'] .gbrowser .sheet {
+  border: 0;
+  border-radius: 0;
+}
+
+/* ---- タブの並び（Chrome 風） ---- */
+
+.gbrowser__tabbar {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.6rem;
+  padding: 0.45rem 0.6rem 0;
+  background: #dfe3e8;
+}
+
+.gbrowser__lights {
+  display: flex;
+  flex: none;
+  gap: 6px;
+  align-self: center;
+  padding-bottom: 0.4rem;
+}
+
+.gbrowser__lights i {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #ff5f57;
+}
+
+.gbrowser__lights i:nth-child(2) {
+  background: #febc2e;
+}
+
+.gbrowser__lights i:nth-child(3) {
+  background: #28c840;
+}
+
+.gbrowser__tabs {
+  display: flex;
+  flex: 1;
+  align-items: flex-end;
+  min-width: 0;
+  gap: 2px;
+}
+
+.gbrowser__tab {
+  position: relative;
+  display: flex;
+  flex: 0 1 15rem;
+  align-items: center;
+  gap: 0.45rem;
+  min-width: 0;
+  height: 2.1rem;
+  padding: 0 0.6rem;
+  border: 0;
+  border-radius: 9px 9px 0 0;
+  background: transparent;
+  color: var(--g-sub);
+  font: inherit;
+  font-size: 12px;
+  text-align: start;
+  cursor: pointer;
+}
+
+.gbrowser__tab:hover:not(.is-active) {
+  background: rgb(255 255 255 / 0.45);
+}
+
+.gbrowser__tab.is-active {
+  background: #fff;
+  color: var(--g-text);
+}
+
+/* 選んでいないタブどうしの区切り線。 */
+.gbrowser__tab:not(.is-active) + .gbrowser__tab:not(.is-active)::before {
+  content: '';
+  position: absolute;
+  top: 25%;
+  bottom: 25%;
+  left: -1px;
+  width: 1px;
+  background: #9aa0a6;
+}
+
+.gbrowser__tab:focus-visible {
+  outline: 2px solid var(--g-blue);
+  outline-offset: -2px;
+}
+
+.gbrowser__tab-title {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.gbrowser__tab-close {
+  flex: none;
+  color: #5f6368;
+  font-size: 14px;
+}
+
+.gbrowser__newtab {
+  align-self: center;
+  padding: 0 0.4rem 0.35rem;
+  color: #5f6368;
+  font-size: 15px;
+}
+
+/* ファビコン。スプレッドシートは緑の表、Apps Script は 4 色の印（どちらも簡略化した形）。 */
+.gbrowser__favicon {
+  flex: none;
+  width: 14px;
+  height: 14px;
+}
+
+.gbrowser__favicon--sheets {
+  border-radius: 2px;
+  background:
+    linear-gradient(#fff, #fff) 3px 5px / 8px 1.5px no-repeat,
+    linear-gradient(#fff, #fff) 3px 8px / 8px 1.5px no-repeat,
+    linear-gradient(#fff, #fff) 6px 5px / 1.5px 6px no-repeat,
+    #0f9d58;
+}
+
+.gbrowser__favicon--gas,
+.gbrowser__app-logo {
+  border-radius: 50%;
+  background: conic-gradient(#4285f4 0 25%, #ea4335 0 50%, #fbbc04 0 75%, #34a853 0);
+  -webkit-mask: radial-gradient(circle, transparent 28%, #000 30%);
+  mask: radial-gradient(circle, transparent 28%, #000 30%);
+}
+
+/* ---- アドレスバー ---- */
+
+.gbrowser__navbar {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.3rem 0.6rem;
+  border-bottom: 1px solid var(--g-line);
+  background: #fff;
+  color: #5f6368;
+}
+
+.gbrowser__nav {
+  display: inline-flex;
+  flex: none;
+}
+
+.gbrowser svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
+.gbrowser__address {
+  flex: 1;
+  min-width: 0;
+  margin-inline-start: 0.4rem;
+  padding: 0.3rem 0.9rem;
+  border-radius: 999px;
+  background: #f1f3f4;
+  color: var(--g-sub);
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.gbrowser[data-pane='editor'] .gbrowser__url--sheet,
+.gbrowser[data-pane='sheet'] .gbrowser__url--editor {
+  display: none;
+}
+
+/* ---- Apps Script エディタ ---- */
+
+.gbrowser__app-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 0.9rem;
+  border-bottom: 1px solid var(--g-line);
+}
+
+.gbrowser__app-logo {
+  flex: none;
+  width: 22px;
+  height: 22px;
+}
+
+.gbrowser__app-name {
+  font-size: 16px;
+  color: var(--g-sub);
+}
+
+.gbrowser__project {
+  min-width: 0;
+  margin-inline-start: 0.6rem;
+  overflow: hidden;
+  font-size: 16px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.gbrowser__deploy {
+  flex: none;
+  margin-inline-start: auto;
+  padding: 0.35rem 1rem;
+  border-radius: 6px;
+  background: var(--g-blue);
+  color: #fff;
+  font-weight: 500;
+}
+
+.gbrowser__workspace {
+  display: grid;
+  grid-template-columns: 44px 11rem minmax(0, 1fr);
+  min-height: 15rem;
+}
+
+.gbrowser__rail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  padding-top: 0.5rem;
+  color: var(--g-sub);
+}
+
+.gbrowser__rail-icon {
+  display: inline-flex;
+  padding: 0.3rem;
+  border-radius: 50%;
+}
+
+.gbrowser__rail-icon.is-active {
+  background: #d3e3fd;
+  color: #041e49;
+}
+
+.gbrowser__files {
+  border-inline-end: 1px solid var(--g-line);
+  color: var(--g-sub);
+}
+
+.gbrowser__files-head {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.55rem 0.8rem;
+  border-bottom: 1px solid var(--g-line);
+  font-weight: 500;
+}
+
+.gbrowser__file {
+  padding: 0.45rem 0.8rem;
+  border-bottom: 1px solid var(--g-line);
+}
+
+.gbrowser__file.is-active {
+  background: #e8f0fe;
+  color: var(--g-blue);
+}
+
+.gbrowser__main {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.gbrowser__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.3rem 0.6rem;
+  border-bottom: 1px solid var(--g-line);
+  color: var(--g-sub);
+}
+
+.gbrowser__tool {
+  display: inline-flex;
+  padding: 0.2rem;
+  color: #9aa0a6;
+}
+
+.gbrowser__tool-sep {
+  width: 1px;
+  height: 1.2rem;
+  margin: 0 0.25rem;
+  background: var(--g-line);
+}
+
+.gbrowser__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.3rem 0.7rem 0.3rem 0.45rem;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  color: var(--g-sub);
+  font: inherit;
+  cursor: pointer;
+}
+
+button.gbrowser__btn:hover:not(:disabled) {
+  background: #f1f3f4;
+}
+
+.gbrowser__btn.is-disabled,
+button.gbrowser__btn:disabled {
+  color: #9aa0a6;
+  cursor: default;
+}
+
+.gbrowser .sheetdemo__gas-select {
+  max-width: 11rem;
+  padding: 0.3rem 0.5rem;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  color: var(--g-text);
+  font: inherit;
+  cursor: pointer;
+}
+
+.gbrowser .sheetdemo__gas-select:hover {
+  background: #f1f3f4;
+}
+
+.gbrowser__log-toggle {
+  padding: 0.25rem 0.7rem;
+  border-radius: 6px;
+  background: #d3e3fd;
+  color: #041e49;
+}
+
+/* 次に押すところ（スプレッドシートの手順）。Excel の is-guide と同じ見た目。 */
+.gbrowser .is-gguide {
+  outline: 2px solid #f0a020;
+  outline-offset: 1px;
+  animation: sheetdemo-guide 1.4s ease-in-out infinite;
+}
+
+.gbrowser .gbrowser__tab.is-gguide {
+  outline-offset: -2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gbrowser .is-gguide {
+    animation: none;
+  }
+}
+
+.gbrowser__code {
+  flex: 1;
+  max-height: 18rem;
+  padding: 0.5rem 0;
+  overflow: auto;
+  background: #fff;
+  font-family: var(--g-mono);
+  font-size: 12.5px;
+  line-height: 1.6;
+}
+
+.gbrowser__code-line {
+  display: flex;
+  min-width: max-content;
+}
+
+.gbrowser__code-line.is-current {
+  background: #f1f6fe;
+}
+
+.gbrowser__code-no {
+  flex: none;
+  width: 3em;
+  padding-inline-end: 1.2em;
+  color: #9aa0a6;
+  text-align: end;
+  user-select: none;
+}
+
+.gbrowser__code-text {
+  padding-inline-end: 1rem;
+  white-space: pre;
+}
+
+.gbrowser__tok--keyword {
+  color: #1a4fc4;
+}
+
+.gbrowser__tok--string {
+  color: #a31515;
+}
+
+.gbrowser__tok--comment {
+  color: #188038;
+}
+
+.gbrowser__tok--number {
+  color: #098658;
+}
+
+/* 実行ログ（コードの下に開く欄）。 */
+.gbrowser__log {
+  border-top: 1px solid var(--g-line);
+  background: #fff;
+}
+
+.gbrowser__log[hidden],
+.gbrowser__log-row[hidden],
+.gbrowser__notice[hidden] {
+  display: none;
+}
+
+.gbrowser__log-head {
+  padding: 0.45rem 0.9rem;
+  border-bottom: 1px solid var(--g-line);
+  font-weight: 500;
+}
+
+.gbrowser__log-body {
+  max-height: 11rem;
+  overflow: auto;
+  font-family: var(--g-mono);
+  font-size: 12px;
+}
+
+.gbrowser__log-row {
+  display: grid;
+  grid-template-columns: 5.5em 5em minmax(0, 1fr);
+  gap: 0.6rem;
+  padding: 0.3rem 0.9rem;
+  border-bottom: 1px solid #f1f3f4;
+}
+
+.gbrowser__log-time {
+  color: var(--g-sub);
+}
+
+.gbrowser__log-kind {
+  color: var(--g-sub);
+  font-family: var(--g-font);
+}
+
+.gbrowser__log-text {
+  white-space: pre;
+  overflow-x: auto;
+}
+
+.gbrowser__notice {
+  margin: 0;
+  padding: 0.5rem 0.9rem;
+  background: #e8f0fe;
+  color: #041e49;
+  font-size: 12px;
+}
+
+/* ---- スプレッドシートの alert（Material 3 のダイアログ） ----
+   sheet.css の .sheetdemo__dialog-box--sheets を上書きする。メニューから動かすデモ（5-3）にも効く。 */
+
+:root[data-platform='sheets'] .sheetdemo__dialog {
+  background: rgb(60 64 67 / 0.45);
+}
+
+:root[data-platform='sheets'] .sheetdemo__dialog-box--sheets {
+  min-width: 17rem;
+  padding: 1.5rem 1.5rem 1.1rem;
+  border-radius: 28px;
+  box-shadow: 0 4px 16px rgb(0 0 0 / 0.2);
+  font-family: 'Google Sans', Roboto, Arial, 'Hiragino Sans', 'Noto Sans JP', sans-serif;
+}
+
+:root[data-platform='sheets'] .sheetdemo__dialog-box--sheets .sheetdemo__dialog-text {
+  padding: 0 0 1.4rem;
+  color: #1f1f1f;
+  font-size: 14px;
+}
+
+:root[data-platform='sheets'] .sheetdemo__dialog-box--sheets .sheetdemo__dialog-actions {
+  padding: 0;
+}
+
+:root[data-platform='sheets'] .sheetdemo__dialog-box--sheets .sheetdemo__dialog-ok {
+  min-width: 4.5rem;
+  padding: 0.55rem 1.2rem;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  color: #0b57d0;
+  font-weight: 500;
+}
+
+:root[data-platform='sheets'] .sheetdemo__dialog-box--sheets .sheetdemo__dialog-ok:hover {
+  background: rgb(11 87 208 / 0.08);
+}
+
+/* 本物は開いた時点で OK にフォーカスがあり、濃い青の輪が出ている。 */
+:root[data-platform='sheets'] .sheetdemo__dialog-box--sheets .sheetdemo__dialog-ok:focus {
+  outline: 3px solid #0b57d0;
+  outline-offset: 0;
+}
+
+/* ---- 全画面 ---- */
+
+.sheetdemo:fullscreen .gbrowser,
+.sheetdemo.is-fullscreen .gbrowser {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.sheetdemo:fullscreen .gbrowser__editor,
+.sheetdemo.is-fullscreen .gbrowser__editor {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.sheetdemo:fullscreen .gbrowser[data-pane='sheet'] > .gbrowser__editor,
+.sheetdemo.is-fullscreen .gbrowser[data-pane='sheet'] > .gbrowser__editor {
+  display: none;
+}
+
+.sheetdemo:fullscreen .gbrowser__workspace,
+.sheetdemo.is-fullscreen .gbrowser__workspace {
+  flex: 1;
+  min-height: 0;
+}
+
+.sheetdemo:fullscreen .gbrowser__code,
+.sheetdemo.is-fullscreen .gbrowser__code {
+  max-height: none;
+}
+
+/* ---- 狭い画面 ---- */
+
+@media (max-width: 56rem) {
+  .gbrowser__workspace {
+    grid-template-columns: 44px minmax(0, 1fr);
+  }
+
+  .gbrowser__files {
+    display: none;
+  }
+}
+
+@media (max-width: 36rem) {
+  .gbrowser__workspace {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .gbrowser__rail,
+  .gbrowser__lights,
+  .gbrowser__newtab,
+  .gbrowser__deploy,
+  .gbrowser__tool,
+  .gbrowser__tool-sep,
+  .gbrowser__log-toggle {
+    display: none;
+  }
+
+  .gbrowser__tab-close {
+    display: none;
+  }
+
+  .gbrowser__log-row {
+    grid-template-columns: 4.6em 4.2em minmax(0, 1fr);
+    gap: 0.4rem;
+    padding-inline: 0.6rem;
+  }
+}

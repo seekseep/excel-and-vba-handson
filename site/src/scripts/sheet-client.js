@@ -106,15 +106,45 @@
     demo.querySelector('.sheetdemo__dev-body').hidden = !on;
   }
 
-  // 開いた時点では何も選ばない。「実行」はいつでも押せて、選ばずに押したら赤字で知らせる。
+  // Excel と同じく、開いた時点で一覧の先頭（名前順）を選び、「マクロ名」の欄にも入れておく。
   function openMacros(demo) {
     var picker = demo.querySelector('.sheetdemo__macros');
-    picker.querySelectorAll('.sheetdemo__macro-item').forEach(function (b) {
-      b.classList.remove('is-selected');
-    });
-    picker.querySelector('.sheetdemo__macros-error').hidden = true;
+    var first = picker.querySelector('.sheetdemo__macro-item');
+    selectMacro(demo, first);
     picker.hidden = false;
     guideStep(demo, 'run');
+  }
+
+  // 一覧の項目を選ぶ（item が null なら何も選ばない）。「マクロ名」の欄も合わせる。
+  function selectMacro(demo, item, keepName) {
+    demo.querySelectorAll('.sheetdemo__macro-item').forEach(function (b) {
+      b.classList.toggle('is-selected', b === item);
+      b.setAttribute('aria-selected', b === item ? 'true' : 'false');
+    });
+    var name = demo.querySelector('.sheetdemo__macros-name');
+    if (name && !keepName) name.value = item ? item.dataset.name : '';
+    // 一覧に無い名前のときは、Excel と同じく「実行」を押せない。
+    demo.querySelector('.sheetdemo__macros-run').disabled = !item;
+  }
+
+  // 「マクロ名」の欄に打った名前と同じマクロを、一覧で選ぶ（大文字・小文字は区別しない）。
+  function matchMacroName(demo) {
+    var value = demo.querySelector('.sheetdemo__macros-name').value.trim().toLowerCase();
+    var found = null;
+    demo.querySelectorAll('.sheetdemo__macro-item').forEach(function (b) {
+      if (!found && b.dataset.name.toLowerCase() === value) found = b;
+    });
+    selectMacro(demo, found, true);
+    guideStep(demo, 'run');
+  }
+
+  function runSelectedMacro(demo) {
+    var selected = demo.querySelector('.sheetdemo__macro-item.is-selected');
+    if (!selected) return;
+    demo.querySelector('.sheetdemo__macros').hidden = true;
+    runMacro(demo, selected.dataset.name);
+    // 違うマクロを選んだときは、もう一度「マクロ」からやり直してもらう。
+    if (demo.querySelector('.sheetdemo__reset').disabled) guideStep(demo, 'macro');
   }
 
   // 選んだマクロが、このデモで再現しているマクロなら結果を出す（実行済みなら何もしない）。
@@ -220,8 +250,183 @@
     demo.querySelector('.sheetdemo__reset').disabled = true;
     showDevTab(demo, false);
     guideStep(demo, 'tab');
+    gasReset(demo);
     refresh(demo);
   }
+
+  // ---- スプレッドシートの 2 つのブラウザタブ（スプレッドシート ／ Apps Script エディタ） ----
+  // エディタのタブで関数を選んで「▶ 実行」→ スプレッドシートのタブで結果を見る、の順に案内する。
+  // Excel の案内（is-guide）とは別の印（is-gguide）で光らせる。guideStep が is-guide を全部消すため。
+
+  var GAS_STEPS = ['select', 'run', 'look', 'done'];
+
+  function gasStep(demo, step) {
+    var guide = demo.querySelector('.sheetdemo__guide--sheets');
+    if (!guide) return;
+    demo.dataset.gasStep = step;
+    var i = GAS_STEPS.indexOf(step);
+    guide.querySelectorAll('li').forEach(function (li) {
+      var j = GAS_STEPS.indexOf(li.dataset.step);
+      li.classList.toggle('is-done', j < i);
+      li.classList.toggle('is-current', j === i);
+    });
+    demo.querySelectorAll('.is-gguide').forEach(function (el) {
+      el.classList.remove('is-gguide');
+    });
+    var target = null;
+    if (step === 'select') target = demo.querySelector('.sheetdemo__gas-select');
+    else if (step === 'run') target = demo.querySelector('.sheetdemo__gas-run');
+    else if (step === 'look') target = demo.querySelector('.gbrowser__tab[data-pane="sheet"]');
+    if (target) target.classList.add('is-gguide');
+  }
+
+  // 選択欄が、このデモで再現している関数を指していれば「実行」へ、違えば「選ぶ」へ。
+  function gasSyncSelect(demo) {
+    var step = demo.dataset.gasStep;
+    if (step !== 'select' && step !== 'run') return;
+    var bar = demo.querySelector('.sheetdemo__bar');
+    var expected = bar && bar.dataset.macro ? gasNameOf(bar.dataset.macro) : '';
+    var select = demo.querySelector('.sheetdemo__gas-select');
+    gasStep(demo, select.value === expected ? 'run' : 'select');
+  }
+
+  function gasNameOf(vbaName) {
+    return vbaName.charAt(0).toLowerCase() + vbaName.slice(1);
+  }
+
+  function showPane(demo, name) {
+    var browser = demo.querySelector('.gbrowser');
+    if (!browser) return;
+    browser.dataset.pane = name;
+    browser.querySelectorAll('.gbrowser__tab').forEach(function (t) {
+      var on = t.dataset.pane === name;
+      t.classList.toggle('is-active', on);
+      t.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    if (name !== 'sheet') return;
+    if (demo.dataset.gasStep === 'look') gasStep(demo, 'done');
+    // 隠れていた alert の OK には、タブを開いたときにフォーカスを当てる。
+    var ok = demo.querySelector('.sheetdemo__dialog:not([hidden]) .sheetdemo__dialog-box--sheets .sheetdemo__dialog-ok');
+    if (ok) ok.focus({ preventScroll: true });
+  }
+
+  function gasTime() {
+    var d = new Date();
+    return [d.getHours(), d.getMinutes(), d.getSeconds()]
+      .map(function (n) {
+        return (n < 10 ? '0' : '') + n;
+      })
+      .join(':');
+  }
+
+  // 実行ログに「お知らせ」の行（実行開始／実行完了）を足す。first なら情報の行より前に置く。
+  function gasNotice(demo, text, first) {
+    var body = demo.querySelector('.gbrowser__log-body');
+    var row = document.createElement('div');
+    row.className = 'gbrowser__log-row gbrowser__log-row--notice';
+    [gasTime(), 'お知らせ', text].forEach(function (t, i) {
+      var span = document.createElement('span');
+      span.className = ['gbrowser__log-time', 'gbrowser__log-kind', 'gbrowser__log-text'][i];
+      span.textContent = t;
+      row.appendChild(span);
+    });
+    if (first) body.insertBefore(row, body.firstChild);
+    else body.appendChild(row);
+    body.scrollTop = body.scrollHeight;
+  }
+
+  function gasRun(demo) {
+    var log = demo.querySelector('.gbrowser__log');
+    var select = demo.querySelector('.sheetdemo__gas-select');
+    var bar = demo.querySelector('.sheetdemo__bar');
+    if (!log) {
+      runMacro(demo, select.value);
+      return;
+    }
+    gasClearLog(demo);
+    log.hidden = false;
+    gasNotice(demo, '実行開始', true);
+    var expected = bar && bar.dataset.macro;
+    // 違う関数を選んだときは、何も変わらずに終わる（このデモで再現しているのは 1 つだけ）。
+    if (!expected || select.value !== gasNameOf(expected)) {
+      gasNotice(demo, '実行完了');
+      return;
+    }
+    run(demo);
+    var time = gasTime();
+    demo.querySelectorAll('.gbrowser__log-row--info').forEach(function (row) {
+      row.querySelector('.gbrowser__log-time').textContent = time;
+      row.hidden = false;
+    });
+    // alert を出す関数は、OK を押すまで終わらない（本物も「実行開始」のまま待つ）。
+    if (demo.querySelector('.sheetdemo__dialog')) demo.dataset.gasWaiting = '1';
+    else gasNotice(demo, '実行完了');
+    // ログだけを出す関数は、結果がエディタのタブにあるのでタブを切り替える案内は出さない。
+    var onSheet = demo.querySelector('.sheetdemo__dialog') || demo.querySelector('.sheet__cell.is-changed') || demo.querySelector('.sheet__tab--added');
+    demo.querySelector('.gbrowser__notice').hidden = !onSheet;
+    gasStep(demo, onSheet ? 'look' : 'done');
+  }
+
+  function gasFinish(demo) {
+    delete demo.dataset.gasWaiting;
+    gasNotice(demo, '実行完了');
+  }
+
+  function gasClearLog(demo) {
+    demo.querySelectorAll('.gbrowser__log-row--notice').forEach(function (row) {
+      row.remove();
+    });
+    demo.querySelectorAll('.gbrowser__log-row--info').forEach(function (row) {
+      row.hidden = true;
+    });
+  }
+
+  function gasReset(demo) {
+    if (!demo.querySelector('.gbrowser')) return;
+    gasClearLog(demo);
+    delete demo.dataset.gasWaiting;
+    demo.querySelector('.gbrowser__log').hidden = true;
+    demo.querySelector('.gbrowser__notice').hidden = true;
+    showPane(demo, 'editor');
+    demo.dataset.gasStep = 'select';
+    gasSyncSelect(demo);
+  }
+
+  // 関数を選ぶと、その関数の行までコードを送る（本物は送らないが、どこを動かすのかを見せるため）。
+  function gasScrollTo(demo) {
+    var select = demo.querySelector('.sheetdemo__gas-select');
+    var code = demo.querySelector('.gbrowser__code');
+    if (!select || !code) return;
+    var line = code.querySelector('.gbrowser__code-line[data-function="' + select.value + '"]');
+    code.querySelectorAll('.gbrowser__code-line.is-current').forEach(function (l) {
+      l.classList.remove('is-current');
+    });
+    if (!line) return;
+    line.classList.add('is-current');
+    code.scrollTop = Math.max(0, line.offsetTop - code.offsetTop - 8);
+  }
+
+  document.addEventListener('change', function (e) {
+    var target = e.target;
+    if (!(target instanceof Element) || !target.classList.contains('sheetdemo__gas-select')) return;
+    var demo = target.closest('.sheetdemo');
+    gasScrollTo(demo);
+    gasSyncSelect(demo);
+  });
+
+  // ページを開いたときの案内（先頭の関数がデモの関数なら、もう「実行」から）。
+  function initGas() {
+    document.querySelectorAll('.sheetdemo .gbrowser').forEach(function (browser) {
+      var demo = browser.closest('.sheetdemo');
+      if (demo.dataset.gasStep) return;
+      demo.dataset.gasStep = 'select';
+      gasSyncSelect(demo);
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initGas);
+  else initGas();
+  // Astro のページ遷移（View Transitions）を使っていても、新しいページで案内を付け直す。
+  document.addEventListener('astro:page-load', initGas);
 
   // 選んでいるセルがあれば、数式バーを今の中身に合わせる。
   function refresh(demo) {
@@ -268,10 +473,7 @@
     }
     var item = target.closest('.sheetdemo__macro-item');
     if (item) {
-      item.closest('.sheetdemo__macros-list').querySelectorAll('.sheetdemo__macro-item').forEach(function (b) {
-        b.classList.toggle('is-selected', b === item);
-      });
-      demo.querySelector('.sheetdemo__macros-error').hidden = true;
+      selectMacro(demo, item);
       guideStep(demo, 'run');
       return;
     }
@@ -281,24 +483,23 @@
       return;
     }
     if (target.closest('.sheetdemo__macros-run')) {
-      var selected = demo.querySelector('.sheetdemo__macro-item.is-selected');
-      if (!selected) {
-        demo.querySelector('.sheetdemo__macros-error').hidden = false;
-        return;
-      }
-      demo.querySelector('.sheetdemo__macros').hidden = true;
-      runMacro(demo, selected.dataset.name);
-      // 違うマクロを選んだときは、もう一度「マクロ」からやり直してもらう。
-      if (demo.querySelector('.sheetdemo__reset').disabled) guideStep(demo, 'macro');
+      runSelectedMacro(demo);
       return;
     }
     if (target.closest('.sheetdemo__gas-run')) {
-      runMacro(demo, demo.querySelector('.sheetdemo__gas-select').value);
+      gasRun(demo);
+      return;
+    }
+    var pane = target.closest('.gbrowser__tab');
+    if (pane) {
+      showPane(demo, pane.dataset.pane);
       return;
     }
     var ok = target.closest('.sheetdemo__dialog-ok');
     if (ok) {
       ok.closest('.sheetdemo__dialog').hidden = true;
+      // alert を閉じると、エディタで待っていた実行が終わる。
+      if (demo.dataset.gasWaiting) gasFinish(demo);
       return;
     }
     if (target.closest('.sheetdemo__run')) run(demo);
@@ -316,6 +517,25 @@
     document.querySelectorAll('.sheet__menu.is-open').forEach(function (menu) {
       closeMenu(menu, true);
     });
+  });
+
+  // 「マクロ名」の欄に名前を打つと、一覧の同じ名前のマクロを選ぶ。Enter で実行、Esc で閉じる（Excel と同じ）。
+  document.addEventListener('input', function (e) {
+    var target = e.target;
+    if (!(target instanceof Element) || !target.classList.contains('sheetdemo__macros-name')) return;
+    matchMacroName(target.closest('.sheetdemo'));
+  });
+  document.addEventListener('keydown', function (e) {
+    var target = e.target;
+    if (!(target instanceof Element) || !target.closest('.sheetdemo__macros')) return;
+    var demo = target.closest('.sheetdemo');
+    if (e.key === 'Enter' && !target.closest('button')) {
+      e.preventDefault();
+      runSelectedMacro(demo);
+    } else if (e.key === 'Escape') {
+      demo.querySelector('.sheetdemo__macros').hidden = true;
+      guideStep(demo, 'macro');
+    }
   });
 
   // Excel と同じく、一覧のマクロ名をダブルクリックしても実行できる。
