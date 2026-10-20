@@ -1,10 +1,5 @@
 Option Explicit
 
-' 5-1 テンプレートをコピーして宛名を書く
-' data/invoice.xlsx を .xlsm で保存してから実行する。
-' 実行するたびに「請求書_ひまわり商事」ができるので、2 回目の前にそのシートを手で消しておく。
-
-' 顧客シートの 2 行目（ひまわり商事）の請求書シートを 1 枚作る
 Sub CreateInvoices()
     Dim salesSheet As Worksheet
     Dim customerSheet As Worksheet

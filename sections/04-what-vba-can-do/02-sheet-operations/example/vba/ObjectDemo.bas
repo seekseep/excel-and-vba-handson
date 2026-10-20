@@ -1,9 +1,5 @@
 Option Explicit
 
-' 4-2 シートとファイルを操作する（講師デモ）
-' data/sales.xlsx を .xlsm で保存してから、上から順に実行する。
-
-' ブック → シート → セル は入れ子になっている
 Sub ShowObjects()
     Debug.Print "ブックの名前: " & ThisWorkbook.Name
     Debug.Print "シートの数: " & ThisWorkbook.Worksheets.Count
@@ -11,7 +7,6 @@ Sub ShowObjects()
     Debug.Print "売上!B2 の値: " & ThisWorkbook.Worksheets("売上").Range("B2").Value
 End Sub
 
-' 表を飾る（色・罫線・条件による文字色）
 Sub DecorateSales()
     Dim salesSheet As Worksheet
     Dim lastRow As Long
@@ -32,7 +27,6 @@ Sub DecorateSales()
     Next i
 End Sub
 
-' 顧客ごとにシートを作って明細を振り分ける（関数ではシートを増やせない）
 Sub SplitByCustomer()
     Dim salesSheet As Worksheet
     Dim customerSheet As Worksheet
@@ -63,7 +57,6 @@ Sub SplitByCustomer()
     salesSheet.Activate
 End Sub
 
-' 「売上」以外のシートを消して、デモをやり直せるようにする
 Sub DeleteDemoSheets()
     Dim ws As Worksheet
 
@@ -76,7 +69,6 @@ Sub DeleteDemoSheets()
     Application.DisplayAlerts = True
 End Sub
 
-' 日時入りの名前でブックのコピーを保存する
 Sub SaveBackup()
     Dim fileName As String
 

@@ -1,4 +1,5 @@
-// `::::platform`（remark-platform.mjs）の Excel ／ スプレッドシート切り替え。
+// `:::::platform`（remark-platform.mjs）の Excel ／ スプレッドシート切り替え。
+// 切り替えの操作はナビゲーションバーの選択欄と、進め方のページの大きなボタンだけ。本文のブロックはタブを出さない。
 // 選んだ環境は <html data-platform="..."> に持ち、表示の出し分けは platform.css に任せる。
 // <head> で読み込まれるので、属性だけは本文の描画前に付けてちらつきを防ぐ。
 (function () {
@@ -13,7 +14,7 @@
     }
   }
 
-  // `::codeview` のパネルも、選んだ環境のファイルを開いた状態にそろえる。
+  // `::codeview` のパネルも、選んだ環境のファイルを開いた状態にそろえる（もう一方のファイルは platform.css で一覧から隠す）。
   // vba/SalesSummary.bas を開いていたら gas/SalesSummary.gs のように、同じ名前の相方を優先する。
   function syncEditors(platform) {
     document.querySelectorAll('.editor').forEach(function (editor) {
@@ -46,17 +47,33 @@
       }
     }
     syncEditors(platform);
+    syncControls(platform);
+  }
+
+  // ナビゲーションバーの選択欄と、進め方のページの大きなボタン（::platform-choice）の表示をそろえる。
+  function syncControls(platform) {
+    document.querySelectorAll('handson-platform-select select').forEach(function (select) {
+      select.value = platform;
+    });
+    document.querySelectorAll('.platform-choice__option').forEach(function (btn) {
+      btn.setAttribute('aria-pressed', btn.dataset.platform === platform ? 'true' : 'false');
+    });
   }
 
   document.documentElement.dataset.platform = load();
 
   function setup() {
-    document.querySelectorAll('.platform__tab').forEach(function (tab) {
-      tab.addEventListener('click', function () {
-        // 押したタブの位置が画面上で動かないよう、切り替え前後のずれを補正する。
-        var before = tab.getBoundingClientRect().top;
-        apply(tab.dataset.platform, true);
-        window.scrollBy(0, tab.getBoundingClientRect().top - before);
+    // 切り替えはナビゲーションバーの選択欄（src/components/ThemeSelect.astro）と、
+    // 進め方のページの大きなボタン（::platform-choice）で行う。
+    document.querySelectorAll('.platform-choice__option').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        apply(btn.dataset.platform === 'sheets' ? 'sheets' : 'excel', true);
+      });
+    });
+    document.querySelectorAll('handson-platform-select select').forEach(function (select) {
+      select.value = load();
+      select.addEventListener('change', function () {
+        apply(select.value === 'sheets' ? 'sheets' : 'excel', true);
       });
     });
     apply(load(), false);

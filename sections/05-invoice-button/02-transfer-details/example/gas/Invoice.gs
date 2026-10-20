@@ -1,7 +1,3 @@
-// 5-2 明細を書き写し、全顧客分を作る（Apps Script 版）
-// 請求書テンプレートのセル番地（A5 宛名 / B9 請求金額 / 12 行目から明細 / E33 合計）に合わせて書いている。
-
-// 顧客ごとに請求書シートを作る
 function createInvoices() {
   // 何度実行しても同じ結果になるよう、前回の請求書シートを消してから作る
   deleteInvoices();
@@ -47,7 +43,6 @@ function createInvoices() {
   SpreadsheetApp.getUi().alert((lastCustomerRow - 1) + ' 件の請求書を作りました');
 }
 
-// 「請求書_」で始まるシートを消す
 function deleteInvoices() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   for (const sheet of ss.getSheets()) {

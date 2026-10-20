@@ -1,7 +1,3 @@
-// 5-1 テンプレートをコピーして宛名を書く（Apps Script 版）
-// 実行するたびに「請求書_ひまわり商事」ができるので、2 回目の前にそのシートを手で消しておく。
-
-// 顧客シートの 2 行目（ひまわり商事）の請求書シートを 1 枚作る
 function createInvoices() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   const salesSheet = ss.getSheetByName('売上');

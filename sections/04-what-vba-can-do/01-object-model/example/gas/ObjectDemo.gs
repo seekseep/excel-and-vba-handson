@@ -1,7 +1,3 @@
-// 4-1 Excel は部品の入れ子（Apps Script 版）
-// 結果は実行ログ（console.log）で見る。
-
-// スプレッドシート → シート → セル は入れ子になっている
 function showObjects() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   console.log('スプレッドシートの名前: ' + ss.getName());

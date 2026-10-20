@@ -220,7 +220,7 @@ def main():
     sales = make_sales()
 
     # 3 章: 金額が空の売上明細 + 集計欄（受講者が関数と VBA で埋める）。どの節から始めても同じブック
-    for lecture in ("01-calc-amounts", "02-sum-and-sumif", "03-debugger"):
+    for lecture in ("01-calc-amounts", "02-sum-and-sumif", "03-debugger-intro", "04-debugging"):
         wb = Workbook()
         ws = wb.active
         ws.title = "売上"

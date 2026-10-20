@@ -1,9 +1,5 @@
 Option Explicit
 
-' 3-2 SUM と SUMIF を再現する
-' data/sales.xlsx の「売上」シートを開いた状態で実行する。
-
-' 金額 = 単価 × 数量 を F 列の全行に書く（関数なら F2 に =D2*E2 を入れて下までコピー）
 Sub CalcAmounts()
     Dim lastRow As Long
     Dim i As Long
@@ -14,7 +10,6 @@ Sub CalcAmounts()
     Next i
 End Sub
 
-' 売上合計を J2 に書く（関数なら =SUM(F2:F31)）
 Sub SumTotal()
     Dim lastRow As Long
     Dim i As Long
@@ -28,7 +23,6 @@ Sub SumTotal()
     Range("J2").Value = total
 End Sub
 
-' H5 の顧客の合計を J5 に書く（関数なら =SUMIF(B2:B31, H5, F2:F31)）
 Sub SumByCustomer()
     Dim lastRow As Long
     Dim i As Long

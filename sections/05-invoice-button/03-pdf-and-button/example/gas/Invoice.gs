@@ -1,8 +1,3 @@
-// 5-3 PDF にしてボタンから実行する（Apps Script 版）
-// スプレッドシートを開くとメニュー「請求書」が出る。図形描画のボタンに createInvoices を割り当ててもよい。
-// 請求書テンプレートのセル番地（A5 宛名 / B9 請求金額 / 12 行目から明細 / E33 合計）に合わせて書いている。
-
-// スプレッドシートを開いたときに自動で動き、メニューを足す
 function onOpen() {
   SpreadsheetApp.getUi()
     .createMenu('請求書')
@@ -11,7 +6,6 @@ function onOpen() {
     .addToUi();
 }
 
-// 顧客ごとに請求書シートを作り、PDF にする
 function createInvoices() {
   // 何度押しても同じ結果になるよう、前回の請求書シートを消してから作る
   deleteInvoices();
@@ -61,7 +55,6 @@ function createInvoices() {
   SpreadsheetApp.getUi().alert((lastCustomerRow - 1) + ' 件の請求書を作りました');
 }
 
-// 「請求書_」で始まるシートを消す
 function deleteInvoices() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   for (const sheet of ss.getSheets()) {
@@ -71,9 +64,6 @@ function deleteInvoices() {
   }
 }
 
-// シート 1 枚を PDF にしてドライブに保存する。
-// Excel の ExportAsFixedFormat にあたる命令が無いので、スプレッドシートの「ダウンロード」と同じ URL を呼ぶ。
-// 名前の末尾の _ は「実行する関数の一覧に出さない」という Apps Script の決まり。
 function savePdf_(ss, sheet) {
   const url = 'https://docs.google.com/spreadsheets/d/' + ss.getId() + '/export' +
     '?format=pdf&size=A4&portrait=true&fitw=true&gridlines=false&gid=' + sheet.getSheetId();

@@ -23,6 +23,10 @@ const NAME = 'editor';
 const FILE_META_RE = /data-file="([^"]*)"/;
 const DEFAULT_TITLE = 'このステップの完成例';
 
+// 一覧に出す名前。Office マクロ系の vba/ ・ gas/ は、どちらの環境かを本文で選んでいるので出さない。
+// （data-file には元のパスを残す。環境の出し分けと syncEditors がそれを見る）
+const displayName = (file) => file.replace(/^(vba|gas)\//, '');
+
 function visit(node, callback) {
   if (!node || !Array.isArray(node.children)) return;
   for (const child of node.children) {
@@ -82,7 +86,7 @@ export default function remarkEditor() {
       if (activeIndex === -1) activeIndex = 0;
 
       const fileButtons = files.map((f, i) =>
-        el('button', ['editor__file', ...(i === activeIndex ? ['is-active'] : [])], [text(f.name)], {
+        el('button', ['editor__file', ...(i === activeIndex ? ['is-active'] : [])], [text(displayName(f.name))], {
           type: 'button',
           'data-file': f.name,
         }),

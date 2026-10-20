@@ -3,7 +3,6 @@ docs: true
 title: Excel は部品の入れ子
 ---
 
-
 # Excel は部品の入れ子
 
 ![Excel の中にブック、ブックの中にシート、シートの中にセル](./images/00-thumbnail.svg)
@@ -68,6 +67,28 @@ console.log('売上!B2 の値: ' + ss.getSheetByName('売上').getRange('B2').ge
 ::::
 :::::
 
+ブラウザ上で再現したデモで、何が書き出されるかを見てみましょう。
+
+:::::platform
+::::excel
+「開発」タブの「マクロ」を押し、一覧から `ShowObjects` を選んで「実行」を押します。
+::::
+::::sheets
+Apps Script エディタの関数の選択欄で `showObjects` を選び、「▶ 実行」を押します。
+::::
+:::::
+
+::::sheetdemo[ShowObjects を実行すると、ブックとシートの情報が書き出される]{book="data/sales.xlsx" sheet="売上" macro="ShowObjects"}
+log = ブックの名前: sales.xlsm
+log = シートの数: 1
+log = 1 枚目のシート: 売上
+log = 売上!B2 の値: あおば設計事務所
+log.sheets = スプレッドシートの名前: sales
+log.sheets = シートの数: 1
+log.sheets = 1 枚目のシート: 売上
+log.sheets = 売上!B2 の値: あおば設計事務所
+::::
+
 ## シートを変数に入れる（Set）
 
 同じシートを何度も使うときは、変数に入れておくと短く書けます。
@@ -94,8 +115,24 @@ GAS では、数や文字列と同じように `const` で入れるだけです�
 ::::
 :::::
 
-## 次へ
-
-[シートとファイルを操作する](../02-sheet-operations/LECTURE.md) で、表を飾る・シートを作る・保存するデモを見ます。
-
 ::codeview[この節のデモのコード]
+
+:::faq
+
+### `.` でたどる名前（`Interior.Color` など）を全部覚えないといけませんか？
+
+覚えなくて大丈夫です。VBE では、部品の後ろに `.` を打つと、使えるプロパティとメソッドの候補が一覧で出ます（`Dim salesSheet As Worksheet` のように型を書いた変数だと出やすくなります）。ほかにも、「マクロの記録」で操作を VBA に書き起こしてもらう、AI に聞く、などの調べ方があります。GAS のエディタでも同じように候補が出ます。
+
+### `Set` を付けるかどうか、どう見分ければよいですか？
+
+入れるものが数・文字列・日付なら付けない、`Worksheet` や `Range` のような部品（オブジェクト）なら付ける、です。迷ったら `Dim` の型を見てください。この教材では、`Long` / `String` / `Double` / `Date` には付けない、`Worksheet` には付ける、と覚えれば足ります。
+
+### `ThisWorkbook` と `ActiveWorkbook`、`Worksheets` と `Sheets` は何が違いますか？
+
+`ThisWorkbook` はマクロが入っているブック、`ActiveWorkbook` はいま前面に出ているブックです。複数のブックを開いていると別物になるので、自分のブックを指すなら `ThisWorkbook` が安全です。`Worksheets` は普通のシートだけ、`Sheets` はグラフシートなども含む全シートです。この教材のブックでは、どちらも同じ結果になります。
+
+### 「マクロの記録」で作ったコードには `Select` や `Activate` がたくさん出てきます。書いたほうがよいですか？
+
+書かなくて大丈夫です。記録は人の操作（セルを選ぶ → 値を入れる）をそのままなぞるので `Select` だらけになりますが、`Worksheets("売上").Range("B2").Value = ...` のように部品を直接指せば、選ぶ必要はありません。選ばないほうが速く、画面の状態にも左右されないので、記録したコードは `Select` を消して書き直すのが定番です。
+
+:::

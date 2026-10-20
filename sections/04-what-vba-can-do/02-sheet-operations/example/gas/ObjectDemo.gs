@@ -1,7 +1,3 @@
-// 4-2 シートとファイルを操作する（講師デモ）（Apps Script 版）
-// 上から順に実行し、結果はシート見出しと実行ログで確かめる。
-
-// スプレッドシート → シート → セル は入れ子になっている
 function showObjects() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   console.log('スプレッドシートの名前: ' + ss.getName());
@@ -10,7 +6,6 @@ function showObjects() {
   console.log('売上!B2 の値: ' + ss.getSheetByName('売上').getRange('B2').getValue());
 }
 
-// 表を飾る（色・罫線・条件による文字色）
 function decorateSales() {
   const salesSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('売上');
   const lastRow = salesSheet.getLastRow();
@@ -26,7 +21,6 @@ function decorateSales() {
   }
 }
 
-// 顧客ごとにシートを作って明細を振り分ける（関数ではシートを増やせない）
 function splitByCustomer() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   const salesSheet = ss.getSheetByName('売上');
@@ -49,7 +43,6 @@ function splitByCustomer() {
   ss.setActiveSheet(salesSheet);
 }
 
-// 「売上」以外のシートを消して、デモをやり直せるようにする
 function deleteDemoSheets() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   for (const sheet of ss.getSheets()) {
@@ -59,7 +52,6 @@ function deleteDemoSheets() {
   }
 }
 
-// 日時入りの名前でスプレッドシートのコピーを Google ドライブに保存する
 function saveBackup() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   const stamp = Utilities.formatDate(new Date(), Session.getScriptTimeZone(), 'yyyyMMdd_HHmmss');

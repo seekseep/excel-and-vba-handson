@@ -1,10 +1,5 @@
 Option Explicit
 
-' 5-3 PDF にしてボタンから実行する
-' data/invoice.xlsx を .xlsm で保存し、「顧客」シートに置いたボタンに CreateInvoices を登録する。
-' 請求書テンプレートのセル番地（A5 宛名 / B9 請求金額 / 12 行目から明細 / E33 合計）に合わせて書いている。
-
-' 顧客ごとに請求書シートを作り、PDF にする
 Sub CreateInvoices()
     Dim salesSheet As Worksheet
     Dim customerSheet As Worksheet
@@ -66,7 +61,6 @@ Sub CreateInvoices()
     MsgBox (lastCustomerRow - 1) & " 件の請求書を作りました"
 End Sub
 
-' 「請求書_」で始まるシートを消す
 Sub DeleteInvoices()
     Dim ws As Worksheet
 

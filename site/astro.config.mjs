@@ -10,6 +10,7 @@ import remarkDownload from './src/plugins/remark-download.mjs';
 import remarkEditor from './src/plugins/remark-editor.mjs';
 import remarkScript from './src/plugins/remark-script.mjs';
 import remarkCode from './src/plugins/remark-code.mjs';
+import remarkFaq from './src/plugins/remark-faq.mjs';
 import remarkPlatform from './src/plugins/remark-platform.mjs';
 import remarkSheetcode from './src/plugins/remark-sheetcode.mjs';
 import ecLineNumbers from './src/plugins/ec-line-numbers.mjs';
@@ -81,6 +82,8 @@ function calloutIntegration() {
         config.markdown.processor?.options.remarkPlugins.push(remarkScript);
         // `:::code{filepath=... offset=...}` をファイル名 + 行番号つきコードに変換。
         config.markdown.processor?.options.remarkPlugins.push(remarkCode);
+        // `:::faq` を開いて読む「よくある質問」（<details>）に変換。名前衝突なし。
+        config.markdown.processor?.options.remarkPlugins.push(remarkFaq);
         // `::::platform` を Excel ／ スプレッドシートの切り替えタブに変換。名前衝突なし。
         config.markdown.processor?.options.remarkPlugins.push(remarkPlatform);
         // `::::sheetcode`（sync 時に `::sheetcode` から生成）をコードとシートの横並びに変換。
@@ -123,9 +126,14 @@ export default defineConfig({
         './src/styles/download.css',
         './src/styles/editor.css',
         './src/styles/code.css',
+        './src/styles/faq.css',
         './src/styles/platform.css',
         './src/styles/sheet.css',
       ],
+      // テーマ切り替えの左に Excel ／ スプレッドシートの切り替えを置く。
+      components: {
+        ThemeSelect: './src/components/ThemeSelect.astro',
+      },
       // `:::code` が付けた startLineNumber / startNewLineNumber を読んで
       // ガターに行番号を出す自作プラグイン。それ以外のコードブロックには何もしない。
       expressiveCode: {
@@ -160,7 +168,7 @@ export default defineConfig({
             { label: '進め方', link: '/getting-started/' },
             { label: 'Excel の準備', link: '/excel/' },
             { label: 'スプレッドシートの準備', link: '/sheets/' },
-            { label: 'VBA と GAS の対応表', link: '/cheatsheet/' },
+            { label: '基本的な知識', link: '/basics/' },
           ],
         },
         // Starlight v0.39+ では autogenerate を items 配列に入れる（label と autogenerate を同階層に書けない）。

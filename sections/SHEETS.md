@@ -29,19 +29,19 @@ Google スプレッドシートでは、VBA の代わりに **Google Apps Script
 ファイル名の横に「.XLSX」と表示されている間は、Excel 形式のまま開いている状態です。「拡張機能」メニューに Apps Script が出ないので、必ず変換してから使ってください。
 :::
 
+詳しくは Google の公式ドキュメントも参照してください。
+
+- [Google ドライブにファイルやフォルダをアップロードする（Google ドライブ ヘルプ）](https://support.google.com/drive/answer/2424368?hl=ja)
+- [Office ファイルの使用（Google ドキュメント エディタ ヘルプ）](https://support.google.com/docs/answer/6055139?hl=ja)
+
 ## Apps Script エディタを開く
 
 スプレッドシートのメニューで「拡張機能」→ **Apps Script** を押すと、新しいタブでエディタが開きます。このスクリプトはいま開いているスプレッドシートに紐づいていて、そのシートを読み書きできます。
 
 エディタには `コード.gs` というファイルがあり、`function myFunction() { }` が入っています。これを消して、教材のコードを貼り付けます。
 
-## 実行する
-
-1. `Ctrl` + `S`（Mac は `⌘` + `S`）で保存する
-2. 上部の関数の選択欄で、実行したい関数（例: `hello`）を選ぶ
-3. **実行** を押す
-
-下に「実行ログ」が開き、`console.log` の出力やエラーが表示されます。
+- [Google Apps Script の概要（Google for Developers）](https://developers.google.com/apps-script/overview?hl=ja)
+- [コンテナにバインドされたスクリプト（Google for Developers）](https://developers.google.com/apps-script/guides/bound?hl=ja) … スプレッドシートに紐づいたスクリプトの仕組み
 
 ## 初回の承認
 
@@ -53,10 +53,18 @@ Google スプレッドシートでは、VBA の代わりに **Google Apps Script
 
 警告が出るのは、Google の審査を受けていない（＝自分で書いた）スクリプトだからです。自分で書いたコードなら許可して問題ありませんが、**人からもらったスクリプトを同じ手順で許可するのは危険** です。許可した権限で、ドライブのファイルを読んだりメールを送ったりできてしまいます。
 
+- [Google サービスの承認（Google for Developers）](https://developers.google.com/apps-script/guides/services/authorization?hl=ja)
+- [Unverified apps（Google Cloud ヘルプ）](https://support.google.com/cloud/answer/7454865?hl=ja) … 「このアプリは Google で確認されていません」が出る理由
+
 ## Excel と違うところ
 
 - **コードはクラウドで動く** — 実行のたびに Google のサーバーとやり取りするので、セルを 1 つずつ読み書きすると Excel より遅くなります。教材の分量なら問題ありません
 - **実行時間に上限がある** — 1 回の実行は 6 分まで
 - **履歴から戻せる** — スクリプトでの変更も「ファイル」→「変更履歴」から前の状態に戻せます（Excel では、VBA で行った変更は `Ctrl` + `Z` で戻せません。試す前に保存しておきましょう）
 
-書き方の対応は [VBA と GAS の対応表](./CHEATSHEET.md) を見てください。
+Google の公式ドキュメント:
+
+- [Google サービスの割り当て（Google for Developers）](https://developers.google.com/apps-script/guides/services/quotas?hl=ja) … 実行時間の上限（6 分 / 実行）など
+- [ファイルの変更内容を確認する（Google ドキュメント エディタ ヘルプ）](https://support.google.com/docs/answer/190843?hl=ja) … 変更履歴から前の状態に戻す
+
+VBA と GAS の書き方の違いは [基本的な知識](./BASICS.md) で見比べられます。

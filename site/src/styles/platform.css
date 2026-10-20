@@ -1,89 +1,82 @@
-/* `::::platform`（remark-platform.mjs）の Excel ／ スプレッドシート切り替えタブ。
-   どちらを出すかは <html data-platform="excel|sheets">（platform-client.js）で決める。 */
-
-.platform {
-  --platform-excel: #217346;
-  --platform-sheets: #188038;
-  margin: 1.5rem 0;
-  border: 1px solid var(--sl-color-gray-5);
-  border-radius: 0.5rem;
-  overflow: hidden;
-}
-
-.platform__tabs {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0;
-  margin: 0 !important;
-  border-bottom: 1px solid var(--sl-color-gray-5);
-  background-color: var(--sl-color-gray-6);
-}
-
-.platform__tab {
-  margin: 0 !important;
-  padding: 0.5rem 1rem;
-  border: none;
-  border-bottom: 3px solid transparent;
-  background: none;
-  color: var(--sl-color-gray-3);
-  font: inherit;
-  font-size: var(--sl-text-sm);
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.platform__tab:hover {
-  color: var(--sl-color-white);
-}
-
-.platform__panel {
-  margin: 0 !important;
-  padding: 0.25rem 1rem 1rem;
-}
+/* `:::::platform`（remark-platform.mjs）の Excel ／ スプレッドシートのパネル。
+   どちらを出すかは <html data-platform="excel|sheets">（ナビゲーションバーの選択欄と
+   platform-client.js）で決める。既定（未選択を含む）は Excel。
+   枠や背景は付けず、本文の一部としてそのまま流す。 */
 
 .platform__panel > :first-child {
-  margin-top: 0.75rem;
+  margin-top: 0;
 }
 
-/* 既定（未選択含む）は Excel。 */
+/* Starlight の本文の間隔（直下の要素どうしの 1rem）を、パネルの中でもそろえる。 */
+.platform__panel > * + * {
+  margin-top: 1rem;
+}
+
 :root:not([data-platform='sheets']) .platform__panel--sheets,
 :root[data-platform='sheets'] .platform__panel--excel {
   display: none;
 }
 
-:root:not([data-platform='sheets']) .platform__tab--excel,
-:root[data-platform='sheets'] .platform__tab--sheets {
-  border-bottom-color: var(--platform-excel);
-  color: var(--sl-color-white);
-}
-
-:root[data-platform='sheets'] .platform__tab--sheets {
-  border-bottom-color: var(--platform-sheets);
-}
-
-/* 片方の環境にしか無い手順は、もう片方を選んでいても出しておく（注記付き）。 */
+/* 片方の環境にしか無い手順は、どちらを選んでいても出す。 */
 .platform--only-excel .platform__panel--excel,
 .platform--only-sheets .platform__panel--sheets {
   display: block !important;
 }
 
-.platform--only-excel .platform__tab,
-.platform--only-sheets .platform__tab {
-  cursor: default;
+/* `::codeview` のパネルでは、選んでいる環境のファイルだけを一覧に出す。
+   開くファイルの切り替えは platform-client.js の syncEditors が受け持つ。 */
+:root:not([data-platform='sheets']) .editor__file[data-file^='gas/'],
+:root[data-platform='sheets'] .editor__file[data-file^='vba/'] {
+  display: none;
 }
 
-:root[data-platform='sheets'] .platform--only-excel .platform__tabs::after {
-  content: 'スプレッドシートでは不要な手順です';
+/* `::platform-choice`（進め方のページの冒頭）の、環境を選ぶ大きなボタン。 */
+.platform-choice {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: 0.75rem;
+  margin: 1.25rem 0 1.5rem;
 }
 
-:root:not([data-platform='sheets']) .platform--only-sheets .platform__tabs::after {
-  content: 'Excel では不要な手順です';
+.platform-choice__option {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 1rem 1.1rem;
+  border: 2px solid var(--sl-color-gray-5);
+  border-radius: 0.6rem;
+  background: var(--sl-color-black);
+  color: var(--sl-color-white);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
 }
 
-.platform__tabs::after {
-  align-self: center;
-  margin-inline-start: auto;
-  padding: 0 1rem;
-  color: var(--sl-color-gray-3);
-  font-size: var(--sl-text-xs);
+.platform-choice__option:hover {
+  border-color: var(--sl-color-gray-3);
+}
+
+.platform-choice__name {
+  font-size: var(--sl-text-lg);
+  font-weight: 700;
+}
+
+.platform-choice__desc {
+  color: var(--sl-color-gray-2);
+  font-size: var(--sl-text-sm);
+}
+
+/* 選んでいるほうを強調する（既定は Excel）。 */
+:root:not([data-platform='sheets']) .platform-choice__option--excel,
+:root[data-platform='sheets'] .platform-choice__option--sheets {
+  border-color: var(--sl-color-accent);
+  background: color-mix(in srgb, var(--sl-color-accent) 10%, var(--sl-color-black));
+}
+
+:root:not([data-platform='sheets']) .platform-choice__option--excel .platform-choice__name::after,
+:root[data-platform='sheets'] .platform-choice__option--sheets .platform-choice__name::after {
+  content: '  ✓ 選択中';
+  color: var(--sl-color-accent-high);
+  font-size: var(--sl-text-sm);
+  font-weight: 600;
 }
