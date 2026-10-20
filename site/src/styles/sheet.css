@@ -17,6 +17,7 @@
   overflow: hidden;
   background: #fff;
   color: #222;
+  color-scheme: light;
   font-family: var(--sheet-font);
   font-size: 13px;
   line-height: 1.4;
@@ -305,17 +306,22 @@
 
 /* ---- ::sheetcode ---- */
 
+/* 本文の欄に幅があるときだけ左右に並べる。狭いときはコード → シートの順に縦に積む。
+   画面幅ではなく本文の欄の幅で決める（サイドバーと目次があると欄は画面よりずっと狭い）。 */
+.sheetcode-wrap {
+  margin: 1.5rem 0;
+  container-type: inline-size;
+}
+
 .sheetcode {
   display: grid;
   gap: 1rem;
-  margin: 1.5rem 0;
   align-items: start;
 }
 
-/* 幅があるときだけ左右に並べる。狭いときはコード → シートの順に縦に積む。 */
-@media (min-width: 72rem) {
+@container (min-width: 40rem) {
   .sheetcode {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
   }
 }
 

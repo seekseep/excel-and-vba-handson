@@ -72,13 +72,16 @@ export default function remarkSheetcode() {
       const only = codes.length === 1 ? [`platform--only-${codes[0].key}`] : [];
 
       node.type = 'sheetcodeContainer';
-      node.data = { hName: 'div', hProperties: { className: ['sheetcode'] } };
+      // 外側の sheetcode-wrap は、本文の欄の幅で並べ方を決める（CSS のコンテナクエリ）ための入れ物。
+      node.data = { hName: 'div', hProperties: { className: ['sheetcode-wrap'] } };
       node.children = [
-        el('div', ['sheetcode__code', 'platform', ...only], [
-          el('div', ['platform__tabs'], tabs, { role: 'tablist' }),
-          ...panels,
+        el('div', ['sheetcode'], [
+          el('div', ['sheetcode__code', 'platform', ...only], [
+            el('div', ['platform__tabs'], tabs, { role: 'tablist' }),
+            ...panels,
+          ]),
+          el('div', ['sheetcode__sheet'], sheet),
         ]),
-        el('div', ['sheetcode__sheet'], sheet),
       ];
     });
   };
