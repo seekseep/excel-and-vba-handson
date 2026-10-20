@@ -31,7 +31,7 @@ import { ZipArchive } from 'archiver';
 import iconv from 'iconv-lite';
 
 import { walkFiles } from './libs/fs-walk.mjs';
-import { assetsZipBasenameFor, exampleDirOf, parseLectureRel, zipBasenameFor } from './libs/naming.mjs';
+import { assetsZipBasenameFor, exampleDirOf, parseLectureRel, platformZipBasenameFor, zipBasenameFor } from './libs/naming.mjs';
 import { DOWNLOADS_DIR, ROOT } from './libs/paths.mjs';
 
 const IGNORE_DIRS = new Set(['node_modules', '.git']);
@@ -82,7 +82,16 @@ async function zipExample(lectureRel) {
   const exampleAbs = path.join(ROOT, ...exampleDirOf(lectureRel).split('/'));
   const files = await walkFiles(exampleAbs, { ignoreDirs: IGNORE_DIRS, ignoreNames: IGNORE_NAMES });
   const outPath = path.join(DOWNLOADS_DIR, zipBasenameFor(sec, lec));
-  return zipFiles(exampleAbs, files, outPath, lec);
+  const count = await zipFiles(exampleAbs, files, outPath, lec);
+  // Office マクロ系は、環境ごとの ZIP も出す（Excel は gas/ を、スプレッドシートは vba/ を入れない）。
+  // 本文のダウンロードボタンは、選んでいる環境の ZIP を指す（remark-download / remark-editor）。
+  if (files.some((f) => f.startsWith('vba/') || f.startsWith('gas/'))) {
+    for (const [platform, drop] of [['excel', 'gas/'], ['sheets', 'vba/']]) {
+      const picked = files.filter((f) => !f.startsWith(drop));
+      await zipFiles(exampleAbs, picked, path.join(DOWNLOADS_DIR, platformZipBasenameFor(sec, lec, platform)), lec);
+    }
+  }
+  return count;
 }
 
 async function zipExampleAssets(lectureRel) {

@@ -1,9 +1,6 @@
 ---
 docs: true
 title: 基本的な知識
-sidebar:
-  label: 基本的な知識
-  order: 3
 ---
 
 # 基本的な知識

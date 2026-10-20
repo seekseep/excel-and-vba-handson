@@ -1,9 +1,6 @@
 ---
 docs: true
 title: スプレッドシートの準備
-sidebar:
-  label: スプレッドシートの準備
-  order: 2
 ---
 
 # スプレッドシートの準備
@@ -67,4 +64,4 @@ Google の公式ドキュメント:
 - [Google サービスの割り当て（Google for Developers）](https://developers.google.com/apps-script/guides/services/quotas?hl=ja) … 実行時間の上限（6 分 / 実行）など
 - [ファイルの変更内容を確認する（Google ドキュメント エディタ ヘルプ）](https://support.google.com/docs/answer/190843?hl=ja) … 変更履歴から前の状態に戻す
 
-VBA と GAS の書き方の違いは [基本的な知識](./BASICS.md) で見比べられます。
+VBA と GAS の書き方の違いは [基本的な知識](../03-basics/LECTURE.md) で見比べられます。

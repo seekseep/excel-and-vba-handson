@@ -165,10 +165,9 @@ export default defineConfig({
         {
           label: '準備',
           items: [
-            { label: '進め方', link: '/getting-started/' },
-            { label: 'Excel の準備', link: '/excel/' },
-            { label: 'スプレッドシートの準備', link: '/sheets/' },
-            { label: '基本的な知識', link: '/basics/' },
+            { label: 'Excel と Google スプレッドシート', link: '/getting-started/' },
+            // 準備の章（sections/00-setup/）。節を足すと自動で並ぶ。
+            { autogenerate: { directory: '00-setup' } },
           ],
         },
         // Starlight v0.39+ では autogenerate を items 配列に入れる（label と autogenerate を同階層に書けない）。
@@ -178,6 +177,7 @@ export default defineConfig({
         { label: '3. Excel関数をVBAで再現しよう', items: [{ autogenerate: { directory: '03-reproduce-functions' } }] },
         { label: '4. VBAだからできること', items: [{ autogenerate: { directory: '04-what-vba-can-do' } }] },
         { label: '5. ボタンひとつで請求書を作ろう', items: [{ autogenerate: { directory: '05-invoice-button' } }] },
+        { label: '過去のハンズオン', link: '/past-handson/' },
       ],
       editLink: {
         baseUrl: `${repoUrl}/edit/main/`,

@@ -170,7 +170,8 @@ const colWidthPx = (w) => Math.round((w ?? 8.43) * 7 + 5);
  * シート 1 枚を表示する HTML（1 行。空行を含めない）。
  * after = Map<"F2", 値>。指定したセルには実行後の表示を data-after に持たせる。
  */
-function renderSheet(wb, ws, { range, highlight, after, before, extraTabs = [], fileName, ribbon = '', blank = false }) {
+/** シート 1 枚の表（<table>）を描く。after は実行後の値、before は描くときに上書きする値。 */
+function renderGrid(ws, { range, highlight, after, before }) {
   const dims = ws.dimensions;
   const view = parseRange(range) ?? {
     top: 1,
@@ -255,14 +256,46 @@ function renderSheet(wb, ws, { range, highlight, after, before, extraTabs = [], 
     rows.push(`<tr>${tds.join('')}</tr>`);
   }
 
-  // 空白のブックは、新しく作ったときの名前を環境ごとに出す（Excel は Book1 / Sheet1）。
-  const tabs = blank
-    ? `<span class="sheet__tab is-active"><span class="sheet__only--excel">Sheet1</span><span class="sheet__only--sheets">シート1</span></span>`
-    : wb.worksheets
-        .map((s) => `<span class="sheet__tab${s === ws ? ' is-active' : ''}">${escapeHtml(s.name)}</span>`)
-        .join('');
+  return (
+    `<table class="sheet__table" style="width:calc(2.6rem + ${tableWidth}px)"><colgroup>${cols.join('')}</colgroup>` +
+    `<thead><tr>${head.join('')}</tr></thead><tbody>${rows.join('')}</tbody></table>`
+  );
+}
+
+/**
+ * ブック 1 冊ぶんの画面（タイトルバー・リボン・数式バー・シート・シートの見出し）を描く。
+ * ブックの全シートを描き、見出しを押すと切り替わる（sheet-client.js）。最初は ws を出す。
+ *   after / before … ws（選んでいるシート）に対する実行後の値 ／ 描くときに上書きする値
+ *   sheetValues     … Map<シート名, Map<ref, 値>>。ws 以外のシートに描くときに上書きする値
+ *   extraTabs       … 実行で増えるシート [{ name, from }]。from のシートをコピーした中身に
+ *                     sheetValues.get(name) を上書きして描き、実行するまで隠しておく
+ */
+function renderSheet(wb, ws, { range, highlight, after, before, sheetValues = new Map(), extraTabs = [], fileName, ribbon = '', blank = false }) {
+  const panes = [];
+  const tabs = [];
+  const sheets = blank ? [ws] : wb.worksheets;
+  for (const s of sheets) {
+    const active = s === ws;
+    const table = active
+      ? renderGrid(s, { range, highlight, after, before })
+      : renderGrid(s, { before: sheetValues.get(s.name) });
+    panes.push(`<div class="sheet__grid" data-sheet="${escapeHtml(s.name)}"${active ? '' : ' hidden'}>${table}</div>`);
+    // 空白のブックは、新しく作ったときの名前を環境ごとに出す（Excel は Book1 / Sheet1）。
+    const label = blank
+      ? `<span class="sheet__only--excel">Sheet1</span><span class="sheet__only--sheets">シート1</span>`
+      : escapeHtml(s.name);
+    tabs.push(`<button type="button" class="sheet__tab${active ? ' is-active' : ''}" data-sheet="${escapeHtml(s.name)}">${label}</button>`);
+  }
   // 実行で増えるシート（`tabs = ...`）。最初は隠しておき、実行すると出す。
-  const added = extraTabs.map((n) => `<span class="sheet__tab sheet__tab--added" hidden>${escapeHtml(n)}</span>`).join('');
+  for (const t of extraTabs) {
+    const src = t.from ? wb.getWorksheet(t.from) : null;
+    const values = sheetValues.get(t.name);
+    const table = src
+      ? renderGrid(src, { before: values })
+      : renderGrid(blankSheet(), { range: rangeFor(values), before: values });
+    panes.push(`<div class="sheet__grid" data-sheet="${escapeHtml(t.name)}" hidden>${table}</div>`);
+    tabs.push(`<button type="button" class="sheet__tab sheet__tab--added" data-sheet="${escapeHtml(t.name)}" hidden>${escapeHtml(t.name)}</button>`);
+  }
   const file = blank
     ? `<span class="sheet__file"><span class="sheet__only--excel">Book1</span><span class="sheet__only--sheets">無題のスプレッドシート</span></span>`
     : `<span class="sheet__file">${escapeHtml(fileName)}</span>`;
@@ -278,13 +311,32 @@ function renderSheet(wb, ws, { range, highlight, after, before, extraTabs = [], 
     `<div class="sheet__formulabar">` +
     `<span class="sheet__namebox"></span><span class="sheet__fx">fx</span><span class="sheet__formula"></span>` +
     `</div>` +
-    `<div class="sheet__grid">` +
-    `<table class="sheet__table" style="width:calc(2.6rem + ${tableWidth}px)"><colgroup>${cols.join('')}</colgroup>` +
-    `<thead><tr>${head.join('')}</tr></thead><tbody>${rows.join('')}</tbody></table>` +
-    `</div>` +
-    `<div class="sheet__tabs">${tabs}${added}</div>` +
+    panes.join('') +
+    // 下端をドラッグすると、シートの表示を縦に広げられる。
+    `<div class="sheet__resizer" role="separator" aria-orientation="horizontal" aria-label="表示の高さを変える"></div>` +
+    `<div class="sheet__tabs">${tabs.join('')}</div>` +
     `</div>`
   );
+}
+
+// 増えるシートに元のシートが無いとき（白紙のシート）に使う、空のシートの代わり。
+// renderGrid が使うのは dimensions / model.merges / getColumn / getCell だけなので、その形だけをそろえる。
+function blankSheet() {
+  return { dimensions: null, model: { merges: [] }, getColumn: () => ({}), getCell: () => ({ value: null }) };
+}
+
+// 白紙のシートに値を書くときは、書いた範囲が収まる大きさで描く（最低 A1:F10）。
+function rangeFor(values) {
+  let bottom = 10;
+  let right = 6;
+  for (const ref of values?.keys() ?? []) {
+    const p = parseRef(ref);
+    if (p) {
+      bottom = Math.max(bottom, p.row);
+      right = Math.max(right, p.col);
+    }
+  }
+  return `A1:${numToCol(right)}${bottom}`;
 }
 
 // ---- 属性・ファイル ----
@@ -303,8 +355,8 @@ function safeRel(rel) {
   return s;
 }
 
-async function sheetHtml(attrs, lectureAbsDir, after, { allowBlank = false, ribbon = '', before, extraTabs } = {}) {
-  const common = { highlight: attrs.highlight, after, ribbon, before, extraTabs };
+async function sheetHtml(attrs, lectureAbsDir, after, { allowBlank = false, ribbon = '', before, sheetValues, extraTabs } = {}) {
+  const common = { highlight: attrs.highlight, after, ribbon, before, sheetValues, extraTabs };
   // book を指定しないときは空白のブック。シート名は sheet 属性（既定 Sheet1）。
   if (allowBlank && !attrs.book) {
     const wb = await newWorkbook();
@@ -344,12 +396,30 @@ function parseValue(s) {
   return t.replace(/^"(.*)"$/, '$1');
 }
 
+/**
+ * `F2:F31 = 1, 2, 3` / `請求書_ひまわり商事!A5 = …` の行を読む。
+ * 返り値は { sheet, entries: [[ref, 値], …] }（sheet はシート名の指定が無ければ null）。読めなければ null。
+ */
+function parseCellLine(line) {
+  const m = line.match(/^\s*(?:([^!=]+)!)?([A-Za-z]+\d+(?::[A-Za-z]+\d+)?)\s*=\s*(.*)$/);
+  if (!m) return null;
+  const map = new Map();
+  if (!fillRange(m[2], m[3], map)) return null;
+  return { sheet: m[1] ? m[1].trim() : null, entries: [...map] };
+}
+
 /** `F2:F31 = 1, 2, 3` の行を Map<ref, 値> に足す。読めなければ false。 */
 function parseAfterLine(line, after) {
   const m = line.match(/^\s*([A-Za-z]+\d+(?::[A-Za-z]+\d+)?)\s*=\s*(.*)$/);
   if (!m) return false;
-  const r = parseRange(m[1]);
-  const values = m[2].split(',').map(parseValue);
+  return fillRange(m[1], m[2], after);
+}
+
+function fillRange(rangeText, valuesText, map) {
+  const r = parseRange(rangeText);
+  if (!r) return false;
+  const after = map;
+  const values = valuesText.split(',').map(parseValue);
   let i = 0;
   for (let row = r.top; row <= r.bottom; row++) {
     for (let col = r.left; col <= r.right; col++) {
@@ -401,9 +471,15 @@ function dialogHtml(msg) {
 export async function buildSheetDemo({ caption, attrs, lines, lectureAbsDir, where }) {
   const after = new Map();
   const before = new Map();
+  const sheetValues = new Map();
   const msg = {};
   const log = { excel: [], sheets: [] };
   const extraTabs = [];
+  // 選んでいるシート（attrs.sheet、無ければ先頭）以外のシート名が付いた行は、そのシートの中身として描く。
+  const putSheet = (name, entries) => {
+    if (!sheetValues.has(name)) sheetValues.set(name, new Map());
+    for (const [ref, v] of entries) sheetValues.get(name).set(ref, v);
+  };
   for (const line of lines) {
     if (!line.trim()) continue;
     const m = line.match(MSGBOX_RE);
@@ -418,15 +494,25 @@ export async function buildSheetDemo({ caption, attrs, lines, lectureAbsDir, whe
     }
     const tb = line.match(TABS_RE);
     if (tb) {
-      extraTabs.push(...tb[1].split(',').map((t) => t.trim()).filter(Boolean));
+      // `新しいシート <- 元のシート` で、元のシートをコピーした中身にする。
+      for (const t of tb[1].split(',').map((x) => x.trim()).filter(Boolean)) {
+        const [name, from] = t.split('<-').map((x) => x.trim());
+        extraTabs.push({ name, from: from || null });
+      }
       continue;
     }
     const bf = line.match(BEFORE_RE);
-    if (bf) {
-      if (!parseAfterLine(bf[1], before)) console.warn(`[sheets] ::::sheetdemo: cannot read "${line}" in ${where}`);
+    const cell = parseCellLine(bf ? bf[1] : line);
+    if (!cell) {
+      console.warn(`[sheets] ::::sheetdemo: cannot read "${line}" in ${where}`);
       continue;
     }
-    if (!parseAfterLine(line, after)) console.warn(`[sheets] ::::sheetdemo: cannot read "${line}" in ${where}`);
+    const activeName = attrs.sheet || null;
+    if (cell.sheet && cell.sheet !== activeName) {
+      putSheet(cell.sheet, cell.entries);
+      continue;
+    }
+    for (const [ref, v] of cell.entries) (bf ? before : after).set(ref, v);
   }
   const hasMsg = msg.excel !== undefined || msg.sheets !== undefined;
   const hasLog = log.excel.length > 0 || log.sheets.length > 0;
@@ -450,14 +536,16 @@ export async function buildSheetDemo({ caption, attrs, lines, lectureAbsDir, whe
       `</div>` +
       `</div>`
     : '';
-  const { html, error } = await sheetHtml(attrs, lectureAbsDir, after, { allowBlank: true, ribbon, before, extraTabs });
+  const { html, error } = await sheetHtml(attrs, lectureAbsDir, after, { allowBlank: true, ribbon, before, sheetValues, extraTabs });
   if (error) {
     console.warn(`[sheets] ::::sheetdemo ${error} in ${where} (skipped)`);
     return null;
   }
   const cap = caption ? `<figcaption class="sheetdemo__caption">${escapeHtml(caption)}</figcaption>` : '';
   const reset = `<button type="button" class="sheetdemo__reset" disabled>↺ リセット</button>`;
-  const note = `<span class="sheetdemo__note">ブラウザ上での再現です</span>`;
+  const note =
+    `<span class="sheetdemo__note">ブラウザ上での再現です</span>` +
+    `<button type="button" class="sheetdemo__fullscreen" aria-pressed="false">⛶ 全画面</button>`;
   let buttons = '';
   let picker = '';
   let gasEditor = '';

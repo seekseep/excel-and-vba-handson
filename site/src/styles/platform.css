@@ -80,3 +80,9 @@
   font-size: var(--sl-text-sm);
   font-weight: 600;
 }
+
+/* 環境ごとのダウンロードボタン（remark-download / remark-editor）。選んでいる環境のほうだけを出す。 */
+:root:not([data-platform='sheets']) .platform-only--sheets,
+:root[data-platform='sheets'] .platform-only--excel {
+  display: none !important;
+}

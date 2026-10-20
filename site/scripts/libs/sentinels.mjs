@@ -36,6 +36,7 @@ import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 
 import { walkFiles } from './fs-walk.mjs';
+import { ROOT } from './paths.mjs';
 import { assetsDownloadUrlFor, downloadUrlFor, previewUrlFor } from './naming.mjs';
 import { expandSheetSentinels } from './sheets.mjs';
 
@@ -185,10 +186,16 @@ export async function expandSentinels(body, { lectureAbsDir, sec, lec, base, whe
   const inLecture = Boolean(sec && lec);
   const where = inLecture ? `sections/${sec}/${lec}` : (label || 'docs');
   // レクチャー以外では、センチネルが1つも無ければ何もしない。
-  if (!inLecture && !/^::(codeview|preview|assets)\b/m.test(body)) return body;
+  if (!inLecture && !/^::(codeview|preview|assets|::sheetdemo|sheetcode)\b/m.test(body)) return body;
   const exampleAbs = inLecture ? path.join(lectureAbsDir, EXAMPLE_DIR) : null;
   // `::::sheetdemo` / `::sheetcode`（スプレッドシート表示）は sheets.mjs で展開する。
-  if (inLecture) body = await expandSheetSentinels(body, { lectureAbsDir, where, parseAttrs });
+  // レクチャー以外（概要ページなど）では、src="<sec>/<lec>" で指したレクチャーのブックを使う。
+  // lectureDirFor は「自分のレクチャー/../../<src>」で探すので、sections/ 直下の仮の位置を渡す。
+  body = await expandSheetSentinels(body, {
+    lectureAbsDir: inLecture ? lectureAbsDir : path.join(ROOT, 'sections', '_', '_'),
+    where,
+    parseAttrs,
+  });
 
   const lines = body.split('\n');
   const out = [];

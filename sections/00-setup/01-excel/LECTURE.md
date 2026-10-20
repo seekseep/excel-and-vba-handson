@@ -1,9 +1,6 @@
 ---
 docs: true
 title: Excel の準備
-sidebar:
-  label: Excel の準備
-  order: 1
 ---
 
 # Excel の準備
@@ -16,7 +13,7 @@ VBA を書いて動かすまでの準備です。勉強会の前に一度通し�
 |---|---|---|
 | Windows の Excel（Microsoft 365 / 2021 / 2019） | ◯ | 教材はこれを前提に書いています |
 | Mac の Excel（Microsoft 365） | ◯ | ショートカットと PDF の保存先が少し違います |
-| Excel for the web（ブラウザ版） | ✕ | VBA は動きません。[スプレッドシート](./SHEETS.md) で参加してください |
+| Excel for the web（ブラウザ版） | ✕ | VBA は動きません。[スプレッドシート](../02-sheets/LECTURE.md) で参加してください |
 | iPad / スマートフォンの Excel | ✕ | 同上 |
 
 会社の PC では、情報システム部門の方針でマクロが禁止されていることがあります。その場合は無理に設定を変えず、個人の PC かスプレッドシートで参加してください。

@@ -35,16 +35,12 @@
     if (log) log.hidden = false;
     var added = demo.querySelectorAll('.sheet__tab--added');
     var openAdded = demo.hasAttribute('data-open-added');
-    if (added.length && openAdded) {
-      demo.querySelectorAll('.sheet__tab.is-active').forEach(function (t) {
-        t.classList.remove('is-active');
-        t.dataset.wasActive = '1';
-      });
-    }
-    added.forEach(function (t, i) {
+    var current = demo.querySelector('.sheet__tab.is-active');
+    if (current) demo.dataset.startSheet = current.dataset.sheet;
+    added.forEach(function (t) {
       t.hidden = false;
-      t.classList.toggle('is-active', openAdded && i === 0);
     });
+    if (added.length && openAdded) showSheet(demo.querySelector('.sheet'), added[0].dataset.sheet);
     var dialog = demo.querySelector('.sheetdemo__dialog');
     if (dialog) {
       dialog.hidden = false;
@@ -87,13 +83,9 @@
     if (dialog) dialog.hidden = true;
     var log = demo.querySelector('.sheetdemo__log');
     if (log) log.hidden = true;
+    if (demo.dataset.startSheet) showSheet(demo.querySelector('.sheet'), demo.dataset.startSheet);
     demo.querySelectorAll('.sheet__tab--added').forEach(function (t) {
       t.hidden = true;
-      t.classList.remove('is-active');
-    });
-    demo.querySelectorAll('.sheet__tab[data-was-active]').forEach(function (t) {
-      t.classList.add('is-active');
-      delete t.dataset.wasActive;
     });
     demo.querySelectorAll('.sheet__cell.is-changed').forEach(function (cell) {
       cell.textContent = cell.dataset.before;
@@ -173,5 +165,82 @@
     var demo = item.closest('.sheetdemo');
     demo.querySelector('.sheetdemo__macros').hidden = true;
     runMacro(demo, item.dataset.name);
+  });
+  // シートの見出しを押したら、そのシートを出す（ブックの全シートは描いてあり、選んだもの以外は hidden）。
+  function showSheet(sheet, name) {
+    if (!sheet) return;
+    sheet.querySelectorAll('.sheet__grid[data-sheet]').forEach(function (g) {
+      g.hidden = g.dataset.sheet !== name;
+    });
+    sheet.querySelectorAll('.sheet__tab[data-sheet]').forEach(function (t) {
+      t.classList.toggle('is-active', t.dataset.sheet === name);
+    });
+    sheet.querySelectorAll('.sheet__cell.is-selected').forEach(function (c) {
+      c.classList.remove('is-selected');
+    });
+    sheet.querySelector('.sheet__namebox').textContent = '';
+    sheet.querySelector('.sheet__formula').textContent = '';
+  }
+
+  document.addEventListener('click', function (e) {
+    var target = e.target;
+    if (!(target instanceof Element)) return;
+    var tab = target.closest('.sheet__tab[data-sheet]');
+    if (tab) {
+      showSheet(tab.closest('.sheet'), tab.dataset.sheet);
+      return;
+    }
+    var full = target.closest('.sheetdemo__fullscreen');
+    if (full) toggleFullscreen(full.closest('.sheetdemo'), full);
+  });
+
+  // 下端の帯をドラッグして、シートの表示を縦に広げる（全シート共通の高さにする）。
+  document.addEventListener('pointerdown', function (e) {
+    var target = e.target;
+    if (!(target instanceof Element) || !target.classList.contains('sheet__resizer')) return;
+    var sheet = target.closest('.sheet');
+    var visible = sheet.querySelector('.sheet__grid:not([hidden])');
+    if (!visible) return;
+    e.preventDefault();
+    var startY = e.clientY;
+    var startH = visible.getBoundingClientRect().height;
+    target.setPointerCapture(e.pointerId);
+    function move(ev) {
+      var h = Math.max(120, startH + ev.clientY - startY);
+      sheet.style.setProperty('--sheet-grid-height', h + 'px');
+      sheet.classList.add('is-resized');
+    }
+    function up() {
+      target.removeEventListener('pointermove', move);
+      target.removeEventListener('pointerup', up);
+    }
+    target.addEventListener('pointermove', move);
+    target.addEventListener('pointerup', up);
+  });
+
+  // 全画面。Fullscreen API が使えないブラウザ（iPhone の Safari など）は、画面に固定する表示で代わりにする。
+  function toggleFullscreen(demo, button) {
+    var on = !(document.fullscreenElement === demo || demo.classList.contains('is-fullscreen'));
+    if (on && demo.requestFullscreen) {
+      demo.requestFullscreen().catch(function () {
+        demo.classList.add('is-fullscreen');
+      });
+    } else if (!on && document.fullscreenElement === demo) {
+      document.exitFullscreen();
+    } else {
+      demo.classList.toggle('is-fullscreen', on);
+    }
+    button.setAttribute('aria-pressed', on ? 'true' : 'false');
+    button.textContent = on ? '✕ 全画面を終了' : '⛶ 全画面';
+  }
+
+  document.addEventListener('fullscreenchange', function () {
+    document.querySelectorAll('.sheetdemo__fullscreen[aria-pressed="true"]').forEach(function (b) {
+      var demo = b.closest('.sheetdemo');
+      if (document.fullscreenElement !== demo && !demo.classList.contains('is-fullscreen')) {
+        b.setAttribute('aria-pressed', 'false');
+        b.textContent = '⛶ 全画面';
+      }
+    });
   });
 })();

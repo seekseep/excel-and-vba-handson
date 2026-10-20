@@ -19,6 +19,8 @@
  * コンテナは 4 コロン（::::）で開く（中にコードフェンスを含むため 3 コロンでもよいが統一）。
  */
 
+import { platformZips } from './lib/platform-zip.mjs';
+
 const NAME = 'editor';
 const FILE_META_RE = /data-file="([^"]*)"/;
 const DEFAULT_TITLE = 'このステップの完成例';
@@ -47,13 +49,24 @@ function text(value) {
   return { type: 'text', value };
 }
 
-/** remark-download と同じ見た目の ZIP ダウンロードボタンを作る。 */
+/**
+ * remark-download と同じ見た目の ZIP ダウンロードボタンを作る。
+ * 環境ごとの ZIP があるときは両方作り、選んでいる環境のほうだけを見せる（platform.css）。
+ */
 function downloadButton(zipUrl) {
+  const variants = platformZips(zipUrl);
+  if (variants) {
+    return el('span', ['download-buttons'], variants.map((v) => singleButton(v.url, `platform-only--${v.platform}`)));
+  }
+  return singleButton(zipUrl);
+}
+
+function singleButton(zipUrl, extraClass) {
   return {
     type: 'element',
     data: {
       hName: 'a',
-      hProperties: { className: ['download-button'], href: zipUrl, download: true },
+      hProperties: { className: ['download-button', ...(extraClass ? [extraClass] : [])], href: zipUrl, download: true },
     },
     children: [
       el('span', ['download-button__icon'], [], { 'aria-hidden': 'true' }),

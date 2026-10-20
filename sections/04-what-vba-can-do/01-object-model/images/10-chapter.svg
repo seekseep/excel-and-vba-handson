@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="420" viewBox="0 0 1040 420" font-family="'Hiragino Sans','Noto Sans JP','Yu Gothic','Segoe UI',sans-serif">
+<defs><marker id="aR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#475569"/></marker><marker id="aRsub" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#94a3b8"/></marker></defs>
+<rect x="0" y="0" width="1040" height="420" fill="#ffffff"/>
+<svg x="100.0" y="157.2" width="80.0" height="80.0" viewBox="0 0 36 36"><path fill="#CCD6DD" d="M31 2H5C3.343 2 2 3.343 2 5v26c0 1.657 1.343 3 3 3h26c1.657 0 3-1.343 3-3V5c0-1.657-1.343-3-3-3z"/><path fill="#E1E8ED" d="M31 1H5C2.791 1 1 2.791 1 5v26c0 2.209 1.791 4 4 4h26c2.209 0 4-1.791 4-4V5c0-2.209-1.791-4-4-4zm0 2c1.103 0 2 .897 2 2v4h-6V3h4zm-4 16h6v6h-6v-6zm0-2v-6h6v6h-6zM25 3v6h-6V3h6zm-6 8h6v6h-6v-6zm0 8h6v6h-6v-6zM17 3v6h-6V3h6zm-6 8h6v6h-6v-6zm0 8h6v6h-6v-6zM3 5c0-1.103.897-2 2-2h4v6H3V5zm0 6h6v6H3v-6zm0 8h6v6H3v-6zm2 14c-1.103 0-2-.897-2-2v-4h6v6H5zm6 0v-6h6v6h-6zm8 0v-6h6v6h-6zm12 0h-4v-6h6v4c0 1.103-.897 2-2 2z"/><path fill="#5C913B" d="M13 33H7V16c0-1.104.896-2 2-2h2c1.104 0 2 .896 2 2v17z"/><path fill="#3B94D9" d="M29 33h-6V9c0-1.104.896-2 2-2h2c1.104 0 2 .896 2 2v24z"/><path fill="#DD2E44" d="M21 33h-6V23c0-1.104.896-2 2-2h2c1.104 0 2 .896 2 2v10z"/></svg>
+<text x="140" y="260.78" text-anchor="middle" font-size="17" fill="#475569" font-weight="600">売上シート</text>
+<rect x="400" y="30" width="300" height="360" rx="16" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2.0" stroke-dasharray="7 6"/>
+<text x="550" y="62" text-anchor="middle" font-size="17" fill="#475569" font-weight="600">顧客ごとのシート</text>
+<rect x="440" y="82" width="220" height="44" rx="8" fill="#fef9c3" stroke="#f59e0b" stroke-width="2.0"/>
+<text x="550" y="111" text-anchor="middle" font-size="15" fill="#475569" font-weight="400">ひまわり商事</text>
+<rect x="440" y="140" width="220" height="44" rx="8" fill="#fef9c3" stroke="#f59e0b" stroke-width="2.0"/>
+<text x="550" y="169" text-anchor="middle" font-size="15" fill="#475569" font-weight="400">あおば設計事務所</text>
+<rect x="440" y="198" width="220" height="44" rx="8" fill="#fef9c3" stroke="#f59e0b" stroke-width="2.0"/>
+<text x="550" y="227" text-anchor="middle" font-size="15" fill="#475569" font-weight="400">みなと物産</text>
+<rect x="440" y="256" width="220" height="44" rx="8" fill="#fef9c3" stroke="#f59e0b" stroke-width="2.0"/>
+<text x="550" y="285" text-anchor="middle" font-size="15" fill="#475569" font-weight="400">さくら学習塾</text>
+<rect x="440" y="314" width="220" height="44" rx="8" fill="#fef9c3" stroke="#f59e0b" stroke-width="2.0"/>
+<text x="550" y="343" text-anchor="middle" font-size="15" fill="#475569" font-weight="400">こもれび珈琲</text>
+<svg x="860.0" y="157.2" width="80.0" height="80.0" viewBox="0 0 36 36"><path fill="#31373D" d="M4 36s-4 0-4-4V4s0-4 4-4h26c1 0 2 1 2 1l3 3s1 1 1 2v26s0 4-4 4H4z"/><path fill="#55ACEE" d="M5 19v-1s0-2 2-2h21c2 0 2 2 2 2v1H5z"/><path fill="#E1E8ED" d="M5 32.021V19h25v13s0 2-2 2H7c-2 0-2-1.979-2-1.979zM10 3s0-1 1-1h18c1.048 0 1 1 1 1v10s0 1-1 1H11s-1 0-1-1V3zm12 10h5V3h-5v10z"/></svg>
+<text x="900" y="260.78" text-anchor="middle" font-size="17" fill="#475569" font-weight="600">ブックのコピーを保存</text>
+<path d="M190.20 210.00 L239.90 210.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M344.30 210.00 L394.00 210.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<text x="292.1" y="215.95" text-anchor="middle" font-size="17" fill="#0f172a" font-weight="600">振り分ける</text>
+<path d="M706.00 210.00 L730.12 210.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M781.48 210.00 L805.60 210.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<text x="755.8" y="215.95" text-anchor="middle" font-size="17" fill="#0f172a" font-weight="600">保存</text>
+</svg>
