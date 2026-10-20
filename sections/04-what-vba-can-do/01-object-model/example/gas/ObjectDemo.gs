@@ -1,3 +1,10 @@
+function onOpen() {
+  SpreadsheetApp.getUi()
+    .createMenu('デモ')
+    .addItem('ブックの情報を出す', 'showObjects')
+    .addToUi();
+}
+
 function showObjects() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   console.log('スプレッドシートの名前: ' + ss.getName());

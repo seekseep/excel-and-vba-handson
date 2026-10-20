@@ -16,7 +16,7 @@ title: Excel は部品の入れ子
 [サンプルのスプレッドシートをコピー](./spreadsheet)
 :::
 
-練習用ブック（Excel は ZIP の `data/sales.xlsm`、スプレッドシートは上のボタンでコピーするサンプル）は第 3 章と同じ売上明細で、金額（F 列）まで埋まっています。Excel のブックにはデモのマクロが入っていて、「売上」シートの右側にはそれを動かすボタンが置いてあります。開くときに [マクロを有効にする](../../00-setup/01-excel/LECTURE.md#ダウンロードしたマクロ入りのブック) 必要があります。
+練習用ブック（Excel は ZIP の `data/sales.xlsm`、スプレッドシートは上のボタンでコピーするサンプル）は第 3 章と同じ売上明細で、金額（F 列）まで埋まっています。Excel のブックにはデモのマクロが入っていて、「売上」シートの右側にはそれを動かすボタンが置いてあります。スプレッドシートのサンプルにはコードが入っていないので、ZIP の `gas/ObjectDemo.gs` を Apps Script エディタに貼ると、デモを **デモ** メニューから動かせます。開くときに [マクロを有効にする](../../00-setup/01-excel/LECTURE.md#ダウンロードしたマクロ入りのブック) 必要があります。
 
 ## Excel は部品の入れ子でできている
 
@@ -75,11 +75,11 @@ console.log('売上!B2 の値: ' + ss.getSheetByName('売上').getRange('B2').ge
 「売上」シートの **ブックの情報を出す** ボタンを押します（「開発」タブ →「マクロ」で `ShowObjects` を選んで「実行」を押しても同じです）。
 ::::
 ::::sheets
-Apps Script エディタの関数の選択欄で `showObjects` を選び、「▶ 実行」を押します。
+ZIP の `gas/ObjectDemo.gs` を貼って保存し、スプレッドシートのタブを再読み込みしてから、メニューの「デモ」→「ブックの情報を出す」を押します（Apps Script エディタの関数の選択欄で `showObjects` を選んで「▶ 実行」を押しても同じです）。
 ::::
 :::::
 
-::::sheetdemo[ShowObjects を実行すると、ブックとシートの情報が書き出される]{book="data/sales.xlsx" sheet="売上" macro="ShowObjects"}
+::::sheetdemo[ShowObjects を実行すると、ブックとシートの情報が書き出される]{book="data/sales.xlsx" menu="デモ" sheet="売上" macro="ShowObjects"}
 log = ブックの名前: sales.xlsm
 log = シートの数: 1
 log = 1 枚目のシート: 売上

@@ -602,10 +602,200 @@ button.sheet__ribbon-btn:hover:not(:disabled) {
   background: #e6f2ea;
 }
 
+/* リボンの「開発」タブ（押すと「マクロ」が出る）。 */
+.sheetdemo__dev-tab {
+  padding: 0.2rem 0.55rem;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: none;
+  color: #444;
+  font: inherit;
+  cursor: pointer;
+}
+
+.sheetdemo__dev-tab:hover {
+  background: #e6e6e6;
+}
+
+.sheetdemo__dev-tab.is-active {
+  border-bottom-color: #217346;
+  color: #217346;
+  font-weight: 700;
+}
+
+.sheet__ribbon-body[hidden] {
+  display: none;
+}
+
+/* Excel の手順の案内で、次に押すところ。 */
+.sheetdemo .is-guide {
+  outline: 2px solid #f0a020;
+  outline-offset: 1px;
+  border-radius: 3px;
+  animation: sheetdemo-guide 1.4s ease-in-out infinite;
+}
+
+/* 一覧の中の項目は、枠の外に出すと一覧の端で切れるので内側に描く。 */
+.sheetdemo .sheetdemo__macro-item.is-guide {
+  outline-offset: -2px;
+}
+
+@keyframes sheetdemo-guide {
+  50% {
+    outline-color: rgba(240, 160, 32, 0.25);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sheetdemo .is-guide {
+    animation: none;
+  }
+}
+
+/* 手順の案内（シートの上）。ページの地の色に合わせる。 */
+.sheetdemo__guide {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem 1.4rem;
+  margin: 0 0 0.5rem;
+  padding: 0;
+  list-style: none;
+  counter-reset: sheetdemo-step;
+  color: var(--sl-color-gray-3);
+  font-size: var(--sl-text-xs);
+}
+
+.sheetdemo__guide li {
+  margin: 0;
+  counter-increment: sheetdemo-step;
+}
+
+.sheetdemo__guide li::before {
+  content: counter(sheetdemo-step) '. ';
+}
+
+.sheetdemo__guide li.is-current {
+  color: var(--sl-color-white);
+  font-weight: 700;
+}
+
+.sheetdemo__guide li.is-done {
+  text-decoration: line-through;
+}
+
 button.sheet__ribbon-btn:disabled {
   border-color: #c8c8c8;
   color: #8a8a8a;
   cursor: default;
+}
+
+/* ---- スプレッドシートのメニューバー ----
+   Excel のリボンの位置に出す。独自メニュー（onOpen で足すもの）は「ヘルプ」の右に並び、
+   押すとドロップダウンが開く。シートの画面と同じく、ダークモードでも明るい色のままにする。 */
+
+.sheet__titlebar:has(~ .sheet__menubar) {
+  border-bottom: 0;
+}
+
+.sheet__menubar {
+  position: relative;
+  z-index: 4;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.05rem;
+  padding: 0.1rem 0.45rem 0.25rem;
+  border-bottom: 1px solid var(--sheet-head-border);
+  background: #f9fbfd;
+  color: #1f1f1f;
+  font-family: 'Google Sans', Roboto, Arial, 'Hiragino Sans', 'Noto Sans JP', system-ui, sans-serif;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.sheet__menubar-item {
+  padding: 0.15rem 0.45rem;
+  border: 0;
+  border-radius: 4px;
+  background: none;
+  color: #444746;
+  font: inherit;
+  white-space: nowrap;
+}
+
+.sheet__menu {
+  position: relative;
+}
+
+button.sheet__menubar-item {
+  color: #1f1f1f;
+  cursor: pointer;
+}
+
+button.sheet__menubar-item:hover,
+.sheet__menu.is-open .sheet__menu-open {
+  background: rgba(31, 31, 31, 0.08);
+}
+
+.sheet__menu.is-open .sheet__menu-open {
+  background: #d3e3fd;
+  color: #041e49;
+}
+
+button.sheet__menubar-item:focus-visible,
+.sheet__menu-item:focus-visible {
+  outline: 2px solid #0b57d0;
+  outline-offset: -2px;
+}
+
+.sheet__menu-list {
+  position: absolute;
+  top: calc(100% + 2px);
+  left: 0;
+  z-index: 5;
+  min-width: 11rem;
+  margin: 0;
+  padding: 0.4rem 0;
+  border-radius: 4px;
+  background: #fff;
+  box-shadow:
+    0 1px 2px rgba(60, 64, 67, 0.3),
+    0 2px 6px 2px rgba(60, 64, 67, 0.15);
+  list-style: none;
+}
+
+.sheet__menu-list[hidden] {
+  display: none;
+}
+
+.sheet__menu-list li {
+  margin: 0;
+}
+
+.sheet__menu-item {
+  display: block;
+  width: 100%;
+  padding: 0.35rem 1.5rem 0.35rem 2.2rem;
+  border: 0;
+  background: none;
+  color: #1f1f1f;
+  font: inherit;
+  text-align: start;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.sheet__menu-item:hover {
+  background: #f1f3f4;
+}
+
+/* デモで再現していない項目を押したときの吹き出しは、メニューバーの右下に出す。 */
+.sheet__menubar > .sheet__button-hint {
+  top: calc(100% + 4px);
+  right: 0.5rem;
+  left: auto;
+  width: max-content;
+  max-width: 16rem;
 }
 
 .sheetdemo__gas-editor {

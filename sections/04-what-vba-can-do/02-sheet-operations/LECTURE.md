@@ -14,7 +14,7 @@ title: シートとファイルを操作する
 [サンプルのスプレッドシートをコピー](./spreadsheet)
 :::
 
-Excel のブックでは、「売上」シートの右側に、この節のデモ（**表を整える**・**顧客別に分ける**・**増えたシートを消す**・**バックアップを保存**）と 4-1 の **ブックの情報を出す** のボタンが置いてあります。
+Excel のブックでは、「売上」シートの右側に、この節のデモ（**表を整える**・**顧客別に分ける**・**増えたシートを消す**・**バックアップを保存**）と 4-1 の **ブックの情報を出す** のボタンが置いてあります。スプレッドシートでは、ZIP の `gas/ObjectDemo.gs` を貼ると、同じ項目が **デモ** メニューに出ます。
 
 ## デモ 1: 表を飾る（`DecorateSales`）
 
@@ -118,11 +118,11 @@ for (let c = 5; c <= 9; c++) {
 「売上」シートの **顧客別に分ける** ボタンを押します（「開発」タブ →「マクロ」で `SplitByCustomer` を選んで「実行」を押しても同じです）。
 ::::
 ::::sheets
-Apps Script エディタの関数の選択欄で `splitByCustomer` を選び、「▶ 実行」を押します。
+メニューの「デモ」→「顧客別に分ける」を押します（Apps Script エディタの関数の選択欄で `splitByCustomer` を選んで「▶ 実行」を押しても同じです）。
 ::::
 :::::
 
-::::sheetdemo[SplitByCustomer を実行すると、顧客ごとのシートが 5 枚増える]{book="data/sales.xlsx" sheet="売上" macro="SplitByCustomer" macros="ShowObjects,DecorateSales,SplitByCustomer,DeleteDemoSheets,SaveBackup"}
+::::sheetdemo[SplitByCustomer を実行すると、顧客ごとのシートが 5 枚増える]{book="data/sales.xlsx" menu="デモ" sheet="売上" macro="SplitByCustomer" macros="ShowObjects,DecorateSales,SplitByCustomer,DeleteDemoSheets,SaveBackup"}
 tabs = ひまわり商事, あおば設計事務所, みなと物産, さくら学習塾, こもれび珈琲
 ひまわり商事!A1:F1 = 日付, 顧客, 商品, 単価, 数量, 金額
 ひまわり商事!A2:F2 = 2026/10/07, ひまわり商事, ホッチキス, 680, 2, 1360
@@ -232,7 +232,7 @@ DriveApp.getFileById(ss.getId()).makeCopy('売上_バックアップ_' + stamp);
 | 宛名を書く | `Range(...).Value` | 2 |
 | その顧客の明細だけを書き写す | `For` と `If` | 3・4 |
 | PDF にする | シートの `.ExportAsFixedFormat` | 5 |
-| ボタンで実行する | ボタンへのマクロの登録 | 5 |
+| ボタン（メニュー）で実行する | ボタンへのマクロの登録（GAS は `onOpen` のメニュー） | 3・5 |
 
 ## どの道具を使うか
 

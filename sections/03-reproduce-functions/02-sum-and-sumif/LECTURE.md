@@ -65,11 +65,11 @@ J2 が I2 と同じ **68,580** になれば成功です。
 「売上」シートの **売上合計を出す** ボタンを押します（「開発」タブ →「マクロ」で `SumTotal` を選んで「実行」を押しても同じです）。
 ::::
 ::::sheets
-Apps Script エディタの関数の選択欄で `sumTotal` を選び、「▶ 実行」を押します。
+`onOpen` の `.addToUi()` の上に `.addItem('売上合計を出す', 'sumTotal')` を足して保存し、スプレッドシートのタブを再読み込みします。メニューの「売上集計」→「売上合計を出す」を押します（Apps Script エディタの関数の選択欄で `sumTotal` を選んで「▶ 実行」を押しても同じです）。
 ::::
 :::::
 
-::::sheetdemo[SumTotal を実行すると、J2 に売上合計が入る]{book="data/sales.xlsx" sheet="売上" macro="SumTotal" macros="CalcAmounts,SumTotal,SumByCustomer"}
+::::sheetdemo[SumTotal を実行すると、J2 に売上合計が入る]{book="data/sales.xlsx" menu="売上集計" sheet="売上" macro="SumTotal" macros="CalcAmounts,SumTotal,SumByCustomer"}
 before F2:F31 = 1250, 2500, 1360, 1650, 1800, 6800, 360, 1200, 1250, 600, 11000, 60, 1100, 8160, 1800, 6800, 1100, 8160, 600, 120, 900, 360, 250, 1250, 250, 500, 2500, 3200, 500, 1200
 J2 = 68580
 ::::
@@ -130,11 +130,11 @@ J5 が I5 と同じ **13,420** になれば成功です。
 「売上」シートの **顧客別に集計** ボタンを押します（「開発」タブ →「マクロ」で `SumByCustomer` を選んで「実行」を押しても同じです）。
 ::::
 ::::sheets
-Apps Script エディタの関数の選択欄で `sumByCustomer` を選び、「▶ 実行」を押します。
+`onOpen` の `.addToUi()` の上に `.addItem('顧客別に集計', 'sumByCustomer')` を足して保存し、スプレッドシートのタブを再読み込みします。メニューの「売上集計」→「顧客別に集計」を押します（Apps Script エディタの関数の選択欄で `sumByCustomer` を選んで「▶ 実行」を押しても同じです）。
 ::::
 :::::
 
-::::sheetdemo[SumByCustomer を実行すると、J5 に H5 の顧客の合計が入る]{book="data/sales.xlsx" sheet="売上" macro="SumByCustomer" macros="CalcAmounts,SumTotal,SumByCustomer"}
+::::sheetdemo[SumByCustomer を実行すると、J5 に H5 の顧客の合計が入る]{book="data/sales.xlsx" menu="売上集計" sheet="売上" macro="SumByCustomer" macros="CalcAmounts,SumTotal,SumByCustomer"}
 before F2:F31 = 1250, 2500, 1360, 1650, 1800, 6800, 360, 1200, 1250, 600, 11000, 60, 1100, 8160, 1800, 6800, 1100, 8160, 600, 120, 900, 360, 250, 1250, 250, 500, 2500, 3200, 500, 1200
 J5 = 13420
 ::::

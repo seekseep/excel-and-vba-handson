@@ -19,6 +19,11 @@
  *         スプレッドシート … 関数の選択欄で選んで「▶ 実行」（Apps Script エディタと同じ）
  *       一覧に並べる名前は macros="Hello,WriteCells"（既定は macro だけ）。GAS 側の名前は
  *       先頭を小文字にしたもの（Hello → hello）。結果が出るのは macro を選んだときだけ。
+ *       menu="請求書" を付けると、スプレッドシート表示のメニューバーの「ヘルプ」の右に独自メニュー
+ *       （onOpen で足すメニュー）を出す。項目はそのシートのボタンと同じ文字で、押すとボタンと同じく動く。
+ *       menu が無いときやボタンの無いシートでは、標準のメニューだけを出す。
+ *       独自メニューを出すデモは、本物と同じくスプレッドシートではメニューからだけ動かす
+ *       （Apps Script エディタの「▶ 実行」や上の「▶ 実行」は出さない）。
  *
  *   ::sheetcode{book="data/sales.xlsx" sheet="売上" range="A1:F8" code="SalesSummary" macro="CalcAmounts"}
  *     … VBA ／ GAS のコードと、そのコードが扱うシートを左右に並べる。
@@ -337,7 +342,7 @@ function renderGrid(ws, { range, highlight, after, before, buttons = [] }) {
  *   extraTabs       … 実行で増えるシート [{ name, from }]。from のシートをコピーした中身に
  *                     sheetValues.get(name) を上書きして描き、実行するまで隠しておく
  */
-function renderSheet(wb, ws, { range, highlight, after, before, sheetValues = new Map(), extraTabs = [], fileName, ribbon = '', blank = false }) {
+function renderSheet(wb, ws, { range, highlight, after, before, sheetValues = new Map(), extraTabs = [], fileName, ribbon = '', menubar = false, menu, blank = false }) {
   const panes = [];
   const tabs = [];
   const sheets = blank ? [ws] : wb.worksheets;
@@ -376,6 +381,7 @@ function renderSheet(wb, ws, { range, highlight, after, before, sheetValues = ne
     file +
     `</div>` +
     ribbon +
+    (menubar ? menubarHtml(menu, wb.buttons?.get(ws.name) ?? []) : '') +
     `<div class="sheet__formulabar">` +
     `<span class="sheet__namebox"></span><span class="sheet__fx">fx</span><span class="sheet__formula"></span>` +
     `</div>` +
@@ -385,6 +391,30 @@ function renderSheet(wb, ws, { range, highlight, after, before, sheetValues = ne
     `<div class="sheet__tabs">${tabs.join('')}</div>` +
     `</div>`
   );
+}
+
+// スプレッドシートのメニューバー。独自メニュー（onOpen で足すもの）は本物と同じく「ヘルプ」の右に出し、
+// 項目はシートのボタンと同じ文字にする（GAS の例はボタンの代わりにこのメニューから実行する）。
+const SHEETS_MENUS = ['ファイル', '編集', '表示', '挿入', '表示形式', 'データ', 'ツール', '拡張機能', 'ヘルプ'];
+
+function menubarHtml(menu, buttons) {
+  const std = SHEETS_MENUS.map((t) => `<span class="sheet__menubar-item">${t}</span>`).join('');
+  let custom = '';
+  if (menu && buttons.length) {
+    const items = buttons
+      .map(
+        (b) =>
+          `<li role="none"><button type="button" role="menuitem" class="sheet__menu-item"` +
+          ` data-macro="${escapeHtml(b.macro)}" data-function="${escapeHtml(gasNameOf(b.macro))}">${escapeHtml(b.text)}</button></li>`,
+      )
+      .join('');
+    custom =
+      `<div class="sheet__menu">` +
+      `<button type="button" class="sheet__menubar-item sheet__menu-open" aria-haspopup="menu" aria-expanded="false">${escapeHtml(menu)}</button>` +
+      `<ul class="sheet__menu-list" role="menu" aria-label="${escapeHtml(menu)}" hidden>${items}</ul>` +
+      `</div>`;
+  }
+  return `<div class="sheet__menubar sheet__only--sheets">${std}${custom}</div>`;
 }
 
 // 増えるシートに元のシートが無いとき（白紙のシート）に使う、空のシートの代わり。
@@ -423,13 +453,13 @@ function safeRel(rel) {
   return s;
 }
 
-async function sheetHtml(attrs, lectureAbsDir, after, { allowBlank = false, ribbon = '', before, sheetValues, extraTabs } = {}) {
-  const common = { highlight: attrs.highlight, after, ribbon, before, sheetValues, extraTabs };
+async function sheetHtml(attrs, lectureAbsDir, after, { allowBlank = false, ribbon = '', menubar = false, before, sheetValues, extraTabs } = {}) {
+  const common = { highlight: attrs.highlight, after, ribbon, menubar, menu: attrs.menu, before, sheetValues, extraTabs };
   // book を指定しないときは空白のブック。シート名は sheet 属性（既定 Sheet1）。
   if (allowBlank && !attrs.book) {
     const wb = await newWorkbook();
     const ws = wb.addWorksheet(attrs.sheet || 'Sheet1');
-    return { html: renderSheet(wb, ws, { ...common, range: attrs.range || 'A1:E6', blank: !attrs.sheet }) };
+    return { html: renderSheet(wb, ws, { ...common, range: attrs.range || 'A1:E6', blank: !attrs.sheet }), hasMenu: false };
   }
   const dir = lectureDirFor(attrs, lectureAbsDir);
   const rel = safeRel(attrs.book);
@@ -443,7 +473,9 @@ async function sheetHtml(attrs, lectureAbsDir, after, { allowBlank = false, ribb
   }
   const ws = attrs.sheet ? wb.getWorksheet(attrs.sheet) : wb.worksheets[0];
   if (!ws) return { error: `no sheet "${attrs.sheet}" in ${rel}` };
-  return { html: renderSheet(wb, ws, { ...common, range: attrs.range, fileName: path.basename(rel) }) };
+  const hasButtons = Boolean(wb.buttons?.get(ws.name)?.length);
+  const hasMenu = Boolean(attrs.menu && hasButtons);
+  return { html: renderSheet(wb, ws, { ...common, range: attrs.range, fileName: path.basename(rel) }), hasMenu, hasButtons };
 }
 
 // ---- ::::sheetdemo ----
@@ -589,22 +621,26 @@ export async function buildSheetDemo({ caption, attrs, lines, lectureAbsDir, whe
   const names = useMacro
     ? [...new Set([attrs.macro, ...String(attrs.macros || '').split(',').map((n) => n.trim()).filter(Boolean)])]
     : [];
-  // Excel: 本文の手順（「開発」タブ →「マクロ」）どおり、Excel の画面の中にリボンを描く。
+  // Excel: 本文の手順（「開発」タブ →「マクロ」→ 選んで「実行」）をなぞれるよう、Excel の画面の中にリボンを描く。
+  // 最初は「ホーム」を開いておき、「開発」を押すと「マクロ」が出る。次に押すところは sheet-client.js が光らせる。
   const ribbon = useMacro
     ? `<div class="sheet__ribbon sheet__only--excel">` +
       `<div class="sheet__ribbon-tabs">` +
       ['ファイル', 'ホーム', '挿入', 'ページ レイアウト', '数式', 'データ', '校閲', '表示']
-        .map((t) => `<span>${t}</span>`)
+        .map((t) => `<span${t === 'ホーム' ? ' class="is-active sheetdemo__home-tab"' : ''}>${t}</span>`)
         .join('') +
-      `<span class="is-active">開発</span>` +
+      `<button type="button" class="sheetdemo__dev-tab is-guide">開発</button>` +
       `</div>` +
-      `<div class="sheet__ribbon-body">` +
+      `<div class="sheet__ribbon-body sheetdemo__home-body">` +
+      ['貼り付け', 'フォント', '配置', '数値', 'スタイル'].map((t) => `<span class="sheet__ribbon-btn is-disabled">${t}</span>`).join('') +
+      `</div>` +
+      `<div class="sheet__ribbon-body sheetdemo__dev-body" hidden>` +
       `<span class="sheet__ribbon-btn is-disabled">Visual Basic</span>` +
       `<button type="button" class="sheet__ribbon-btn sheetdemo__macro-open">マクロ</button>` +
       `</div>` +
       `</div>`
     : '';
-  const { html, error } = await sheetHtml(attrs, lectureAbsDir, after, { allowBlank: true, ribbon, before, sheetValues, extraTabs });
+  const { html, error, hasMenu, hasButtons } = await sheetHtml(attrs, lectureAbsDir, after, { allowBlank: true, ribbon, menubar: true, before, sheetValues, extraTabs });
   if (error) {
     console.warn(`[sheets] ::::sheetdemo ${error} in ${where} (skipped)`);
     return null;
@@ -617,8 +653,19 @@ export async function buildSheetDemo({ caption, attrs, lines, lectureAbsDir, whe
   let buttons = '';
   let picker = '';
   let gasEditor = '';
+  let guide = '';
   if (useMacro) {
     buttons = `<div class="sheetdemo__bar" data-macro="${escapeHtml(attrs.macro)}">${reset}${note}</div>`;
+    // Excel で操作するときの手順の目安。今の手順を太字にする（本物と完全に同じでなくてよい）。
+    guide =
+      `<ol class="sheetdemo__guide sheet__only--excel" aria-label="Excel での動かし方">` +
+      `<li data-step="tab" class="is-current">「開発」タブ</li>` +
+      `<li data-step="macro">「マクロ」</li>` +
+      `<li data-step="run">「${escapeHtml(attrs.macro)}」を選んで「実行」</li>` +
+      `</ol>`;
+  }
+  // 独自メニューがあるときは、スプレッドシートではメニューから動かすのでエディタは出さない。
+  if (useMacro && !hasMenu) {
     // スプレッドシート: 本文の手順（Apps Script エディタで関数を選んで実行）どおり、
     // シートの上にエディタの画面を描く。小窓はシート側に出る。
     const gasOptions = names
@@ -633,6 +680,8 @@ export async function buildSheetDemo({ caption, attrs, lines, lectureAbsDir, whe
       `<select class="sheetdemo__gas-select" aria-label="実行する関数">${gasOptions}</select>` +
       `</div>` +
       `</div>`;
+  }
+  if (useMacro) {
     const items = names
       .map((n) => `<li><button type="button" class="sheetdemo__macro-item" data-name="${escapeHtml(n)}">${escapeHtml(n)}</button></li>`)
       .join('');
@@ -652,9 +701,11 @@ export async function buildSheetDemo({ caption, attrs, lines, lectureAbsDir, whe
       `</div>` +
       `</div>`;
   } else if (canRun) {
+    // シートにボタンがあれば、本物と同じくボタン（スプレッドシートは独自メニュー）のどれからでも動かす
+    // （data-any-run）。「▶ 実行」を出すのは、ボタンが無くて動かす手段がほかに無いときだけ。
     buttons =
-      `<div class="sheetdemo__bar">` +
-      `<button type="button" class="sheetdemo__run">▶ 実行</button>` +
+      `<div class="sheetdemo__bar"${hasButtons ? ' data-any-run' : ''}>` +
+      (hasButtons ? '' : `<button type="button" class="sheetdemo__run">▶ 実行</button>`) +
       reset +
       note +
       `</div>`;
@@ -663,7 +714,7 @@ export async function buildSheetDemo({ caption, attrs, lines, lectureAbsDir, whe
   const logPanel = hasLog ? logHtml(log) : '';
   // openTab="added" … 実行後に、増えたシートを選んだ状態にする（シートをコピーしたまま終わるマクロ）。
   const openAdded = attrs.openTab === 'added' ? ' data-open-added' : '';
-  return `<figure class="sheetdemo not-content"${openAdded}>${buttons}${gasEditor}<div class="sheetdemo__stage">${html}${picker}${dialog}</div>${logPanel}${cap}</figure>`;
+  return `<figure class="sheetdemo not-content"${openAdded}>${buttons}${guide}${gasEditor}<div class="sheetdemo__stage">${html}${picker}${dialog}</div>${logPanel}${cap}</figure>`;
 }
 
 // ---- ::sheetcode ----
