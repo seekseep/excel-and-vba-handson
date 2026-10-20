@@ -31,7 +31,14 @@ import { ZipArchive } from 'archiver';
 import iconv from 'iconv-lite';
 
 import { walkFiles } from './libs/fs-walk.mjs';
-import { assetsZipBasenameFor, exampleDirOf, parseLectureRel, platformZipBasenameFor, zipBasenameFor } from './libs/naming.mjs';
+import {
+  assetsZipBasenameFor,
+  exampleDirOf,
+  parseLectureRel,
+  platformZipBasenameFor,
+  startZipBasenameFor,
+  zipBasenameFor,
+} from './libs/naming.mjs';
 import { DOWNLOADS_DIR, ROOT } from './libs/paths.mjs';
 
 const IGNORE_DIRS = new Set(['node_modules', '.git']);
@@ -85,13 +92,35 @@ async function zipExample(lectureRel) {
   const count = await zipFiles(exampleAbs, files, outPath, lec);
   // Office マクロ系は、環境ごとの ZIP も出す（Excel は gas/ を、スプレッドシートは vba/ を入れない）。
   // 本文のダウンロードボタンは、選んでいる環境の ZIP を指す（remark-download / remark-editor）。
+  // Excel は、同じ名前のマクロ入り（.xlsm）があるブックは .xlsx を入れず .xlsm だけにする。
+  // スプレッドシートはマクロを使わないので .xlsm を入れない（.xlsx をアップロードして使う）。
   if (files.some((f) => f.startsWith('vba/') || f.startsWith('gas/'))) {
-    for (const [platform, drop] of [['excel', 'gas/'], ['sheets', 'vba/']]) {
-      const picked = files.filter((f) => !f.startsWith(drop));
-      await zipFiles(exampleAbs, picked, path.join(DOWNLOADS_DIR, platformZipBasenameFor(sec, lec, platform)), lec);
+    const hasXlsm = (f) => files.includes(f.replace(/\.xlsx$/, '.xlsm'));
+    const pick = {
+      excel: files.filter((f) => !f.startsWith('gas/') && !(f.endsWith('.xlsx') && hasXlsm(f))),
+      sheets: files.filter((f) => !f.startsWith('vba/') && !f.endsWith('.xlsm')),
+    };
+    for (const platform of ['excel', 'sheets']) {
+      await zipFiles(exampleAbs, pick[platform], path.join(DOWNLOADS_DIR, platformZipBasenameFor(sec, lec, platform)), lec);
     }
   }
   return count;
+}
+
+/**
+ * 章の最初の節には、その節を始める状態（練習用ブック .xlsx だけ）の ZIP を作る。
+ * 2 つ目以降の節は、前の節を終えた状態の ZIP が始める状態になる（sync-lectures.mjs の `./start.zip`）。
+ */
+async function zipStart(lectureRel, isFirstInSection) {
+  if (!isFirstInSection) return null;
+  const { sec, lec } = parseLectureRel(lectureRel);
+  const exampleAbs = path.join(ROOT, ...exampleDirOf(lectureRel).split('/'));
+  const files = (await walkFiles(exampleAbs, { ignoreDirs: IGNORE_DIRS, ignoreNames: IGNORE_NAMES })).filter(
+    (f) => f.startsWith('data/') && f.endsWith('.xlsx'),
+  );
+  if (files.length === 0) return null;
+  await zipFiles(exampleAbs, files, path.join(DOWNLOADS_DIR, startZipBasenameFor(sec, lec)), lec);
+  return files.length;
 }
 
 async function zipExampleAssets(lectureRel) {
@@ -114,9 +143,15 @@ async function main() {
   await mkdir(DOWNLOADS_DIR, { recursive: true });
 
   const lectures = await findExampleLectures();
+  const seenSections = new Set();
   for (const lectureRel of lectures) {
     const { sec, lec } = parseLectureRel(lectureRel);
     const count = await zipExample(lectureRel);
+    const startCount = await zipStart(lectureRel, !seenSections.has(sec));
+    seenSections.add(sec);
+    if (startCount !== null) {
+      console.log(`[build-downloads] ${lectureRel}/example/data -> site/public/downloads/${startZipBasenameFor(sec, lec)} (${startCount} files)`);
+    }
     console.log(`[build-downloads] ${lectureRel}/example -> site/public/downloads/${zipBasenameFor(sec, lec)} (${count} files)`);
     const assetCount = await zipExampleAssets(lectureRel);
     if (assetCount !== null) {

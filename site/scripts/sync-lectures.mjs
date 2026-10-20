@@ -30,7 +30,7 @@ import {
   parseLectureOrder,
   stripLeadingH1,
 } from './libs/markdown.mjs';
-import { downloadUrlFor, parseLectureRel } from './libs/naming.mjs';
+import { downloadUrlFor, parseLectureRel, startZipBasenameFor } from './libs/naming.mjs';
 import { DOCS_DIR, PUBLIC_DIR, REPO_SUBDIR, ROOT } from './libs/paths.mjs';
 import { expandSentinels } from './libs/sentinels.mjs';
 
@@ -61,6 +61,31 @@ async function resolveDownloadUrl(sourceDir, base) {
   return null;
 }
 
+/**
+ * 本文の `./start.zip`（その節を始める状態）の差し替え先。
+ * 同じ章に前の節（example/ を持つもの）があれば、その節を終えた状態の ZIP。
+ * 章の最初の節なら、練習用ブックだけの `<sec>-<lec>-start.zip`（build-downloads.mjs が作る）。
+ */
+async function resolveStartUrl(sourceDir, base) {
+  const parsed = parseLectureRel(sourceDir);
+  if (!parsed) return null;
+  const secAbs = path.join(ROOT, 'sections', parsed.sec);
+  const siblings = (await readdir(secAbs, { withFileTypes: true }))
+    .filter((d) => d.isDirectory() && /^\d\d-/.test(d.name))
+    .map((d) => d.name)
+    .sort();
+  const i = siblings.indexOf(parsed.lec);
+  for (let j = i - 1; j >= 0; j--) {
+    try {
+      await stat(path.join(secAbs, siblings[j], 'example'));
+      return downloadUrlFor(base, parsed.sec, siblings[j]);
+    } catch (e) {
+      if (e.code !== 'ENOENT') throw e;
+    }
+  }
+  return `${base}/downloads/${startZipBasenameFor(parsed.sec, parsed.lec)}`;
+}
+
 async function syncFile({
   sourceFile,
   sourceDir,
@@ -81,12 +106,14 @@ async function syncFile({
   const title = srcFm.title || '名称不明';
   const description = srcFm.description || extractDescription(bodyAfterFm);
   const downloadUrl = await resolveDownloadUrl(sourceDir, config.base);
+  const startUrl = downloadUrl ? await resolveStartUrl(sourceDir, config.base) : null;
   let body = transformLinks(stripLeadingH1(bodyAfterFm), {
     sourceDir,
     sourceSiteUrl,
     repo: config.repo,
     base: config.base,
     downloadUrl,
+    startUrl,
   });
 
   // `::codeview` / `::assets` / `::preview` センチネルを、実ファイルから生成したブロックに展開する。

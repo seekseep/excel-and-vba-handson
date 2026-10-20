@@ -19,7 +19,7 @@ title: デバッグする
 
 :::::platform
 ::::excel
-ZIP の `vba/DebugPractice.bas` を VBE の「ファイル」→「ファイルのインポート」で読み込むか、本文末尾の完成コードからコピーして、新しい標準モジュールに貼ります。
+ZIP の `data/sales.xlsm` には、`DebugPractice` がもう入っています（開くときに [マクロを有効にする](../../00-setup/01-excel/LECTURE.md#ダウンロードしたマクロ入りのブック) 必要があります）。自分のブックで続けている人は、ZIP の `vba/DebugPractice.bas` を VBE の「ファイル」→「ファイルのインポート」で読み込むか、本文末尾の完成コードからコピーして、新しい標準モジュールに貼ります。
 ::::
 ::::sheets
 エディタの「ファイル」の横の **＋** →「スクリプト」で `DebugPractice` というファイルを作り、本文末尾の完成コードから `gas/DebugPractice.gs` の中身を貼ります。

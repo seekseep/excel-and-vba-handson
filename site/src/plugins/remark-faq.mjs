@@ -96,7 +96,17 @@ export default function remarkFaq() {
                 hName: 'summary',
                 hProperties: { className: ['faq-question'] },
               },
-              children: item.question,
+              // summary は flex なので、文中のコードやリンクが別の列に割れないよう 1 つに包む。
+              children: [
+                {
+                  type: 'faqQuestionText',
+                  data: {
+                    hName: 'span',
+                    hProperties: { className: ['faq-question-text'] },
+                  },
+                  children: item.question,
+                },
+              ],
             },
             {
               type: 'faqAnswer',

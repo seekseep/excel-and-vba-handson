@@ -67,6 +67,11 @@
   list-style: none;
 }
 
+.faq .faq-question-text {
+  flex: 1;
+  min-width: 0;
+}
+
 .faq .faq-question::marker,
 .faq .faq-question::-webkit-details-marker {
   display: none;

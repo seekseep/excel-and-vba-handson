@@ -20,3 +20,7 @@ site/src/content/docs/
 
 # 生成物: 各章の配布 ZIP（build-downloads.mjs）
 site/public/downloads/
+
+# Excel で開いて確かめるための一時ファイル（tools/ の生成途中のものも）
+.tmp-xlsm-test/
+*.tmp.xlsx

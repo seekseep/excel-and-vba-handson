@@ -56,6 +56,14 @@ export function platformZipBasenameFor(sec, lec, platform) {
   return `${sec}-${lec}-${platform}.zip`;
 }
 
+/**
+ * 節を始める状態の ZIP のファイル名（`<sec>-<lec>-start.zip`）。章の最初の節にだけ作る
+ * （練習用ブックだけを入れる）。2 つ目以降の節は、前の節を終えた状態の ZIP がそのまま始める状態になる。
+ */
+export function startZipBasenameFor(sec, lec) {
+  return `${sec}-${lec}-start.zip`;
+}
+
 /** サイト上の配布 ZIP への URL（`<base>/downloads/<sec>-<lec>.zip`）。 */
 export function downloadUrlFor(base, sec, lec) {
   return `${base}/downloads/${zipBasenameFor(sec, lec)}`;

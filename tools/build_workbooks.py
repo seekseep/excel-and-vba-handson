@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """
-各レクチャーの example/data/ に置く練習用ブック（.xlsx）を生成する。
+各レクチャーの example/data/ に置く練習用ブックを生成する。
 
-マクロ付きのブック（.xlsm）は作らない。VBA は受講者が自分で貼り付けて書くもので、
-出所の分からないマクロ付きブックを開かせる教材にしたくないため。
-.xlsx は Google スプレッドシートにもそのままアップロードできる。
+  - .xlsx … マクロなし。章の最初の節を始めるときと、スプレッドシートで使う（アップロードして変換する）
+  - .xlsm … .xlsx と同じ中身に、その節を終えた状態のマクロ（example/vba/*.bas）を入れたもの。
+           Excel 用の ZIP にはこちらだけを入れる（build-downloads.mjs）
+.xlsm のマクロの部分（vbaProject.bin）は tools/vba_project.py が仕様どおりに組み立てる（Excel は不要）。
 
 使い方（保守者のみ。受講者は実行しない）:
     pip install openpyxl
@@ -14,11 +15,14 @@
 """
 
 import random
+import zipfile
 from datetime import date
 from pathlib import Path
 
 from openpyxl import Workbook
 from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
+
+from vba_project import build_vba_project
 
 ROOT = Path(__file__).resolve().parent.parent
 SECTIONS = ROOT / "sections"
@@ -210,23 +214,115 @@ def write_invoice_template(ws):
     ws.print_area = "A1:E33"
 
 
-def save(wb, path):
+def save(wb, path, end_state=None):
+    """
+    .xlsx（節を始める状態。本文のデモもこれを描く）を保存し、マクロ入りの .xlsm も作る。
+    end_state(wb) を渡すと、.xlsm はその節のマクロを実行し終えた後の値まで入れた状態にする
+    （次の節を、ダウンロードした .xlsm からそのまま始められるように）。
+    """
     path.parent.mkdir(parents=True, exist_ok=True)
     wb.save(path)
     print(f"[build_workbooks] {path.relative_to(ROOT)}")
+    if end_state:
+        end_state(wb)
+    save_xlsm(wb, path)
+
+
+def save_xlsm(wb, xlsx_path):
+    """
+    その節の完成コード（example/vba/*.bas）があれば、同じ中身のマクロ入りブック（.xlsm）も作る。
+    openpyxl はマクロを書けないので、.xlsx を保存してから zip の中身を差し替える:
+      - xl/vbaProject.bin を足す（tools/vba_project.py で組み立てたもの）
+      - ブックの種類を「マクロ有効」に変え、vbaProject.bin へのリレーションを足す
+      - ブックとシートにコード名（ThisWorkbook / Sheet1 …）を付ける（VBA の部品と対応させるため）
+    """
+    vba_dir = xlsx_path.parent.parent / "vba"
+    bas_files = sorted(vba_dir.glob("*.bas"))
+    if not bas_files:
+        return
+    wb.code_name = "ThisWorkbook"
+    sheet_names = []
+    for i, ws in enumerate(wb.worksheets, start=1):
+        ws.sheet_properties.codeName = f"Sheet{i}"
+        sheet_names.append(f"Sheet{i}")
+    xlsm_path = xlsx_path.with_suffix(".xlsm")
+    tmp = xlsx_path.with_suffix(".tmp.xlsx")
+    wb.save(tmp)
+    vba = build_vba_project([(p.stem, p.read_text()) for p in bas_files], sheet_names)
+    with zipfile.ZipFile(tmp) as zin, zipfile.ZipFile(xlsm_path, "w", zipfile.ZIP_DEFLATED) as zout:
+        for item in zin.infolist():
+            data = zin.read(item.filename)
+            if item.filename == "[Content_Types].xml":
+                text = data.decode()
+                text = text.replace(
+                    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml",
+                    "application/vnd.ms-excel.sheet.macroEnabled.main+xml",
+                )
+                text = text.replace(
+                    '<Default Extension="xml"',
+                    '<Default Extension="bin" ContentType="application/vnd.ms-office.vbaProject"/><Default Extension="xml"',
+                    1,
+                )
+                data = text.encode()
+            elif item.filename == "xl/_rels/workbook.xml.rels":
+                text = data.decode().replace(
+                    "</Relationships>",
+                    '<Relationship Id="rIdVBA" Type="http://schemas.microsoft.com/office/2006/relationships/vbaProject" Target="vbaProject.bin"/></Relationships>',
+                )
+                data = text.encode()
+            zout.writestr(item, data)
+        zout.writestr("xl/vbaProject.bin", vba)
+    tmp.unlink()
+    print(f"[build_workbooks] {xlsm_path.relative_to(ROOT)}（マクロ入り）")
 
 
 def main():
     sales = make_sales()
 
-    # 3 章: 金額が空の売上明細 + 集計欄（受講者が関数と VBA で埋める）。どの節から始めても同じブック
-    for lecture in ("01-calc-amounts", "02-sum-and-sumif", "03-debugger-intro", "04-debugging"):
+    # 2 章: 空白のブックから始める。終えた状態として、空のシートにマクロを入れたブックを作る
+    for lecture in ("01-hello-macro", "02-cells-and-variables"):
+        wb = Workbook()
+        wb.active.title = "Sheet1"
+        path = SECTIONS / "02-first-macro" / lecture / "example" / "data" / "first-macro.xlsx"
+        path.parent.mkdir(parents=True, exist_ok=True)
+        save_xlsm(wb, path)
+
+    # 3 章: 金額が空の売上明細 + 集計欄（受講者が関数と VBA で埋める）。.xlsx はどの節も同じ
+    # .xlsm は、その節のマクロを実行し終えた後の値（金額・合計・顧客別の合計）まで入れる
+    totals = {}
+    for _, customer, _, price, quantity in sales:
+        totals[customer] = totals.get(customer, 0) + price * quantity
+
+    def fill_amounts(ws):
+        for r, (_, _, _, price, quantity) in enumerate(sales, start=2):
+            ws.cell(row=r, column=6, value=price * quantity)
+
+    def end_31(wb):
+        fill_amounts(wb["売上"])
+
+    def end_32(wb):
+        ws = wb["売上"]
+        fill_amounts(ws)
+        ws["J2"] = sum(totals.values())
+        ws["J5"] = totals[CUSTOMERS[0][0]]
+
+    def end_34(wb):
+        end_32(wb)
+        for i, (name, *_rest) in enumerate(CUSTOMERS, start=5):
+            wb["売上"].cell(row=i, column=10, value=totals[name])
+
+    for lecture, end_state in (
+        ("01-calc-amounts", end_31),
+        ("02-sum-and-sumif", end_32),
+        ("03-debugger-intro", end_32),
+        ("04-debugging", end_34),
+    ):
         wb = Workbook()
         ws = wb.active
         ws.title = "売上"
         write_sales_sheet(ws, sales, with_amount=False)
         write_summary_area(ws)
-        save(wb, SECTIONS / "03-reproduce-functions" / lecture / "example" / "data" / "sales.xlsx")
+        save(wb, SECTIONS / "03-reproduce-functions" / lecture / "example" / "data" / "sales.xlsx", end_state)
 
     # 4 章: 同じ表を金額まで埋めた状態（デモは集計済みの表から始める）
     for lecture in ("01-object-model", "02-sheet-operations"):

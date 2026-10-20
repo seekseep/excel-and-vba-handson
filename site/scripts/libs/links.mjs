@@ -5,7 +5,8 @@
  *   - sections/ 配下のソースコードや他リソース → GitHub blob URL に変換
  *   - 画像 (`![...](...)`) → GitHub raw URL に変換 (blob は HTML を返し <img> が壊れるため)
  *   - リポジトリルート直下のファイル (AGENTS.md など) → GitHub blob URL に変換
- *   - 手書きセンチネル `./project.zip` → 生成した配布 ZIP の URL に差し替え
+ *   - 手書きセンチネル `./project.zip` → 生成した配布 ZIP（その節を終えた状態）の URL に差し替え
+ *   - 手書きセンチネル `./start.zip` → その節を始める状態の ZIP の URL に差し替え
  */
 
 import path from 'node:path';
@@ -88,8 +89,9 @@ function resolveSiteUrl(resolved, isDirLink) {
  * @param {string} opts.repo            GitHub リポジトリ URL
  * @param {string} opts.base            サイトの base プレフィックス
  * @param {string|null} [opts.downloadUrl]  `./project.zip` の差し替え先 (対象外なら null)
+ * @param {string|null} [opts.startUrl]     `./start.zip` の差し替え先 (対象外なら null)
  */
-export function transformLinks(content, { sourceDir, sourceSiteUrl, repo, base, downloadUrl = null }) {
+export function transformLinks(content, { sourceDir, sourceSiteUrl, repo, base, downloadUrl = null, startUrl = null }) {
   // 画像 (`![alt](...)`) はソースコードのように blob URL へ飛ばすと、blob は画像
   // 本体ではなく HTML ページを返すため <img> がリンク切れになる。画像だけは
   // 画像バイト列をそのまま返す raw.githubusercontent.com に向ける。
@@ -120,6 +122,9 @@ export function transformLinks(content, { sourceDir, sourceSiteUrl, repo, base, 
     // 本文中の手書きセンチネル `./project.zip` を、生成した配布 ZIP の URL に差し替える。
     if (downloadUrl && path.posix.basename(resolved) === 'project.zip') {
       return `${prefix}(${downloadUrl}${hash}${titlePart})`;
+    }
+    if (startUrl && path.posix.basename(resolved) === 'start.zip') {
+      return `${prefix}(${startUrl}${hash}${titlePart})`;
     }
 
     if (PUBLIC_ASSETS.has(path.posix.basename(resolved))) {
