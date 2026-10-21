@@ -427,6 +427,179 @@ FIRST_BUTTONS = {
 }
 
 
+# ---------------------------------------------------------------------------
+# 6 章（講義）: 表の形を見せる表計算デモ用のブック。マクロは入れず .xlsx だけを置く
+# ---------------------------------------------------------------------------
+
+def write_rows(ws, top, left, rows, widths=None):
+    """1 行目を見出しにして rows を書く。None のセルは罫線だけ引く。"""
+    for r, row in enumerate(rows):
+        for c, v in enumerate(row):
+            cell = ws.cell(row=top + r, column=left + c, value=v)
+            cell.border = BOX
+            if r == 0:
+                cell.font = BOLD
+                cell.fill = HEADER_FILL
+            elif isinstance(v, date):
+                cell.number_format = DATE
+            elif isinstance(v, int):
+                cell.number_format = YEN
+    for c, w in enumerate(widths or []):
+        ws.column_dimensions[ws.cell(row=1, column=left + c).column_letter].width = w
+
+
+def write_inputs(ws, refs):
+    """デモで式を入れるセル（黄色）。"""
+    for ref in refs:
+        ws[ref].fill = INPUT_FILL
+        ws[ref].border = BOX
+
+
+def write_labels(ws, cells):
+    for ref, text in cells.items():
+        ws[ref] = text
+        ws[ref].font = BOLD
+        ws[ref].border = BOX
+
+
+LONG_SALES = [
+    # 月, 顧客, 商品, 数量（6-1 の「見やすい表」と同じ中身を 1 行に 1 件で並べたもの）
+    ("10月", "ひまわり商事", "付箋", 5),
+    ("10月", "ひまわり商事", "ノート", 2),
+    ("10月", "ひまわり商事", "ホッチキス", 1),
+    ("10月", "みなと物産", "付箋", 10),
+    ("10月", "みなと物産", "ノート", 2),
+    ("11月", "ひまわり商事", "付箋", 3),
+    ("11月", "ひまわり商事", "ノート", 4),
+    ("11月", "ひまわり商事", "ホッチキス", 2),
+    ("11月", "みなと物産", "付箋", 6),
+    ("11月", "みなと物産", "ノート", 1),
+]
+
+
+def build_table_design_61(path):
+    wb = Workbook()
+    # 見やすく整えた表。顧客名の結合・小計・空行・横に並ぶ月
+    ws = wb.active
+    ws.title = "見やすい表"
+    write_rows(ws, 1, 1, [
+        ["顧客", "商品", "10月", "11月"],
+        ["ひまわり商事", "付箋", 5, 3],
+        [None, "ノート", 2, 4],
+        [None, "ホッチキス", 1, 2],
+        ["小計", None, 8, 9],
+        [None, None, None, None],
+        ["みなと物産", "付箋", 10, 6],
+        [None, "ノート", 2, 1],
+        ["小計", None, 12, 7],
+    ], widths=[16, 12, 8, 8])
+    for rng in ("A2:A4", "A5:B5", "A7:A8", "A9:B9"):
+        ws.merge_cells(rng)
+    for row in (5, 9):
+        for col in range(1, 5):
+            ws.cell(row=row, column=col).fill = INPUT_FILL
+        ws.cell(row=row, column=1).alignment = Alignment(horizontal="center")
+    for ref in ("A2", "A7"):
+        ws[ref].alignment = Alignment(vertical="center")
+    write_labels(ws, {"F1": "求めたいもの", "G1": "関数の答え", "H1": "正しい答え", "F2": "ひまわり商事の10月", "F3": "10月の合計"})
+    ws["H2"], ws["H3"] = 8, 20
+    write_inputs(ws, ["G2", "G3"])
+    for ref in ("H2", "H3"):
+        ws[ref].border = BOX
+    ws.column_dimensions["E"].width = 3
+    ws.column_dimensions["F"].width = 20
+    ws.column_dimensions["G"].width = 12
+    ws.column_dimensions["H"].width = 12
+
+    # 1 行に 1 件に並べ直した表。同じ集計を関数で出す
+    ws = wb.create_sheet("データ")
+    write_rows(ws, 1, 1, [["月", "顧客", "商品", "数量"], *LONG_SALES], widths=[8, 16, 12, 8])
+    write_labels(ws, {"F1": "求めたいもの", "G1": "関数の答え", "F2": "ひまわり商事の10月", "F3": "10月の合計"})
+    write_inputs(ws, ["G2", "G3"])
+    ws.column_dimensions["E"].width = 3
+    ws.column_dimensions["F"].width = 20
+    ws.column_dimensions["G"].width = 12
+
+    # データの表から、月を横に並べた「見せる表」を作る
+    ws = wb.create_sheet("月別の表")
+    write_rows(ws, 1, 1, [["月", "顧客", "商品", "数量"], *LONG_SALES], widths=[8, 16, 12, 8])
+    write_labels(ws, {"F1": "顧客", "G1": "10月", "H1": "11月", "F2": "ひまわり商事", "F3": "みなと物産"})
+    write_inputs(ws, ["G2", "H2", "G3", "H3"])
+    ws.column_dimensions["E"].width = 3
+    ws.column_dimensions["F"].width = 16
+    save_plain(wb, path)
+
+
+def build_masters_62(path):
+    wb = Workbook()
+    # 顧客名を手で打った売上。表記ゆれで SUMIF から漏れる
+    ws = wb.active
+    ws.title = "表記ゆれ"
+    write_rows(ws, 1, 1, [
+        ["日付", "顧客", "金額"],
+        [date(2026, 10, 7), "ひまわり商事", 1360],
+        [date(2026, 10, 8), "㈱ひまわり商事", 360],
+        [date(2026, 10, 13), "ひまわり商事 ", 1100],
+        [date(2026, 10, 15), "ひまわり商事", 6800],
+        [date(2026, 10, 21), "ヒマワリ商事", 900],
+    ], widths=[12, 18, 10])
+    write_labels(ws, {"E1": "求めたいもの", "F1": "関数の答え", "E2": "ひまわり商事の合計", "E3": "全部の行の合計"})
+    write_inputs(ws, ["F2", "F3"])
+    ws.column_dimensions["D"].width = 3
+    ws.column_dimensions["E"].width = 20
+    ws.column_dimensions["F"].width = 12
+
+    # 売上には顧客コードだけ。顧客名と住所は、右の顧客の表から XLOOKUP で引く
+    ws = wb.create_sheet("売上と顧客")
+    write_rows(ws, 1, 1, [
+        ["日付", "顧客コード", "顧客名", "住所"],
+        [date(2026, 10, 2), "C002", None, None],
+        [date(2026, 10, 6), "C003", None, None],
+        [date(2026, 10, 7), "C001", None, None],
+        [date(2026, 10, 7), "C001", None, None],
+        [date(2026, 10, 8), "C003", None, None],
+    ], widths=[12, 11, 18, 30])
+    write_inputs(ws, [f"{col}{row}" for row in range(2, 7) for col in "CD"])
+    write_rows(ws, 1, 6, [
+        ["顧客コード", "顧客名", "住所"],
+        ["C001", CUSTOMERS[0][0], CUSTOMERS[0][2]],
+        ["C002", CUSTOMERS[1][0], CUSTOMERS[1][2]],
+        ["C003", CUSTOMERS[2][0], CUSTOMERS[2][2]],
+    ], widths=[11, 18, 30])
+    ws.column_dimensions["E"].width = 3
+    save_plain(wb, path)
+
+
+def build_attendance_63(path):
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "出欠"
+    marks = {"E012": ["出席", "出席", "欠席"], "E027": ["出席", "遅刻", "出席"], "E031": ["出席", "出席", "出席"]}
+    rows = [["日付", "社員番号", "研修", "出欠", "部署"]]
+    for d, day in enumerate((1, 2, 3)):
+        for emp, ms in marks.items():
+            rows.append([date(2026, 4, day), emp, "新人研修", ms[d], None])
+    write_rows(ws, 1, 1, rows, widths=[12, 10, 12, 8, 10])
+    write_inputs(ws, [f"E{row}" for row in range(2, 11)])
+    write_rows(ws, 1, 7, [
+        ["社員番号", "氏名", "部署"],
+        ["E012", "佐藤 花子", "営業部"],
+        ["E027", "鈴木 一郎", "総務部"],
+        ["E031", "田中 次郎", "営業部"],
+    ], widths=[10, 12, 10])
+    write_labels(ws, {"G6": "部署", "H6": "出席", "I6": "遅刻", "J6": "欠席", "G7": "営業部", "G8": "総務部"})
+    write_inputs(ws, [f"{col}{row}" for row in (7, 8) for col in "HIJ"])
+    ws.column_dimensions["F"].width = 3
+    ws.column_dimensions["J"].width = 8
+    save_plain(wb, path)
+
+
+def save_plain(wb, path):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    wb.save(path)
+    print(f"[build_workbooks] {path.relative_to(ROOT)}")
+
+
 def pick(table, *names):
     return [table[n] for n in names]
 
@@ -510,6 +683,12 @@ def main():
         write_customer_sheet(wb.create_sheet("顧客"))
         write_invoice_template(wb.create_sheet("請求書テンプレート"))
         save(wb, SECTIONS / "05-invoice-button" / lecture, "invoice", buttons=buttons, start_buttons=start_buttons, with_start=with_start)
+
+    # 6 章: 講義の表計算デモ用。マクロは無いので .xlsx だけ
+    chapter6 = SECTIONS / "06-table-design"
+    build_table_design_61(chapter6 / "01-one-row-one-record" / "book" / "table-design.xlsx")
+    build_masters_62(chapter6 / "02-master-tables" / "book" / "masters.xlsx")
+    build_attendance_63(chapter6 / "03-design-new-sheet" / "book" / "attendance.xlsx")
 
 
 if __name__ == "__main__":

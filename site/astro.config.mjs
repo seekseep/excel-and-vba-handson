@@ -58,6 +58,12 @@ const sheetClient = readFileSync(
   'utf8',
 );
 
+// `::::debugdemo` のデバッガーの操作（1 手ずつ進める）の client。全ページに inline 注入。
+const debugClient = readFileSync(
+  fileURLToPath(new URL('./src/scripts/debug-client.js', import.meta.url)),
+  'utf8',
+);
+
 /**
  * カスタム callout（remark-callout.mjs）を Starlight 標準の asides より「前」に
  * 登録するためのインライン統合。Starlight は astro:config:setup で自身の remark
@@ -132,6 +138,7 @@ export default defineConfig({
         './src/styles/platform.css',
         './src/styles/sheet.css',
         './src/styles/gbrowser.css',
+        './src/styles/debug.css',
       ],
       // テーマ切り替えの左に Excel ／ スプレッドシートの切り替えを置く。
       components: {
@@ -155,6 +162,8 @@ export default defineConfig({
         { tag: 'script', content: platformClient },
         // `::::sheetdemo` / `::sheetcode` のシート表示の client。
         { tag: 'script', content: sheetClient },
+        // `::::debugdemo` のデバッガーの操作の client。
+        { tag: 'script', content: debugClient },
       ],
       defaultLocale: 'root',
       locales: {
@@ -180,6 +189,7 @@ export default defineConfig({
         { label: '3. Excel関数をVBAで再現しよう', items: [{ autogenerate: { directory: '03-reproduce-functions' } }] },
         { label: '4. VBAだからできること', items: [{ autogenerate: { directory: '04-what-vba-can-do' } }] },
         { label: '5. ボタンひとつで請求書を作ろう', items: [{ autogenerate: { directory: '05-invoice-button' } }] },
+        { label: '6. 扱いやすい表を作ろう', items: [{ autogenerate: { directory: '06-table-design' } }] },
         {
           label: '付録',
           items: [

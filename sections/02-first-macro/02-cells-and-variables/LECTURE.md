@@ -54,7 +54,7 @@ Apps Script エディタの関数の選択欄で `writeCells` を選び、「▶
 ::::
 :::::
 
-::::sheetdemo[WriteCells を実行すると、A1・B1・A2 に値が入る]{macro="WriteCells" macros="Hello,WriteCells,CalcTaxIncluded"}
+::::sheetdemo[WriteCells を実行すると、A1・B1・A2 に値が入る]{macro="WriteCells" macros="Hello,WriteCells" stage="write-cells"}
 A1:B1 = 税抜価格, 1200
 A2 = 税込価格
 ::::

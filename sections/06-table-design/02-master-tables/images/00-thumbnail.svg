@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="360" viewBox="0 0 1040 360" font-family="'Hiragino Sans','Noto Sans JP','Yu Gothic','Segoe UI',sans-serif">
+<defs><marker id="aR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#475569"/></marker><marker id="aRsub" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#94a3b8"/></marker></defs>
+<rect x="0" y="0" width="1040" height="360" fill="#ffffff"/>
+<text x="40" y="70" text-anchor="start" font-size="21" fill="#0f172a" font-weight="700">売上（明細）</text>
+<rect x="40" y="100" width="70" height="32" fill="#dcfce7" stroke="#cbd5e1" stroke-width="1"/>
+<text x="75" y="120.55" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">日付</text>
+<rect x="110" y="100" width="140" height="32" fill="#dcfce7" stroke="#cbd5e1" stroke-width="1"/>
+<text x="180" y="120.55" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">顧客</text>
+<rect x="250" y="100" width="100" height="32" fill="#dcfce7" stroke="#cbd5e1" stroke-width="1"/>
+<text x="300" y="120.55" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">商品</text>
+<rect x="350" y="100" width="56" height="32" fill="#dcfce7" stroke="#cbd5e1" stroke-width="1"/>
+<text x="378" y="120.55" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">数量</text>
+<rect x="40" y="132" width="70" height="32" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="75" y="152.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">10/02</text>
+<rect x="110" y="132" width="140" height="32" fill="#fef9c3" stroke="#cbd5e1" stroke-width="1"/>
+<text x="180" y="152.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">あおば設計事務所</text>
+<rect x="250" y="132" width="100" height="32" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="300" y="152.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">付箋</text>
+<rect x="350" y="132" width="56" height="32" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="378" y="152.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">5</text>
+<rect x="40" y="164" width="70" height="32" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="75" y="184.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">10/06</text>
+<rect x="110" y="164" width="140" height="32" fill="#fef9c3" stroke="#cbd5e1" stroke-width="1"/>
+<text x="180" y="184.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">みなと物産</text>
+<rect x="250" y="164" width="100" height="32" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="300" y="184.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">付箋</text>
+<rect x="350" y="164" width="56" height="32" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="378" y="184.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">10</text>
+<rect x="40" y="196" width="70" height="32" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="75" y="216.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">10/07</text>
+<rect x="110" y="196" width="140" height="32" fill="#fef9c3" stroke="#cbd5e1" stroke-width="1"/>
+<text x="180" y="216.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">ひまわり商事</text>
+<rect x="250" y="196" width="100" height="32" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="300" y="216.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">ホッチキス</text>
+<rect x="350" y="196" width="56" height="32" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="378" y="216.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">2</text>
+<rect x="40" y="228" width="70" height="32" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="75" y="248.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">10/07</text>
+<rect x="110" y="228" width="140" height="32" fill="#fef9c3" stroke="#cbd5e1" stroke-width="1"/>
+<text x="180" y="248.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">ひまわり商事</text>
+<rect x="250" y="228" width="100" height="32" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="300" y="248.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">コピー用紙</text>
+<rect x="350" y="228" width="56" height="32" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="378" y="248.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">3</text>
+<rect x="40" y="260" width="70" height="32" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="75" y="280.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">10/08</text>
+<rect x="110" y="260" width="140" height="32" fill="#fef9c3" stroke="#cbd5e1" stroke-width="1"/>
+<text x="180" y="280.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">みなと物産</text>
+<rect x="250" y="260" width="100" height="32" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="300" y="280.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">ノート</text>
+<rect x="350" y="260" width="56" height="32" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="378" y="280.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">2</text>
+<rect x="40" y="100" width="366" height="192" fill="none" stroke="#22c55e" stroke-width="2"/>
+<text x="630" y="70" text-anchor="start" font-size="21" fill="#0f172a" font-weight="700">顧客（マスタ）</text>
+<rect x="630" y="132" width="130" height="32" fill="#dbeafe" stroke="#cbd5e1" stroke-width="1"/>
+<text x="695" y="152.55" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">顧客名</text>
+<rect x="760" y="132" width="170" height="32" fill="#dbeafe" stroke="#cbd5e1" stroke-width="1"/>
+<text x="845" y="152.55" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">住所</text>
+<rect x="930" y="132" width="84" height="32" fill="#dbeafe" stroke="#cbd5e1" stroke-width="1"/>
+<text x="972" y="152.55" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">ご担当者</text>
+<rect x="630" y="164" width="130" height="32" fill="#fef9c3" stroke="#cbd5e1" stroke-width="1"/>
+<text x="695" y="184.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">ひまわり商事</text>
+<rect x="760" y="164" width="170" height="32" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="845" y="184.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">中央区ひまわり 2-4-6</text>
+<rect x="930" y="164" width="84" height="32" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="972" y="184.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">山田 様</text>
+<rect x="630" y="196" width="130" height="32" fill="#fef9c3" stroke="#cbd5e1" stroke-width="1"/>
+<text x="695" y="216.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">あおば設計事務所</text>
+<rect x="760" y="196" width="170" height="32" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="845" y="216.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">新宿区あおば台 3-1-8</text>
+<rect x="930" y="196" width="84" height="32" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="972" y="216.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">佐藤 様</text>
+<rect x="630" y="228" width="130" height="32" fill="#fef9c3" stroke="#cbd5e1" stroke-width="1"/>
+<text x="695" y="248.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">みなと物産</text>
+<rect x="760" y="228" width="170" height="32" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="845" y="248.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">横浜市中区みなと 5-5-1</text>
+<rect x="930" y="228" width="84" height="32" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="972" y="248.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">鈴木 様</text>
+<rect x="630" y="132" width="384" height="128" fill="none" stroke="#3b82f6" stroke-width="2"/>
+<path d="M412.00 196.00 L456.96 196.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M579.04 196.00 L624.00 196.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<text x="518" y="201.95" text-anchor="middle" font-size="17" fill="#0f172a" font-weight="600">顧客名で引く</text>
+<text x="520" y="330" text-anchor="middle" font-size="13" fill="#475569" font-weight="400">住所や担当者は顧客シートに 1 回だけ書く。売上には「どの顧客か」だけを書く</text>
+</svg>

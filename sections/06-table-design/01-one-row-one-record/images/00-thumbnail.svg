@@ -1,0 +1,130 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="400" viewBox="0 0 920 400" font-family="'Hiragino Sans','Noto Sans JP','Yu Gothic','Segoe UI',sans-serif">
+<defs><marker id="aR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#475569"/></marker><marker id="aRsub" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#94a3b8"/></marker></defs>
+<rect x="0" y="0" width="920" height="400" fill="#ffffff"/>
+<text x="196" y="80" text-anchor="middle" font-size="21" fill="#0f172a" font-weight="700">人が見るために整えた表</text>
+<rect x="40" y="124" width="110" height="32" fill="#ffedd5" stroke="#cbd5e1" stroke-width="1"/>
+<text x="95" y="144.55" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">顧客</text>
+<rect x="150" y="124" width="90" height="32" fill="#ffedd5" stroke="#cbd5e1" stroke-width="1"/>
+<text x="195" y="144.55" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">商品</text>
+<rect x="240" y="124" width="56" height="32" fill="#ffedd5" stroke="#cbd5e1" stroke-width="1"/>
+<text x="268" y="144.55" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">10月</text>
+<rect x="296" y="124" width="56" height="32" fill="#ffedd5" stroke="#cbd5e1" stroke-width="1"/>
+<text x="324" y="144.55" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">11月</text>
+<rect x="40" y="156" width="110" height="32" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<rect x="150" y="156" width="90" height="32" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="195" y="176.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">付箋</text>
+<rect x="240" y="156" width="56" height="32" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="268" y="176.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">5</text>
+<rect x="296" y="156" width="56" height="32" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="324" y="176.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">3</text>
+<rect x="40" y="188" width="110" height="32" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<rect x="150" y="188" width="90" height="32" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="195" y="208.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">ノート</text>
+<rect x="240" y="188" width="56" height="32" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="268" y="208.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">2</text>
+<rect x="296" y="188" width="56" height="32" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="324" y="208.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">4</text>
+<rect x="40" y="220" width="200" height="32" fill="#fef9c3" stroke="#cbd5e1" stroke-width="1"/>
+<text x="140" y="240.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">小計</text>
+<rect x="240" y="220" width="56" height="32" fill="#fef9c3" stroke="#cbd5e1" stroke-width="1"/>
+<text x="268" y="240.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">7</text>
+<rect x="296" y="220" width="56" height="32" fill="#fef9c3" stroke="#cbd5e1" stroke-width="1"/>
+<text x="324" y="240.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">7</text>
+<rect x="40" y="252" width="312" height="32" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<rect x="40" y="284" width="110" height="32" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<rect x="150" y="284" width="90" height="32" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="195" y="304.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">付箋</text>
+<rect x="240" y="284" width="56" height="32" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="268" y="304.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">10</text>
+<rect x="296" y="284" width="56" height="32" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="324" y="304.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">6</text>
+<rect x="40" y="316" width="110" height="32" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<rect x="150" y="316" width="90" height="32" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="195" y="336.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">ホッチキス</text>
+<rect x="240" y="316" width="56" height="32" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="268" y="336.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">1</text>
+<rect x="296" y="316" width="56" height="32" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="324" y="336.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">2</text>
+<rect x="40" y="156" width="110" height="64" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="95" y="192.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">ひまわり商事</text>
+<rect x="40" y="284" width="110" height="64" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="95" y="320.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">みなと物産</text>
+<rect x="40" y="124" width="312" height="224" fill="none" stroke="#f97316" stroke-width="2"/>
+<text x="723" y="80" text-anchor="middle" font-size="21" fill="#0f172a" font-weight="700">データの表（1 行に 1 件）</text>
+<rect x="560" y="110" width="60" height="28" fill="#dcfce7" stroke="#cbd5e1" stroke-width="1"/>
+<text x="590" y="128.55" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">月</text>
+<rect x="620" y="110" width="120" height="28" fill="#dcfce7" stroke="#cbd5e1" stroke-width="1"/>
+<text x="680" y="128.55" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">顧客</text>
+<rect x="740" y="110" width="90" height="28" fill="#dcfce7" stroke="#cbd5e1" stroke-width="1"/>
+<text x="785" y="128.55" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">商品</text>
+<rect x="830" y="110" width="56" height="28" fill="#dcfce7" stroke="#cbd5e1" stroke-width="1"/>
+<text x="858" y="128.55" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">数量</text>
+<rect x="560" y="138" width="60" height="28" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="590" y="156.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">10月</text>
+<rect x="620" y="138" width="120" height="28" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="680" y="156.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">ひまわり商事</text>
+<rect x="740" y="138" width="90" height="28" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="785" y="156.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">付箋</text>
+<rect x="830" y="138" width="56" height="28" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="858" y="156.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">5</text>
+<rect x="560" y="166" width="60" height="28" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="590" y="184.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">10月</text>
+<rect x="620" y="166" width="120" height="28" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="680" y="184.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">ひまわり商事</text>
+<rect x="740" y="166" width="90" height="28" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="785" y="184.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">ノート</text>
+<rect x="830" y="166" width="56" height="28" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="858" y="184.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">2</text>
+<rect x="560" y="194" width="60" height="28" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="590" y="212.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">10月</text>
+<rect x="620" y="194" width="120" height="28" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="680" y="212.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">みなと物産</text>
+<rect x="740" y="194" width="90" height="28" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="785" y="212.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">付箋</text>
+<rect x="830" y="194" width="56" height="28" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="858" y="212.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">10</text>
+<rect x="560" y="222" width="60" height="28" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="590" y="240.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">10月</text>
+<rect x="620" y="222" width="120" height="28" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="680" y="240.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">みなと物産</text>
+<rect x="740" y="222" width="90" height="28" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="785" y="240.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">ホッチキス</text>
+<rect x="830" y="222" width="56" height="28" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="858" y="240.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">1</text>
+<rect x="560" y="250" width="60" height="28" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="590" y="268.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">11月</text>
+<rect x="620" y="250" width="120" height="28" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="680" y="268.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">ひまわり商事</text>
+<rect x="740" y="250" width="90" height="28" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="785" y="268.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">付箋</text>
+<rect x="830" y="250" width="56" height="28" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="858" y="268.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">3</text>
+<rect x="560" y="278" width="60" height="28" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="590" y="296.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">11月</text>
+<rect x="620" y="278" width="120" height="28" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="680" y="296.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">ひまわり商事</text>
+<rect x="740" y="278" width="90" height="28" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="785" y="296.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">ノート</text>
+<rect x="830" y="278" width="56" height="28" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="858" y="296.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">4</text>
+<rect x="560" y="306" width="60" height="28" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="590" y="324.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">11月</text>
+<rect x="620" y="306" width="120" height="28" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="680" y="324.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">みなと物産</text>
+<rect x="740" y="306" width="90" height="28" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="785" y="324.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">付箋</text>
+<rect x="830" y="306" width="56" height="28" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="858" y="324.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">6</text>
+<rect x="560" y="334" width="60" height="28" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="590" y="352.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">11月</text>
+<rect x="620" y="334" width="120" height="28" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="680" y="352.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">みなと物産</text>
+<rect x="740" y="334" width="90" height="28" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="785" y="352.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">ホッチキス</text>
+<rect x="830" y="334" width="56" height="28" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="858" y="352.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">2</text>
+<rect x="560" y="110" width="326" height="252" fill="none" stroke="#22c55e" stroke-width="2"/>
+<path d="M358.00 236.00 L412.64 236.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M499.36 236.00 L554.00 236.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<text x="456" y="241.95" text-anchor="middle" font-size="17" fill="#0f172a" font-weight="600">並べ直す</text>
+</svg>

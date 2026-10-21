@@ -18,7 +18,8 @@
  *         Excel        …「マクロ」ボタン → マクロの一覧から選んで「実行」（開発 → マクロ と同じ）
  *         スプレッドシート … 「スプレッドシート」と「Apps Script エディタ」の 2 つのブラウザタブを描き、
  *                          エディタで関数を選んで「▶ 実行」→ スプレッドシートのタブで結果を見る
- *                          （エディタには example/gas の .gs を出し、実行ログも再現する）
+ *                          （エディタには example/gas の .gs を出し、実行ログも再現する。
+ *                          stage="with-log" を付けると stages/with-log/gas の .gs を出す。codeDirFor を参照）
  *       一覧に並べる名前は macros="Hello,WriteCells"（既定は macro だけ）。GAS 側の名前は
  *       先頭を小文字にしたもの（Hello → hello）。結果が出るのは macro を選んだときだけ。
  *       menu="請求書" を付けると、スプレッドシート表示のメニューバーの「ヘルプ」の右に独自メニュー
@@ -210,7 +211,7 @@ function isNumberLike(value) {
   return false;
 }
 
-function escapeHtml(s) {
+export function escapeHtml(s) {
   return String(s)
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
@@ -451,11 +452,24 @@ function rangeFor(values) {
 // ---- 属性・ファイル ----
 
 /** ブックや コードを読むレクチャーディレクトリ。src="<sec>/<lec>" なら別レクチャー。 */
-function lectureDirFor(attrs, lectureAbsDir) {
+export function lectureDirFor(attrs, lectureAbsDir) {
   if (!attrs.src) return lectureAbsDir;
   const parts = attrs.src.split('/');
   if (parts.length !== 2 || parts.some((p) => !/^[\w-]+$/.test(p))) return null;
   return path.join(lectureAbsDir, '..', '..', parts[0], parts[1]);
+}
+
+/**
+ * デモが表示するコードのディレクトリ（vba/ と gas/ を持つ）。既定は節の example/（完成コード）。
+ * stage="with-log" なら stages/with-log/。本文が完成の手前の状態（一時的に足した行、1 社だけの段階など）を
+ * 説明していて、完成コードを出すと本文と食い違うデモで使う。stages/ は配布もドライブへの push もしない。
+ */
+export function codeDirFor(attrs, lectureAbsDir) {
+  const dir = lectureDirFor(attrs, lectureAbsDir);
+  if (!dir) return null;
+  if (!attrs.stage) return path.join(dir, 'example');
+  if (!/^[\w-]+$/.test(attrs.stage)) return null;
+  return path.join(dir, 'stages', attrs.stage);
 }
 
 /**
@@ -519,7 +533,7 @@ async function sheetHtml(attrs, lectureAbsDir, after, { allowBlank = false, ribb
 // ---- ::::sheetdemo ----
 
 // VBA の Hello に対する GAS の関数名は hello（先頭だけ小文字。AGENTS.md の命名ルール）。
-function gasNameOf(vbaName) {
+export function gasNameOf(vbaName) {
   return vbaName.charAt(0).toLowerCase() + vbaName.slice(1);
 }
 
@@ -786,7 +800,7 @@ export async function buildSheetDemo({ caption, attrs, lines, lectureAbsDir, whe
   // エディタのタブで実行 → スプレッドシートのタブで結果を見る、の流れをなぞれるようにする。
   const useBrowser = useMacro && !hasMenu;
   if (useBrowser) {
-    const gas = await findGasFile(lectureDirFor(attrs, lectureAbsDir), gasNameOf(attrs.macro));
+    const gas = await findGasFile(codeDirFor(attrs, lectureAbsDir), gasNameOf(attrs.macro));
     if (!gas) console.warn(`[sheets] ::::sheetdemo: function ${gasNameOf(attrs.macro)} not found in gas/*.gs (${where})`);
     guide +=
       `<ol class="sheetdemo__guide sheetdemo__guide--sheets sheet__only--sheets" aria-label="スプレッドシートでの動かし方">` +
@@ -861,9 +875,10 @@ export async function buildSheetDemo({ caption, attrs, lines, lectureAbsDir, whe
 //     … 関数を 1 つずつ入れていく様子を、「次へ ▶」で 1 手ずつ見せる。
 //       `セル = =式` は式を入れる手順、`範囲 <- セル` はそのセルを範囲にコピーする手順（相対参照がずれる）。
 //       `|` の右は手順の説明（`式` のようにバッククォートで囲むとコードの書体になる）。
-//       式の結果はブックの値から計算する（使える関数は SUM / SUMIF と四則演算だけ）。
+//       式の結果はブックの値から計算する（使える関数は SUM / SUMIF / SUMIFS / COUNTIFS / XLOOKUP と四則演算だけ。
+//       条件は「等しい」だけ）。
 //       式のセルを選ぶと、Excel で式を編集するときと同じく、式が読んでいるセルを色の枠で囲む。
-//       SUMIF は、条件に合って足された行にも色を付ける。
+//       SUMIF などは条件に合った行に、XLOOKUP は見つけた行に色を付ける。
 
 export const FORMULADEMO_OPEN_RE = /^::::formulademo(?:\[([^\]]*)\])?(?:\{([^}]*)\})?\s*$/;
 
@@ -909,7 +924,7 @@ const plainRef = (ref) => ref.replace(/\$/g, '').toUpperCase();
 
 /**
  * 式を計算する。getValue(ref) でセルの値を読む。
- * 返り値は { value, matches }。matches は SUMIF で条件に合ったセル（条件の範囲と足す範囲の両方）。
+ * 返り値は { value, matches }。matches は SUMIF などで条件に合ったセルと、XLOOKUP で見つけたセル。
  */
 function evaluate(formula, getValue) {
   const tokens = tokenize(formula.replace(/^=/, '')).filter((t) => t.kind !== 'space');
@@ -944,7 +959,38 @@ function evaluate(formula, getValue) {
       });
       return sum;
     },
+    // 条件は「等しい」だけ。(範囲, 条件) の組をすべて満たす行を数える・足す。
+    SUMIFS: ([sumRange, ...pairs]) => {
+      let sum = 0;
+      sumRange.forEach((add, k) => {
+        if (!allMatch(pairs, k)) return;
+        matches.push(add.ref);
+        if (typeof add.value === 'number') sum += add.value;
+      });
+      return sum;
+    },
+    COUNTIFS: (pairs) => {
+      let count = 0;
+      pairs[0].forEach((_, k) => {
+        if (allMatch(pairs, k)) count++;
+      });
+      return count;
+    },
+    // 見つかった行の、探した範囲と返す範囲のセルに色を付ける。見つからなければ #N/A。
+    XLOOKUP: ([want, lookupRange, returnRange]) => {
+      const k = lookupRange.findIndex((c) => same(c.value, want[0]?.value));
+      if (k < 0) return '#N/A';
+      matches.push(lookupRange[k].ref, returnRange[k].ref);
+      return returnRange[k].value;
+    },
   };
+  function allMatch(pairs, k) {
+    for (let p = 0; p < pairs.length; p += 2) {
+      if (!same(pairs[p][k]?.value, pairs[p + 1][0]?.value)) return false;
+    }
+    for (let p = 0; p < pairs.length; p += 2) matches.push(pairs[p][k].ref);
+    return true;
+  }
 
   // 引数は「セルの並び」で扱う（[{ ref, value }]。数値や文字列は ref の無い 1 個の並び）。
   const asList = (v) => (Array.isArray(v) ? v : [{ ref: null, value: v }]);
@@ -1022,7 +1068,7 @@ function colorFormula(formula) {
 const FREF_COLORS = 6;
 
 /** 説明の文。`式` だけをコードの書体にする（ほかはそのまま文字として出す）。 */
-function inlineHtml(text) {
+export function inlineHtml(text) {
   return String(text ?? '')
     .split(/(`[^`]*`)/)
     .map((part) => (/^`.*`$/.test(part) ? `<code>${escapeHtml(part.slice(1, -1))}</code>` : escapeHtml(part)))
@@ -1162,10 +1208,10 @@ export async function buildFormulaDemo({ caption, attrs, lines, lectureAbsDir, w
 
 // ---- スプレッドシート表示のブラウザ枠（::::sheetdemo{macro=...}） ----
 
-/** example/gas/*.gs から `function <name>(` を含むファイルを探す。{ file, src } か null。 */
-async function findGasFile(dir, name) {
-  if (!dir) return null;
-  const gasDir = path.join(dir, 'example', 'gas');
+/** <codeDir>/gas/*.gs から `function <name>(` を含むファイルを探す。{ file, src } か null。 */
+async function findGasFile(codeDir, name) {
+  if (!codeDir) return null;
+  const gasDir = path.join(codeDir, 'gas');
   let files;
   try {
     files = (await readdir(gasDir)).filter((f) => f.endsWith('.gs')).sort();
@@ -1185,7 +1231,7 @@ async function findGasFile(dir, name) {
 const GAS_TOKEN_RE =
   /(\/\/.*$)|('(?:[^'\\]|\\.)*'|"(?:[^"\\]|\\.)*"|`(?:[^`\\]|\\.)*`)|\b(function|const|let|var|for|if|else|return|new|true|false|null|of|in|while)\b|\b(\d+(?:\.\d+)?)\b/g;
 
-function highlightGas(line) {
+export function highlightGas(line) {
   let out = '';
   let last = 0;
   for (const m of line.matchAll(GAS_TOKEN_RE)) {
@@ -1350,7 +1396,7 @@ function extractBlock(src, { start, end, comment }) {
 }
 
 /** VBA の `Sub Name(` 〜 `End Sub`。 */
-function extractVba(src, name) {
+export function extractVba(src, name) {
   return extractBlock(src, {
     start: new RegExp(`^(Public |Private )?(Sub|Function) ${escapeRe(name)}\\b`, 'i'),
     end: /^End (Sub|Function)\b/i,
@@ -1359,7 +1405,7 @@ function extractVba(src, name) {
 }
 
 /** GAS の `function name(` 〜 行頭の `}`。 */
-function extractGas(src, name) {
+export function extractGas(src, name) {
   return extractBlock(src, {
     start: new RegExp(`^function ${escapeRe(name)}\\s*\\(`),
     end: /^}/,
@@ -1368,7 +1414,7 @@ function extractGas(src, name) {
 }
 
 
-async function readCode(abs) {
+export async function readCode(abs) {
   try {
     return (await readFile(abs, 'utf8')).replace(/\r\n/g, '\n').replace(/\n+$/, '');
   } catch (e) {

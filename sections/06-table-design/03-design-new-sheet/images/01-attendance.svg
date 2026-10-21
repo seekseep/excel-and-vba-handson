@@ -1,0 +1,137 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1060" height="600" viewBox="0 0 1060 600" font-family="'Hiragino Sans','Noto Sans JP','Yu Gothic','Segoe UI',sans-serif">
+<defs><marker id="aR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#475569"/></marker><marker id="aRsub" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#94a3b8"/></marker></defs>
+<rect x="0" y="0" width="1060" height="600" fill="#ffffff"/>
+<text x="40" y="50" text-anchor="start" font-size="21" fill="#0f172a" font-weight="700">よくある出欠表</text>
+<rect x="40" y="76" width="100" height="36" fill="#ffedd5" stroke="#cbd5e1" stroke-width="1"/>
+<text x="90" y="98.55" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">氏名</text>
+<rect x="140" y="76" width="80" height="36" fill="#ffedd5" stroke="#cbd5e1" stroke-width="1"/>
+<text x="180" y="98.55" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">部署</text>
+<rect x="220" y="76" width="60" height="36" fill="#ffedd5" stroke="#cbd5e1" stroke-width="1"/>
+<text x="250" y="98.55" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">4/1</text>
+<rect x="280" y="76" width="60" height="36" fill="#ffedd5" stroke="#cbd5e1" stroke-width="1"/>
+<text x="310" y="98.55" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">4/2</text>
+<rect x="340" y="76" width="60" height="36" fill="#ffedd5" stroke="#cbd5e1" stroke-width="1"/>
+<text x="370" y="98.55" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">4/3</text>
+<rect x="400" y="76" width="60" height="36" fill="#ffedd5" stroke="#cbd5e1" stroke-width="1"/>
+<text x="430" y="98.55" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">出席</text>
+<rect x="40" y="112" width="100" height="36" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="90" y="134.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">佐藤 花子</text>
+<rect x="140" y="112" width="80" height="36" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="180" y="134.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">営業部</text>
+<rect x="220" y="112" width="60" height="36" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="250" y="134.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">◯</text>
+<rect x="280" y="112" width="60" height="36" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="310" y="134.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">◯</text>
+<rect x="340" y="112" width="60" height="36" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="370" y="134.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">×</text>
+<rect x="400" y="112" width="60" height="36" fill="#fef9c3" stroke="#cbd5e1" stroke-width="1"/>
+<text x="430" y="134.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">2</text>
+<rect x="40" y="148" width="100" height="36" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="90" y="170.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">鈴木 一郎</text>
+<rect x="140" y="148" width="80" height="36" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="180" y="170.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">総務部</text>
+<rect x="220" y="148" width="60" height="36" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="250" y="170.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">◯</text>
+<rect x="280" y="148" width="60" height="36" fill="#fee2e2" stroke="#cbd5e1" stroke-width="1"/>
+<text x="310" y="170.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">遅刻</text>
+<rect x="340" y="148" width="60" height="36" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="370" y="170.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">◯</text>
+<rect x="400" y="148" width="60" height="36" fill="#fef9c3" stroke="#cbd5e1" stroke-width="1"/>
+<text x="430" y="170.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">3</text>
+<rect x="40" y="184" width="100" height="36" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="90" y="206.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">田中 次郎</text>
+<rect x="140" y="184" width="80" height="36" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="180" y="206.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">営業部</text>
+<rect x="220" y="184" width="60" height="36" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="250" y="206.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">◯</text>
+<rect x="280" y="184" width="60" height="36" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="310" y="206.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">◯</text>
+<rect x="340" y="184" width="60" height="36" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="370" y="206.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">◯</text>
+<rect x="400" y="184" width="60" height="36" fill="#fef9c3" stroke="#cbd5e1" stroke-width="1"/>
+<text x="430" y="206.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">3</text>
+<rect x="40" y="76" width="420" height="144" fill="none" stroke="#f97316" stroke-width="2"/>
+<text x="500" y="110" text-anchor="start" font-size="15" fill="#475569" font-weight="400"><tspan x="500" dy="0">・日付が横に増えていく</tspan><tspan x="500" dy="21.75">・「遅刻」を出席に数える？ 数えない？</tspan><tspan x="500" dy="21.75">・異動で部署が変わったら全部の表を直す</tspan><tspan x="500" dy="21.75">・同じ人が別の研修の表にも何度も出てくる</tspan></text>
+<text x="40" y="330" text-anchor="start" font-size="21" fill="#0f172a" font-weight="700">1 行に 1 件の出欠</text>
+<rect x="40" y="356" width="110" height="36" fill="#dcfce7" stroke="#cbd5e1" stroke-width="1"/>
+<text x="95" y="378.55" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">日付</text>
+<rect x="150" y="356" width="90" height="36" fill="#dcfce7" stroke="#cbd5e1" stroke-width="1"/>
+<text x="195" y="378.55" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">社員番号</text>
+<rect x="240" y="356" width="100" height="36" fill="#dcfce7" stroke="#cbd5e1" stroke-width="1"/>
+<text x="290" y="378.55" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">研修</text>
+<rect x="340" y="356" width="70" height="36" fill="#dcfce7" stroke="#cbd5e1" stroke-width="1"/>
+<text x="375" y="378.55" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">出欠</text>
+<rect x="40" y="392" width="110" height="36" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="95" y="414.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">2026/04/01</text>
+<rect x="150" y="392" width="90" height="36" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="195" y="414.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">E012</text>
+<rect x="240" y="392" width="100" height="36" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="290" y="414.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">新人研修</text>
+<rect x="340" y="392" width="70" height="36" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="375" y="414.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">出席</text>
+<rect x="40" y="428" width="110" height="36" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="95" y="450.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">2026/04/01</text>
+<rect x="150" y="428" width="90" height="36" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="195" y="450.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">E027</text>
+<rect x="240" y="428" width="100" height="36" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="290" y="450.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">新人研修</text>
+<rect x="340" y="428" width="70" height="36" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="375" y="450.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">出席</text>
+<rect x="40" y="464" width="110" height="36" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="95" y="486.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">2026/04/02</text>
+<rect x="150" y="464" width="90" height="36" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="195" y="486.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">E027</text>
+<rect x="240" y="464" width="100" height="36" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="290" y="486.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">新人研修</text>
+<rect x="340" y="464" width="70" height="36" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="375" y="486.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">遅刻</text>
+<rect x="40" y="500" width="110" height="36" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="95" y="522.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">2026/04/03</text>
+<rect x="150" y="500" width="90" height="36" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="195" y="522.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">E012</text>
+<rect x="240" y="500" width="100" height="36" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="290" y="522.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">新人研修</text>
+<rect x="340" y="500" width="70" height="36" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="375" y="522.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">欠席</text>
+<rect x="40" y="536" width="110" height="36" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="95" y="558.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">…</text>
+<rect x="150" y="536" width="90" height="36" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="195" y="558.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">…</text>
+<rect x="240" y="536" width="100" height="36" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="290" y="558.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">…</text>
+<rect x="340" y="536" width="70" height="36" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="375" y="558.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">…</text>
+<rect x="40" y="356" width="370" height="216" fill="none" stroke="#22c55e" stroke-width="2"/>
+<text x="700" y="330" text-anchor="start" font-size="21" fill="#0f172a" font-weight="700">社員（マスタ）</text>
+<rect x="700" y="392" width="90" height="36" fill="#dbeafe" stroke="#cbd5e1" stroke-width="1"/>
+<text x="745" y="414.55" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">社員番号</text>
+<rect x="790" y="392" width="110" height="36" fill="#dbeafe" stroke="#cbd5e1" stroke-width="1"/>
+<text x="845" y="414.55" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">氏名</text>
+<rect x="900" y="392" width="90" height="36" fill="#dbeafe" stroke="#cbd5e1" stroke-width="1"/>
+<text x="945" y="414.55" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">部署</text>
+<rect x="700" y="428" width="90" height="36" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="745" y="450.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">E012</text>
+<rect x="790" y="428" width="110" height="36" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="845" y="450.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">佐藤 花子</text>
+<rect x="900" y="428" width="90" height="36" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="945" y="450.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">営業部</text>
+<rect x="700" y="464" width="90" height="36" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="745" y="486.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">E027</text>
+<rect x="790" y="464" width="110" height="36" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="845" y="486.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">鈴木 一郎</text>
+<rect x="900" y="464" width="90" height="36" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="945" y="486.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">総務部</text>
+<rect x="700" y="500" width="90" height="36" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="745" y="522.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">E031</text>
+<rect x="790" y="500" width="110" height="36" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="845" y="522.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">田中 次郎</text>
+<rect x="900" y="500" width="90" height="36" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="945" y="522.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">営業部</text>
+<rect x="700" y="392" width="290" height="144" fill="none" stroke="#3b82f6" stroke-width="2"/>
+<path d="M416.00 464.00 L485.12 464.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M624.88 464.00 L694.00 464.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<text x="555" y="469.95" text-anchor="middle" font-size="17" fill="#0f172a" font-weight="600">社員番号で引く</text>
+<path d="M330.00 222.00 L330.00 270.50" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M330.00 303.50 L330.00 352.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<text x="330" y="292.95" text-anchor="middle" font-size="17" fill="#0f172a" font-weight="600">設計し直す</text>
+</svg>

@@ -51,6 +51,7 @@ ThisWorkbook.Worksheets("売上").Range("B2").Value
 ```vb
 Debug.Print "ブックの名前: " & ThisWorkbook.Name
 Debug.Print "シートの数: " & ThisWorkbook.Worksheets.Count
+Debug.Print "1 枚目のシート: " & ThisWorkbook.Worksheets(1).Name
 Debug.Print "売上!B2 の値: " & ThisWorkbook.Worksheets("売上").Range("B2").Value
 ```
 ::::
@@ -63,6 +64,7 @@ Debug.Print "売上!B2 の値: " & ThisWorkbook.Worksheets("売上").Range("B2")
 const ss = SpreadsheetApp.getActiveSpreadsheet();
 console.log('スプレッドシートの名前: ' + ss.getName());
 console.log('シートの数: ' + ss.getSheets().length);
+console.log('1 枚目のシート: ' + ss.getSheets()[0].getName());
 console.log('売上!B2 の値: ' + ss.getSheetByName('売上').getRange('B2').getValue());
 ```
 ::::
@@ -84,7 +86,7 @@ log = ブックの名前: sales-4-1.xlsm
 log = シートの数: 1
 log = 1 枚目のシート: 売上
 log = 売上!B2 の値: あおば設計事務所
-log.sheets = スプレッドシートの名前: sales
+log.sheets = スプレッドシートの名前: 4-1 Excel は部品の入れ子（完成） のコピー
 log.sheets = シートの数: 1
 log.sheets = 1 枚目のシート: 売上
 log.sheets = 売上!B2 の値: あおば設計事務所

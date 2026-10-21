@@ -28,6 +28,7 @@
  *   ::preview[キャプション]{...}    figcaption を付けられる。
  *
  *   ::::sheetdemo / ::::formulademo / ::sheetcode … スプレッドシートの表示。書き方は sheets.mjs を参照。
+ *   ::::debugdemo … デバッガーの操作を 1 手ずつ見せる。書き方は debugdemo.mjs を参照。
  *
  * 生成物: エディタは `::::editor{...}` コンテナ（remark-editor.mjs が <section class="editor">
  * に変換）＋コードフェンス。プレビューは生 HTML の <figure><iframe></figure>。
@@ -41,6 +42,7 @@ import { ROOT } from './paths.mjs';
 import { bookUrl, doneBookOf } from './books.mjs';
 import { assetsDownloadUrlFor, previewUrlFor } from './naming.mjs';
 import { expandSheetSentinels } from './sheets.mjs';
+import { expandDebugSentinels } from './debugdemo.mjs';
 import { spreadsheetCopyUrl } from './spreadsheets.mjs';
 
 const CODEVIEW_RE = /^::codeview(?:\[([^\]]*)\])?(?:\{([^}]*)\})?\s*$/;
@@ -197,6 +199,12 @@ export async function expandSentinels(body, { lectureAbsDir, sec, lec, base, whe
   // レクチャー以外（概要ページなど）では、src="<sec>/<lec>" で指したレクチャーのブックを使う。
   // lectureDirFor は「自分のレクチャー/../../<src>」で探すので、sections/ 直下の仮の位置を渡す。
   body = await expandSheetSentinels(body, {
+    lectureAbsDir: inLecture ? lectureAbsDir : path.join(ROOT, 'sections', '_', '_'),
+    where,
+    parseAttrs,
+  });
+  // `::::debugdemo`（デバッガーの操作を 1 手ずつ見せる）は debugdemo.mjs で展開する。
+  body = await expandDebugSentinels(body, {
     lectureAbsDir: inLecture ? lectureAbsDir : path.join(ROOT, 'sections', '_', '_'),
     where,
     parseAttrs,

@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="420" viewBox="0 0 1000 420" font-family="'Hiragino Sans','Noto Sans JP','Yu Gothic','Segoe UI',sans-serif">
+<defs><marker id="aR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#475569"/></marker><marker id="aRsub" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#94a3b8"/></marker></defs>
+<rect x="0" y="0" width="1000" height="420" fill="#ffffff"/>
+<rect x="330" y="40" width="120" height="36" fill="#dbeafe" stroke="#cbd5e1" stroke-width="1"/>
+<text x="390" y="62.55" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">商品</text>
+<rect x="450" y="40" width="220" height="36" fill="#dbeafe" stroke="#cbd5e1" stroke-width="1"/>
+<text x="560" y="62.55" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">単価</text>
+<rect x="330" y="76" width="120" height="36" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="390" y="98.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">付箋</text>
+<rect x="450" y="76" width="220" height="36" fill="#fef9c3" stroke="#cbd5e1" stroke-width="1"/>
+<text x="560" y="98.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">250 → 280</text>
+<rect x="330" y="40" width="340" height="72" fill="none" stroke="#3b82f6" stroke-width="2"/>
+<text x="690" y="86" text-anchor="start" font-size="13" fill="#475569" font-weight="400">← 11 月 1 日に付箋を値上げした</text>
+<text x="220" y="312" text-anchor="middle" font-size="17" fill="#475569" font-weight="600">✕ 明細はマスタの単価を引くだけ</text>
+<rect x="40" y="200" width="70" height="36" fill="#ffedd5" stroke="#cbd5e1" stroke-width="1"/>
+<text x="75" y="222.55" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">日付</text>
+<rect x="110" y="200" width="80" height="36" fill="#ffedd5" stroke="#cbd5e1" stroke-width="1"/>
+<text x="150" y="222.55" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">商品</text>
+<rect x="190" y="200" width="60" height="36" fill="#ffedd5" stroke="#cbd5e1" stroke-width="1"/>
+<text x="220" y="222.55" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">数量</text>
+<rect x="250" y="200" width="70" height="36" fill="#ffedd5" stroke="#cbd5e1" stroke-width="1"/>
+<text x="285" y="222.55" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">単価</text>
+<rect x="320" y="200" width="80" height="36" fill="#ffedd5" stroke="#cbd5e1" stroke-width="1"/>
+<text x="360" y="222.55" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">金額</text>
+<rect x="40" y="236" width="70" height="36" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="75" y="258.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">10/02</text>
+<rect x="110" y="236" width="80" height="36" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="150" y="258.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">付箋</text>
+<rect x="190" y="236" width="60" height="36" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="220" y="258.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">5</text>
+<rect x="250" y="236" width="70" height="36" fill="#fee2e2" stroke="#cbd5e1" stroke-width="1"/>
+<text x="285" y="258.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">280</text>
+<rect x="320" y="236" width="80" height="36" fill="#fee2e2" stroke="#cbd5e1" stroke-width="1"/>
+<text x="360" y="258.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">1,400</text>
+<rect x="40" y="200" width="360" height="72" fill="none" stroke="#f97316" stroke-width="2"/>
+<text x="220" y="342" text-anchor="middle" font-size="13" fill="#475569" font-weight="400"><tspan x="220" dy="0">10 月分まで 280 円で計算し直される。</tspan><tspan x="220" dy="18.85">送った請求書（1,250 円）と合わない</tspan></text>
+<text x="740" y="312" text-anchor="middle" font-size="17" fill="#475569" font-weight="600">◯ 売った時点の単価を明細に書き写す</text>
+<rect x="560" y="200" width="70" height="36" fill="#dcfce7" stroke="#cbd5e1" stroke-width="1"/>
+<text x="595" y="222.55" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">日付</text>
+<rect x="630" y="200" width="80" height="36" fill="#dcfce7" stroke="#cbd5e1" stroke-width="1"/>
+<text x="670" y="222.55" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">商品</text>
+<rect x="710" y="200" width="60" height="36" fill="#dcfce7" stroke="#cbd5e1" stroke-width="1"/>
+<text x="740" y="222.55" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">数量</text>
+<rect x="770" y="200" width="70" height="36" fill="#dcfce7" stroke="#cbd5e1" stroke-width="1"/>
+<text x="805" y="222.55" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">単価</text>
+<rect x="840" y="200" width="80" height="36" fill="#dcfce7" stroke="#cbd5e1" stroke-width="1"/>
+<text x="880" y="222.55" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">金額</text>
+<rect x="560" y="236" width="70" height="36" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="595" y="258.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">10/02</text>
+<rect x="630" y="236" width="80" height="36" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="670" y="258.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">付箋</text>
+<rect x="710" y="236" width="60" height="36" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="740" y="258.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">5</text>
+<rect x="770" y="236" width="70" height="36" fill="#dcfce7" stroke="#cbd5e1" stroke-width="1"/>
+<text x="805" y="258.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">250</text>
+<rect x="840" y="236" width="80" height="36" fill="#dcfce7" stroke="#cbd5e1" stroke-width="1"/>
+<text x="880" y="258.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">1,250</text>
+<rect x="560" y="200" width="360" height="72" fill="none" stroke="#22c55e" stroke-width="2"/>
+<text x="740" y="342" text-anchor="middle" font-size="13" fill="#475569" font-weight="400"><tspan x="740" dy="0">値上げしても 10 月の明細は 250 円のまま。</tspan><tspan x="740" dy="18.85">マスタは「これから売る値段」として使う</tspan></text>
+<path d="M431.79 114.98 L383.94 142.32" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 6"/>
+<path d="M336.06 169.68 L288.21 197.02" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 6" marker-end="url(#aRsub)"/>
+<text x="360" y="161.95" text-anchor="middle" font-size="17" fill="#475569" font-weight="600">引く</text>
+<path d="M558.99 115.33 L584.94 132.63" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M655.06 179.37 L681.01 196.67" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aRsub)"/>
+<text x="620" y="161.95" text-anchor="middle" font-size="17" fill="#475569" font-weight="600">書き写す</text>
+</svg>

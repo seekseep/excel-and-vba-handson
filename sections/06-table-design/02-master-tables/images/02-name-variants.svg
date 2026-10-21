@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="330" viewBox="0 0 960 330" font-family="'Hiragino Sans','Noto Sans JP','Yu Gothic','Segoe UI',sans-serif">
+<defs><marker id="aR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#475569"/></marker><marker id="aRsub" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#94a3b8"/></marker></defs>
+<rect x="0" y="0" width="960" height="330" fill="#ffffff"/>
+<text x="40" y="60" text-anchor="start" font-size="21" fill="#0f172a" font-weight="700">売上（顧客名を手で入力）</text>
+<rect x="40" y="90" width="70" height="34" fill="#ffedd5" stroke="#cbd5e1" stroke-width="1"/>
+<text x="75" y="111.55" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">日付</text>
+<rect x="110" y="90" width="150" height="34" fill="#ffedd5" stroke="#cbd5e1" stroke-width="1"/>
+<text x="185" y="111.55" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">顧客</text>
+<rect x="260" y="90" width="80" height="34" fill="#ffedd5" stroke="#cbd5e1" stroke-width="1"/>
+<text x="300" y="111.55" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">金額</text>
+<rect x="40" y="124" width="70" height="34" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="75" y="145.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">10/07</text>
+<rect x="110" y="124" width="150" height="34" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="185" y="145.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">ひまわり商事</text>
+<rect x="260" y="124" width="80" height="34" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="300" y="145.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">1,360</text>
+<rect x="40" y="158" width="70" height="34" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="75" y="179.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">10/08</text>
+<rect x="110" y="158" width="150" height="34" fill="#fee2e2" stroke="#cbd5e1" stroke-width="1"/>
+<text x="185" y="179.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">㈱ひまわり商事</text>
+<rect x="260" y="158" width="80" height="34" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="300" y="179.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">360</text>
+<rect x="40" y="192" width="70" height="34" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="75" y="213.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">10/13</text>
+<rect x="110" y="192" width="150" height="34" fill="#fee2e2" stroke="#cbd5e1" stroke-width="1"/>
+<text x="185" y="213.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">ひまわり商事␣</text>
+<rect x="260" y="192" width="80" height="34" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="300" y="213.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">1,100</text>
+<rect x="40" y="226" width="70" height="34" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="75" y="247.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">10/15</text>
+<rect x="110" y="226" width="150" height="34" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="185" y="247.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">ひまわり商事</text>
+<rect x="260" y="226" width="80" height="34" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="300" y="247.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">6,800</text>
+<rect x="40" y="260" width="70" height="34" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="75" y="281.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">10/21</text>
+<rect x="110" y="260" width="150" height="34" fill="#fee2e2" stroke="#cbd5e1" stroke-width="1"/>
+<text x="185" y="281.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">ヒマワリ商事</text>
+<rect x="260" y="260" width="80" height="34" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="300" y="281.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">900</text>
+<rect x="40" y="90" width="300" height="204" fill="none" stroke="#f97316" stroke-width="2"/>
+<text x="600" y="60" text-anchor="start" font-size="21" fill="#0f172a" font-weight="700">顧客ごとの合計</text>
+<rect x="600" y="107" width="170" height="34" fill="#ffedd5" stroke="#cbd5e1" stroke-width="1"/>
+<text x="685" y="128.55" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">顧客</text>
+<rect x="770" y="107" width="90" height="34" fill="#ffedd5" stroke="#cbd5e1" stroke-width="1"/>
+<text x="815" y="128.55" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">合計</text>
+<rect x="600" y="141" width="170" height="34" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="685" y="162.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">ひまわり商事</text>
+<rect x="770" y="141" width="90" height="34" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="815" y="162.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">8,160</text>
+<rect x="600" y="175" width="170" height="34" fill="#fee2e2" stroke="#cbd5e1" stroke-width="1"/>
+<text x="685" y="196.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">㈱ひまわり商事</text>
+<rect x="770" y="175" width="90" height="34" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="815" y="196.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">360</text>
+<rect x="600" y="209" width="170" height="34" fill="#fee2e2" stroke="#cbd5e1" stroke-width="1"/>
+<text x="685" y="230.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">ひまわり商事␣</text>
+<rect x="770" y="209" width="90" height="34" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="815" y="230.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">1,100</text>
+<rect x="600" y="243" width="170" height="34" fill="#fee2e2" stroke="#cbd5e1" stroke-width="1"/>
+<text x="685" y="264.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">ヒマワリ商事</text>
+<rect x="770" y="243" width="90" height="34" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="815" y="264.55" text-anchor="middle" font-size="13" font-weight="400" fill="#0f172a">900</text>
+<rect x="600" y="107" width="260" height="170" fill="none" stroke="#f97316" stroke-width="2"/>
+<path d="M346.00 192.00 L433.54 192.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M506.46 192.00 L594.00 192.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<text x="470" y="197.95" text-anchor="middle" font-size="17" fill="#0f172a" font-weight="600">SUMIF</text>
+<text x="480" y="310" text-anchor="middle" font-size="13" fill="#475569" font-weight="400">人には同じ会社に見えても、関数やマクロには別の文字列。1 社が 4 社に分かれる（␣ は末尾の空白）</text>
+</svg>

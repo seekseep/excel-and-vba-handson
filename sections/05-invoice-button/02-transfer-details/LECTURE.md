@@ -14,7 +14,7 @@ title: 明細を書き写す
 [サンプルのスプレッドシートをコピー](./start-spreadsheet)
 :::
 
-前の節から続けている人は、そのブックのまま進めてください。ここから始める人は、上のボタンから 5-1（テンプレートをコピーして宛名を書く）を終えた状態のブックをダウンロードしてください。Excel では、マクロ入りのブック（`.xlsm`）を開くときに [マクロを有効にする](../../00-setup/01-excel/LECTURE.md#ダウンロードしたマクロ入りのブック) 必要があります。スプレッドシートでは、上の「サンプルのスプレッドシートをコピー」で自分のドライブにコピーを作り、「コードをダウンロード」の ZIP にある `gas/` のコードを Apps Script エディタに貼って、前の節を終えた状態にしてから進めてください。
+前の節から続けている人は、そのブックのまま進めてください。ここから始める人は、上のボタンから 5-1（テンプレートをコピーして宛名を書く）を終えた状態のブックをダウンロードしてください。Excel では、マクロ入りのブック（`.xlsm`）を開くときに [マクロを有効にする](../../00-setup/01-excel/LECTURE.md#ダウンロードしたマクロ入りのブック) 必要があります。スプレッドシートでは、上の「サンプルのスプレッドシートをコピー」で自分のドライブにコピーを作り、5-1 の「この節の完成コード」の欄にある `Invoice.gs` を Apps Script エディタに貼って、前の節を終えた状態にしてから進めてください。
 
 売上シートからその顧客の明細だけを請求書に書き写し、1 社分を 5 社分に広げます。
 
@@ -94,7 +94,7 @@ Apps Script エディタの関数の選択欄で `createInvoices` を選び、�
 ::::
 :::::
 
-::::sheetdemo[CreateInvoices を実行すると、ひまわり商事の明細と合計が入る]{book="book/invoice.xlsx" sheet="顧客" macro="CreateInvoices" openTab="added"}
+::::sheetdemo[CreateInvoices を実行すると、ひまわり商事の明細と合計が入る]{stage="one-customer" book="book/invoice.xlsx" sheet="顧客" macro="CreateInvoices" openTab="added"}
 tabs = 請求書_ひまわり商事 <- 請求書テンプレート
 請求書_ひまわり商事!A5 = ひまわり商事 御中
 請求書_ひまわり商事!A6 = 〒104-0000 東京都中央区ひまわり 2-4-6
@@ -130,23 +130,34 @@ tabs = 請求書_ひまわり商事 <- 請求書テンプレート
         customerName = customerSheet.Cells(c, 1).Value
         ' …5-1 とこの節で書いた、コピー〜合計までの行…
     Next c
+
+    customerSheet.Activate
+    MsgBox (lastCustomerRow - 1) & " 件の請求書を作りました"
 ```
 
-`Dim lastCustomerRow As Long` も足してください。`For c` の中に、明細をくり返す `For i` が入る形になります（第 3 章のチャレンジと同じ「くり返しの中のくり返し」です）。
+`Dim lastCustomerRow As Long` も足し、`lastCustomerRow` を求める行は `lastSalesRow` の行の下に置きます。`For c` の中に、明細をくり返す `For i` が入る形になります（第 3 章のチャレンジと同じ「くり返しの中のくり返し」です）。
 ::::
 ::::sheets
 ```js
+  const lastSalesRow = salesSheet.getLastRow();
   const lastCustomerRow = customerSheet.getLastRow();
 
   for (let c = 2; c <= lastCustomerRow; c++) {
     const customerName = customerSheet.getRange(c, 1).getValue();
     // …5-1 とこの節で書いた、コピー〜合計までの行…
   }
+
+  ss.setActiveSheet(customerSheet);
+  SpreadsheetApp.getUi().alert((lastCustomerRow - 1) + ' 件の請求書を作りました');
 ```
+
+明細の前に書いた `const lastSalesRow = ...` の行は、くり返しの外（前）に移します。
 
 `for (let c ...)` の中に、明細をくり返す `for (let i ...)` が入る形になります（第 3 章のチャレンジと同じ「くり返しの中のくり返し」です）。
 ::::
 :::::
+
+くり返しが終わったら、顧客シートに戻して（VBA は `customerSheet.Activate`、GAS は `ss.setActiveSheet(customerSheet)`）、何件作ったかをメッセージで知らせます。顧客は 2 行目からなので、件数は `lastCustomerRow - 1` です。
 
 実行すると、5 社分の請求書シートができます。
 
@@ -159,7 +170,7 @@ Apps Script エディタの関数の選択欄で `createInvoices` を選び、�
 ::::
 :::::
 
-::::sheetdemo[CreateInvoices を実行すると、5 社分の請求書シートができる]{book="book/invoice.xlsx" sheet="顧客" macro="CreateInvoices" macros="CreateInvoices,DeleteInvoices"}
+::::sheetdemo[CreateInvoices を実行すると、5 社分の請求書シートができる]{stage="all-customers" book="book/invoice.xlsx" sheet="顧客" macro="CreateInvoices"}
 tabs = 請求書_ひまわり商事 <- 請求書テンプレート, 請求書_あおば設計事務所 <- 請求書テンプレート, 請求書_みなと物産 <- 請求書テンプレート, 請求書_さくら学習塾 <- 請求書テンプレート, 請求書_こもれび珈琲 <- 請求書テンプレート
 請求書_ひまわり商事!A5 = ひまわり商事 御中
 請求書_ひまわり商事!A6 = 〒104-0000 東京都中央区ひまわり 2-4-6

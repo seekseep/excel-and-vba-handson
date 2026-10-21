@@ -503,8 +503,7 @@
     demo.querySelector('.gbrowser__log').hidden = true;
     demo.querySelector('.gbrowser__notice').hidden = true;
     showPane(demo, 'editor');
-    demo.dataset.gasStep = 'select';
-    gasSyncSelect(demo);
+    gasStep(demo, 'select');
   }
 
   // 関数を選ぶと、その関数の行までコードを送る（本物は送らないが、どこを動かすのかを見せるため）。
@@ -529,13 +528,21 @@
     gasSyncSelect(demo);
   });
 
-  // ページを開いたときの案内（先頭の関数がデモの関数なら、もう「実行」から）。
+  // 選択欄が最初からデモの関数を指していても、自分で選択欄を押すまで「選ぶ」を済ませない
+  // （開いた時点で手順が進んでいると、何をすればよいか分からなくなるため）。
+  // 同じ関数を選び直しても change は起きないので、選択欄を押したときにも確かめる。
+  document.addEventListener('click', function (e) {
+    var target = e.target;
+    if (!(target instanceof Element) || !target.classList.contains('sheetdemo__gas-select')) return;
+    gasSyncSelect(target.closest('.sheetdemo'));
+  });
+
+  // ページを開いたときの案内は、いつも「関数を選ぶ」から始める。
   function initGas() {
     document.querySelectorAll('.sheetdemo .gbrowser').forEach(function (browser) {
       var demo = browser.closest('.sheetdemo');
       if (demo.dataset.gasStep) return;
-      demo.dataset.gasStep = 'select';
-      gasSyncSelect(demo);
+      gasStep(demo, 'select');
     });
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initGas);
