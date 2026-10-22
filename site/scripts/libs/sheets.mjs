@@ -398,8 +398,6 @@ function renderSheet(wb, ws, { range, highlight, after, before, sheetValues = ne
     `<span class="sheet__namebox"></span><span class="sheet__fx">fx</span><span class="sheet__formula"></span>` +
     `</div>` +
     panes.join('') +
-    // 下端をドラッグすると、シートの表示を縦に広げられる。
-    `<div class="sheet__resizer" role="separator" aria-orientation="horizontal" aria-label="表示の高さを変える"></div>` +
     `<div class="sheet__tabs">${tabs.join('')}</div>` +
     `</div>`
   );

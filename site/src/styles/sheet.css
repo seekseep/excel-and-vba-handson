@@ -113,8 +113,9 @@
 
 /* ---- グリッド ---- */
 
+/* 高さは固定（広げたいときは全画面にする）。シートや行数で枠の大きさが変わらないようにする。 */
 .sheet__grid {
-  max-height: 24rem;
+  height: 24rem;
   overflow: auto;
   background: #fff;
 }
@@ -1046,7 +1047,7 @@ button.sheet__menubar-item:focus-visible,
   overflow: visible;
 }
 
-/* ---- シートの切り替え・縦に広げる・全画面 ---- */
+/* ---- シートの切り替え・全画面 ---- */
 
 .sheet__tab {
   border: none;
@@ -1057,20 +1058,6 @@ button.sheet__menubar-item:focus-visible,
 
 .sheet__grid[hidden] {
   display: none;
-}
-
-/* 下端の帯をドラッグして広げたあとは、その高さで表示する。 */
-.sheet.is-resized .sheet__grid {
-  height: var(--sheet-grid-height);
-  max-height: none;
-}
-
-.sheet__resizer {
-  height: 8px;
-  border-top: 1px solid #d6d6d6;
-  background: repeating-linear-gradient(90deg, transparent 0 calc(50% - 14px), #b0b0b0 calc(50% - 14px) calc(50% + 14px), transparent calc(50% + 14px)) center / 100% 2px no-repeat, #f3f3f3;
-  cursor: ns-resize;
-  touch-action: none;
 }
 
 .sheetdemo__fullscreen {
@@ -1109,7 +1096,8 @@ button.sheet__menubar-item:focus-visible,
 .sheetdemo:fullscreen .sheet__grid,
 .sheetdemo.is-fullscreen .sheet__grid {
   flex: 1;
-  max-height: none;
+  height: auto;
+  min-height: 0;
 }
 
 /* ---- マクロを実行するボタン（ブックのフォーム コントロール） ----

@@ -707,30 +707,6 @@
     if (full) toggleFullscreen(full.closest('.sheetdemo'), full);
   });
 
-  // 下端の帯をドラッグして、シートの表示を縦に広げる（全シート共通の高さにする）。
-  document.addEventListener('pointerdown', function (e) {
-    var target = e.target;
-    if (!(target instanceof Element) || !target.classList.contains('sheet__resizer')) return;
-    var sheet = target.closest('.sheet');
-    var visible = sheet.querySelector('.sheet__grid:not([hidden])');
-    if (!visible) return;
-    e.preventDefault();
-    var startY = e.clientY;
-    var startH = visible.getBoundingClientRect().height;
-    target.setPointerCapture(e.pointerId);
-    function move(ev) {
-      var h = Math.max(120, startH + ev.clientY - startY);
-      sheet.style.setProperty('--sheet-grid-height', h + 'px');
-      sheet.classList.add('is-resized');
-    }
-    function up() {
-      target.removeEventListener('pointermove', move);
-      target.removeEventListener('pointerup', up);
-    }
-    target.addEventListener('pointermove', move);
-    target.addEventListener('pointerup', up);
-  });
-
   // 全画面。Fullscreen API が使えないブラウザ（iPhone の Safari など）は、画面に固定する表示で代わりにする。
   function toggleFullscreen(demo, button) {
     var on = !(document.fullscreenElement === demo || demo.classList.contains('is-fullscreen'));
