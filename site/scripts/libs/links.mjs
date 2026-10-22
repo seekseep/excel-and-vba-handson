@@ -67,6 +67,7 @@ function relativeUrl(fromUrl, toUrl, hash = '') {
  * 一致しなければ null を返す。
  */
 function resolveSiteUrl(resolved, isDirLink) {
+  if (resolved === 'sections/INTRODUCTION.md') return '/';
   if (resolved === 'sections/README.md') return '/getting-started/';
 
   let m = resolved.match(/^sections\/([\w-]+)\.md$/);

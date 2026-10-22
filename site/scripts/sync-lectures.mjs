@@ -4,7 +4,7 @@
  * 拾い、src/content/docs/ 配下のサイトページを生成する。
  *
  * 採用される source/destination の対応 (規約。パスは ROOT=リポジトリルート相対):
- *   README.md                       → docs/index.md             (/)
+ *   sections/INTRODUCTION.md        → docs/index.md             (/)  ルートの README.md は GitHub 用でサイトには出さない
  *   sections/README.md              → docs/getting-started.md   (/getting-started/)
  *   sections/<name>.md              → docs/<name>.md            (/<name>/)        例: DOCKER.md → /docker/
  *   sections/<sec>/README.md        → docs/<sec>/index.md       (/<sec>/)
@@ -192,7 +192,7 @@ function deriveDestination(srcRel) {
   const parts = srcRel.split('/');
   const file = parts[parts.length - 1];
 
-  if (srcRel === 'README.md') {
+  if (srcRel === 'sections/INTRODUCTION.md') {
     return { outputPath: 'index.md', slug: '/' };
   }
   if (srcRel === 'sections/README.md') {
