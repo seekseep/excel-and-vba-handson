@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="380" viewBox="0 0 900 380" font-family="'Hiragino Sans','Noto Sans JP','Yu Gothic','Segoe UI',sans-serif">
+<defs><marker id="aR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#475569"/></marker><marker id="aRsub" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#94a3b8"/></marker></defs>
+<rect x="0" y="0" width="900" height="380" fill="#ffffff"/>
+<rect x="30" y="40" width="330" height="300" rx="12" fill="#fef9c3" stroke="#f59e0b" stroke-width="2.0"/>
+<text x="195" y="84" text-anchor="middle" font-size="21.25" fill="#475569" font-weight="600">3 つの問い</text>
+<text x="56" y="150" text-anchor="start" font-size="18.75" fill="#475569" font-weight="400">1. 毎月続く？</text>
+<text x="56" y="214" text-anchor="start" font-size="18.75" fill="#475569" font-weight="400">2. 人に渡す？</text>
+<text x="56" y="278" text-anchor="start" font-size="18.75" fill="#475569" font-weight="400">3. 関数やマクロで集計したい？</text>
+<rect x="530" y="40" width="340" height="130" rx="12" fill="#dcfce7" stroke="#22c55e" stroke-width="2.0"/>
+<text x="700" y="96" text-anchor="middle" font-size="16.25" fill="#475569" font-weight="400">最初に 5 分かけて</text>
+<text x="700" y="132" text-anchor="middle" font-size="26.25" fill="#0f172a" font-weight="700">1 件と列を決める</text>
+<rect x="530" y="210" width="340" height="130" rx="12" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2.0"/>
+<text x="700" y="262" text-anchor="middle" font-size="26.25" fill="#0f172a" font-weight="700">そのままでよい</text>
+<text x="700" y="300" text-anchor="middle" font-size="16.25" fill="#475569" font-weight="400">一度きりの表、自分だけの数十行</text>
+<path d="M366.00 190.00 L384.00 190.00 L414.50 190.00 Q445.00 190.00 445.00 159.50 L445.00 135.50 Q445.00 105.00 475.50 105.00 L506.00 105.00 L524.00 105.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<path d="M366.00 190.00 L384.00 190.00 L414.50 190.00 Q445.00 190.00 445.00 220.50 L445.00 244.50 Q445.00 275.00 475.50 275.00 L506.00 275.00 L524.00 275.00" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aRsub)"/>
+<text x="445" y="80" text-anchor="middle" font-size="21.25" fill="#475569" font-weight="600">どれか はい</text>
+<text x="445" y="318" text-anchor="middle" font-size="21.25" fill="#475569" font-weight="600">全部 いいえ</text>
+</svg>

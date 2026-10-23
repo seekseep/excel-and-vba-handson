@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="420" viewBox="0 0 1080 420" font-family="'Hiragino Sans','Noto Sans JP','Yu Gothic','Segoe UI',sans-serif">
+<defs><marker id="aR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#475569"/></marker><marker id="aRsub" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#94a3b8"/></marker></defs>
+<rect x="0" y="0" width="1080" height="420" fill="#ffffff"/>
+<text x="540" y="44" text-anchor="middle" font-size="31.5" fill="#0f172a" font-weight="700">デバッガーの使い方：5 つの手順</text>
+<rect x="24" y="80" width="168" height="200" rx="16" fill="#fee2e2" stroke="#ef4444" stroke-width="2.0"/>
+<svg x="88.0" y="98.0" width="40.0" height="40.0" viewBox="0 0 36 36"><circle fill="#DD2E44" cx="18" cy="18" r="18"/></svg>
+<text x="108" y="170" text-anchor="middle" font-size="25.5" fill="#475569" font-weight="600">① 置く</text>
+<text x="108" y="206" text-anchor="middle" font-size="19.5" fill="#475569" font-weight="400"><tspan x="108" dy="0">止めたい行に</tspan><tspan x="108" dy="28.275">ブレークポイント</tspan></text>
+<rect x="238" y="80" width="168" height="200" rx="16" fill="#fef9c3" stroke="#f59e0b" stroke-width="2.0"/>
+<svg x="302.0" y="98.0" width="40.0" height="40.0" viewBox="0 0 36 36"><path fill="#3B88C3" d="M36 32c0 2.209-1.791 4-4 4H4c-2.209 0-4-1.791-4-4V4c0-2.209 1.791-4 4-4h28c2.209 0 4 1.791 4 4v28z"/><path fill="#FFF" d="M8 7l22 11L8 29z"/></svg>
+<text x="322" y="170" text-anchor="middle" font-size="25.5" fill="#475569" font-weight="600">② 実行する</text>
+<text x="322" y="206" text-anchor="middle" font-size="19.5" fill="#475569" font-weight="400"><tspan x="322" dy="0">黄色い行で止まる</tspan><tspan x="322" dy="28.275">黄色 ＝ これから</tspan><tspan x="322" dy="28.275">実行する行</tspan></text>
+<rect x="452" y="80" width="168" height="200" rx="16" fill="#dbeafe" stroke="#3b82f6" stroke-width="2.0"/>
+<svg x="516.0" y="98.0" width="40.0" height="40.0" viewBox="0 0 36 36"><path fill="#9AAAB4" d="M27.388 24.642L24.56 27.47l-4.95-4.95 2.828-2.828z"/><path fill="#66757F" d="M34.683 29.11l-5.879-5.879c-.781-.781-2.047-.781-2.828 0l-2.828 2.828c-.781.781-.781 2.047 0 2.828l5.879 5.879c1.562 1.563 4.096 1.563 5.658 0 1.56-1.561 1.559-4.094-.002-5.656z"/><circle fill="#8899A6" cx="13.586" cy="13.669" r="13.5"/><circle fill="#BBDDF5" cx="13.586" cy="13.669" r="9.5"/></svg>
+<text x="536" y="170" text-anchor="middle" font-size="25.5" fill="#475569" font-weight="600">③ 変数を見る</text>
+<text x="536" y="206" text-anchor="middle" font-size="19.5" fill="#475569" font-weight="400"><tspan x="536" dy="0">i・total などの</tspan><tspan x="536" dy="28.275">いまの値</tspan></text>
+<rect x="666" y="80" width="168" height="200" rx="16" fill="#dcfce7" stroke="#22c55e" stroke-width="2.0"/>
+<svg x="730.0" y="98.0" width="40.0" height="40.0" viewBox="0 0 36 36"><path fill="#3B88C3" d="M36 32c0 2.209-1.791 4-4 4H4c-2.209 0-4-1.791-4-4V4c0-2.209 1.791-4 4-4h28c2.209 0 4 1.791 4 4v28z"/><path fill="#FFF" d="M27 18L15 7v9.166L5 7v22l10-9.167V29zm0-11h4v22h-4z"/></svg>
+<text x="750" y="170" text-anchor="middle" font-size="25.5" fill="#475569" font-weight="600">④ 1 行進める</text>
+<text x="750" y="206" text-anchor="middle" font-size="19.5" fill="#475569" font-weight="400"><tspan x="750" dy="0">値がどう変わるか</tspan><tspan x="750" dy="28.275">を確かめる</tspan></text>
+<rect x="880" y="80" width="168" height="200" rx="16" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2.0"/>
+<svg x="944.0" y="98.0" width="40.0" height="40.0" viewBox="0 0 36 36"><path fill="#3B88C3" d="M36 32c0 2.209-1.791 4-4 4H4c-2.209 0-4-1.791-4-4V4c0-2.209 1.791-4 4-4h28c2.209 0 4 1.791 4 4v28z"/><path fill="#FFF" d="M7 7h22v22H7z"/></svg>
+<text x="964" y="170" text-anchor="middle" font-size="25.5" fill="#475569" font-weight="600">⑤ 止める</text>
+<text x="964" y="206" text-anchor="middle" font-size="19.5" fill="#475569" font-weight="400"><tspan x="964" dy="0">実行をやめて</tspan><tspan x="964" dy="28.275">編集に戻る</tspan></text>
+<path d="M198.00 180.00 L232.00 180.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<path d="M412.00 180.00 L446.00 180.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<path d="M626.00 180.00 L660.00 180.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<path d="M840.00 180.00 L874.00 180.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<path d="M750.00 286.00 L750.00 304.00 L750.00 318.00 Q750.00 332.00 736.00 332.00 L643.00 332.00 L550.00 332.00 Q536.00 332.00 536.00 318.00 L536.00 304.00 L536.00 286.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<text x="696.5" y="359.125" text-anchor="middle" font-size="22.5" fill="#0f172a" font-weight="400">何回もくり返す</text>
+</svg>

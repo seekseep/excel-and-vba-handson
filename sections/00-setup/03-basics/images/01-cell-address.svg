@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="520" viewBox="0 0 1040 520" font-family="'Hiragino Sans','Noto Sans JP','Yu Gothic','Segoe UI',sans-serif">
+<defs><marker id="aR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#475569"/></marker><marker id="aRsub" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#94a3b8"/></marker></defs>
+<rect x="0" y="0" width="1040" height="520" fill="#ffffff"/>
+<rect x="362" y="70" width="56" height="48" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
+<rect x="418" y="70" width="96" height="48" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
+<text x="466" y="99.25" text-anchor="middle" font-size="15" font-weight="700" fill="#0f172a">A</text>
+<rect x="514" y="70" width="96" height="48" fill="#dbeafe" stroke="#cbd5e1" stroke-width="1"/>
+<text x="562" y="99.25" text-anchor="middle" font-size="15" font-weight="700" fill="#0f172a">B</text>
+<rect x="610" y="70" width="96" height="48" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
+<text x="658" y="99.25" text-anchor="middle" font-size="15" font-weight="700" fill="#0f172a">C</text>
+<rect x="706" y="70" width="96" height="48" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
+<text x="754" y="99.25" text-anchor="middle" font-size="15" font-weight="700" fill="#0f172a">D</text>
+<rect x="362" y="118" width="56" height="48" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
+<text x="390" y="147.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">1</text>
+<rect x="418" y="118" width="96" height="48" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<rect x="514" y="118" width="96" height="48" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<rect x="610" y="118" width="96" height="48" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<rect x="706" y="118" width="96" height="48" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<rect x="362" y="166" width="56" height="48" fill="#dbeafe" stroke="#cbd5e1" stroke-width="1"/>
+<text x="390" y="195.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">2</text>
+<rect x="418" y="166" width="96" height="48" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<rect x="514" y="166" width="96" height="48" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<rect x="610" y="166" width="96" height="48" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<rect x="706" y="166" width="96" height="48" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<rect x="362" y="214" width="56" height="48" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
+<text x="390" y="243.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">3</text>
+<rect x="418" y="214" width="96" height="48" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<rect x="514" y="214" width="96" height="48" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<rect x="610" y="214" width="96" height="48" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<rect x="706" y="214" width="96" height="48" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<rect x="362" y="262" width="56" height="48" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
+<text x="390" y="291.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">4</text>
+<rect x="418" y="262" width="96" height="48" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<rect x="514" y="262" width="96" height="48" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<rect x="610" y="262" width="96" height="48" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<rect x="706" y="262" width="96" height="48" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<rect x="362" y="70" width="440" height="240" fill="none" stroke="#94a3b8" stroke-width="2"/>
+<rect x="514" y="166" width="96" height="48" rx="2" fill="#fef9c3" stroke="#f59e0b" stroke-width="3.5"/>
+<text x="562" y="197" text-anchor="middle" font-size="24.555555555555554" fill="#0f172a" font-weight="600">B2</text>
+<text x="562" y="56" text-anchor="middle" font-size="18.77777777777778" fill="#1d4ed8" font-weight="400">2 列目（B）</text>
+<text x="350" y="195" text-anchor="end" font-size="18.77777777777778" fill="#1d4ed8" font-weight="400">2 行目</text>
+<rect x="40" y="350" width="290" height="110" rx="16" fill="#dbeafe" stroke="#3b82f6" stroke-width="2.0"/>
+<text x="185" y="386" text-anchor="middle" font-size="24.555555555555554" fill="#475569" font-weight="600">番地で指す</text>
+<text x="185" y="418" text-anchor="middle" font-size="21.666666666666668" fill="#0f172a" font-weight="400" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">Range("B2")</text>
+<text x="185" y="444" text-anchor="middle" font-size="18.77777777777778" fill="#475569" font-weight="400" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">getRange('B2')</text>
+<rect x="710" y="350" width="290" height="110" rx="16" fill="#dcfce7" stroke="#22c55e" stroke-width="2.0"/>
+<text x="855" y="386" text-anchor="middle" font-size="24.555555555555554" fill="#475569" font-weight="600">行, 列の番号で指す</text>
+<text x="855" y="418" text-anchor="middle" font-size="21.666666666666668" fill="#0f172a" font-weight="400" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">Cells(2, 2)</text>
+<text x="855" y="444" text-anchor="middle" font-size="18.77777777777778" fill="#475569" font-weight="400" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">getRange(2, 2)</text>
+<path d="M336.00 405.00 L354.00 405.00 L478.50 405.00 Q562.00 405.00 562.00 321.50 L562.00 238.00 L562.00 220.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<path d="M855.00 344.00 L855.00 326.00 L855.00 258.00 Q855.00 190.00 787.00 190.00 L634.00 190.00 L616.00 190.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<text x="520" y="500" text-anchor="middle" font-size="24.555555555555554" fill="#0f172a" font-weight="600">Cells(2, 2) は（2 行目, 2 列目）。行が先、列が後</text>
+</svg>

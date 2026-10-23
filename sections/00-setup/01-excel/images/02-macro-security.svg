@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="520" viewBox="0 0 1040 520" font-family="'Hiragino Sans','Noto Sans JP','Yu Gothic','Segoe UI',sans-serif">
+<defs><marker id="aR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#475569"/></marker><marker id="aRsub" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#94a3b8"/></marker></defs>
+<rect x="0" y="0" width="1040" height="520" fill="#ffffff"/>
+<svg x="64.0" y="205.7" width="56.0" height="56.0" viewBox="0 0 36 36"><path fill="#D99E82" d="M36 32c0 2.209-1.791 4-4 4H4c-2.209 0-4-1.791-4-4v-9c0-2.209.791-3 3-3h30c2.209 0 3 .791 3 3v9z"/><path fill="#662113" d="M25 20c0 3.866-3.134 7-7 7s-7-3.134-7-7h14z"/><path fill="#C1694F" d="M4 36h28c2.209 0 4-1.791 4-4H0c0 2.209 1.791 4 4 4z"/><path fill="#77B255" d="M26.716 8h-4.783V2c0-1.105-.896-2-2-2h-4.001c-1.104 0-1.999.896-1.999 2v6H9.148c-1.223 0-1.516.623-.651 1.489l7.863 7.863c.865.865 2.28.865 3.146 0l7.863-7.863C28.232 8.623 27.94 8 26.716 8z"/></svg>
+<text x="92" y="291.349" text-anchor="middle" font-size="24.555555555555554" fill="#475569" font-weight="600">ダウンロード</text>
+<text x="92" y="316" text-anchor="middle" font-size="18.77777777777778" fill="#475569" font-weight="400">.xlsm</text>
+<text x="200" y="50" text-anchor="start" font-size="30.333333333333332" fill="#0f172a" font-weight="700">Windows</text>
+<rect x="200" y="70" width="310" height="140" rx="16" fill="#fee2e2" stroke="#ef4444" stroke-width="2.0"/>
+<text x="355" y="108" text-anchor="middle" font-size="21.666666666666668" fill="#0f172a" font-weight="400">① ファイルのプロパティ</text>
+<text x="355" y="142" text-anchor="middle" font-size="18.77777777777778" fill="#475569" font-weight="400">右クリック →「プロパティ」</text>
+<text x="355" y="182" text-anchor="middle" font-size="24.555555555555554" fill="#b91c1c" font-weight="600">「許可する」にチェック</text>
+<text x="355" y="244" text-anchor="middle" font-size="18.77777777777778" fill="#475569" font-weight="400">しないと赤いバー「マクロの実行がブロック…」</text>
+<rect x="560" y="70" width="290" height="140" rx="16" fill="#fef9c3" stroke="#f59e0b" stroke-width="2.0"/>
+<text x="705" y="108" text-anchor="middle" font-size="21.666666666666668" fill="#0f172a" font-weight="400">② 開くと黄色いバー</text>
+<text x="705" y="142" text-anchor="middle" font-size="18.77777777777778" fill="#475569" font-weight="400">セキュリティの警告</text>
+<text x="705" y="182" text-anchor="middle" font-size="24.555555555555554" fill="#b45309" font-weight="600">「コンテンツの有効化」</text>
+<text x="200" y="330" text-anchor="start" font-size="30.333333333333332" fill="#0f172a" font-weight="700">Mac</text>
+<rect x="200" y="350" width="650" height="100" rx="16" fill="#fef9c3" stroke="#f59e0b" stroke-width="2.0"/>
+<text x="525" y="388" text-anchor="middle" font-size="18.77777777777778" fill="#475569" font-weight="400">開くときに「このブックにはマクロが含まれています」</text>
+<text x="525" y="426" text-anchor="middle" font-size="24.555555555555554" fill="#b45309" font-weight="600">「マクロを有効にする」</text>
+<svg x="932.0" y="205.7" width="56.0" height="56.0" viewBox="0 0 36 36"><path fill="#77B255" d="M36 32c0 2.209-1.791 4-4 4H4c-2.209 0-4-1.791-4-4V4c0-2.209 1.791-4 4-4h28c2.209 0 4 1.791 4 4v28z"/><path fill="#FFF" d="M29.28 6.362c-1.156-.751-2.704-.422-3.458.736L14.936 23.877l-5.029-4.65c-1.014-.938-2.596-.875-3.533.138-.937 1.014-.875 2.596.139 3.533l7.209 6.666c.48.445 1.09.665 1.696.665.673 0 1.534-.282 2.099-1.139.332-.506 12.5-19.27 12.5-19.27.751-1.159.421-2.707-.737-3.458z"/></svg>
+<text x="960" y="291.349" text-anchor="middle" font-size="24.555555555555554" fill="#475569" font-weight="600">マクロが動く</text>
+<path d="M92.00 199.70 L92.00 181.70 L92.00 160.85 Q92.00 140.00 112.85 140.00 L176.00 140.00 L194.00 140.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<path d="M92.00 300.30 L92.00 318.30 L92.00 359.15 Q92.00 400.00 132.85 400.00 L176.00 400.00 L194.00 400.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<path d="M516.00 140.00 L554.00 140.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<path d="M856.00 140.00 L874.00 140.00 L939.15 140.00 Q960.00 140.00 960.00 160.85 L960.00 181.70 L960.00 199.70" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<path d="M856.00 400.00 L874.00 400.00 L919.15 400.00 Q960.00 400.00 960.00 359.15 L960.00 318.30 L960.00 300.30" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<text x="525" y="494" text-anchor="middle" font-size="21.666666666666668" fill="#0f172a" font-weight="400">自分で書いた（中身を確かめた）ブックにだけ行う</text>
+</svg>

@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="780" height="460" viewBox="0 0 780 460" font-family="'Hiragino Sans','Noto Sans JP','Yu Gothic','Segoe UI',sans-serif">
+<defs><marker id="aR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#475569"/></marker><marker id="aRsub" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#94a3b8"/></marker></defs>
+<rect x="0" y="0" width="780" height="460" fill="#ffffff"/>
+<rect x="30" y="30" width="90" height="40" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
+<rect x="120" y="30" width="140" height="40" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
+<text x="190" y="55.95" text-anchor="middle" font-size="17" font-weight="700" fill="#0f172a">A</text>
+<rect x="30" y="70" width="90" height="40" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
+<text x="75" y="95.95" text-anchor="middle" font-size="17" font-weight="600" fill="#0f172a">1</text>
+<rect x="120" y="70" width="140" height="40" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="190" y="95.95" text-anchor="middle" font-size="17" font-weight="600" fill="#0f172a">日付</text>
+<rect x="30" y="110" width="90" height="40" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
+<text x="75" y="135.95" text-anchor="middle" font-size="17" font-weight="600" fill="#0f172a">2</text>
+<rect x="120" y="110" width="140" height="40" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="190" y="135.95" text-anchor="middle" font-size="17" font-weight="600" fill="#0f172a">2026/10/02</text>
+<rect x="30" y="150" width="90" height="40" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
+<text x="75" y="175.95" text-anchor="middle" font-size="17" font-weight="600" fill="#0f172a">3</text>
+<rect x="120" y="150" width="140" height="40" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="190" y="175.95" text-anchor="middle" font-size="17" font-weight="600" fill="#0f172a">2026/10/06</text>
+<rect x="30" y="190" width="90" height="40" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
+<text x="75" y="215.95" text-anchor="middle" font-size="17" font-weight="600" fill="#0f172a">⋮</text>
+<rect x="120" y="190" width="140" height="40" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="190" y="215.95" text-anchor="middle" font-size="17" font-weight="600" fill="#0f172a">⋮</text>
+<rect x="30" y="230" width="90" height="40" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
+<text x="75" y="255.95" text-anchor="middle" font-size="17" font-weight="600" fill="#0f172a">30</text>
+<rect x="120" y="230" width="140" height="40" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="190" y="255.95" text-anchor="middle" font-size="17" font-weight="600" fill="#0f172a">2026/10/28</text>
+<rect x="30" y="270" width="90" height="40" fill="#fef9c3" stroke="#cbd5e1" stroke-width="1"/>
+<text x="75" y="295.95" text-anchor="middle" font-size="17" font-weight="600" fill="#0f172a">31</text>
+<rect x="120" y="270" width="140" height="40" fill="#fef9c3" stroke="#cbd5e1" stroke-width="1"/>
+<text x="190" y="295.95" text-anchor="middle" font-size="17" font-weight="600" fill="#0f172a">2026/10/29</text>
+<rect x="30" y="310" width="90" height="40" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
+<text x="75" y="335.95" text-anchor="middle" font-size="17" font-weight="600" fill="#0f172a">32</text>
+<rect x="120" y="310" width="140" height="40" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<rect x="30" y="350" width="90" height="40" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
+<text x="75" y="375.95" text-anchor="middle" font-size="17" font-weight="600" fill="#0f172a">⋮</text>
+<rect x="120" y="350" width="140" height="40" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<rect x="30" y="390" width="90" height="40" fill="#dbeafe" stroke="#cbd5e1" stroke-width="1"/>
+<text x="75" y="415.95" text-anchor="middle" font-size="17" font-weight="600" fill="#0f172a">1048576</text>
+<rect x="120" y="390" width="140" height="40" fill="#dbeafe" stroke="#cbd5e1" stroke-width="1"/>
+<rect x="30" y="30" width="230" height="400" fill="none" stroke="#94a3b8" stroke-width="2"/>
+<path d="M268.00 410.00 L268.00 370.00 L268.00 330.00 L268.00 290.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<text x="284" y="346" text-anchor="start" font-size="14.083333333333332" fill="#475569" font-weight="400"><tspan x="284" dy="0">End(xlUp)</tspan><tspan x="284" dy="20.4208">Ctrl + ↑ で上へ</tspan></text>
+<text x="430" y="90" text-anchor="start" font-size="16.25" fill="#0f172a" font-weight="400" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">Cells(Rows.Count, 1)</text>
+<text x="454" y="120" text-anchor="start" font-size="16.25" fill="#0f172a" font-weight="400" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">.End(xlUp).Row</text>
+<text x="430" y="154" text-anchor="start" font-size="14.083333333333332" fill="#475569" font-weight="400">GAS は sheet.getLastRow()</text>
+<text x="430" y="298" text-anchor="start" font-size="22.75" fill="#b45309" font-weight="700">lastRow = 31</text>
+<text x="430" y="330" text-anchor="start" font-size="14.083333333333332" fill="#475569" font-weight="400">値がある最後の行で止まる</text>
+<text x="430" y="416" text-anchor="start" font-size="14.083333333333332" fill="#475569" font-weight="400">Rows.Count … いちばん下の行</text>
+<path d="M418.00 290.00 L284.00 290.00" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 6" marker-end="url(#aRsub)"/>
+<path d="M418.00 410.00 L284.00 410.00" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 6"/>
+</svg>

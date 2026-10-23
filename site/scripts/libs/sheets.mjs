@@ -13,6 +13,8 @@
  *       `before 範囲 = 値, …` で実行前の値を置ける（ブックの値の代わりに描く）。
  *       `log = 文言`（GAS 用は `log.sheets = 文言`）を並べると、実行でイミディエイト ウィンドウ ／ 実行ログの欄に出す。
  *       `tabs = 名前, 名前` で、実行するとシートの見出しが増える。openTab="added" を付けると、最初に足したシートを選んだ状態にする。
+ *       `deltabs = 名前 <- 元のシート, …` で、実行前からあるシートを足しておき、実行すると消す（シートを消すマクロ向け）。
+ *       `style 範囲 = background #1f4e79, color #ffffff, bold, border` で、実行するとその範囲の書式が変わる。
  *       book を省略すると空白のシート（range 既定 A1:E6）を描く。空白のブックから始める節向け。
  *       macro="Hello" を付けると、「▶ 実行」の代わりに実際の操作に近い流れになる:
  *         Excel        …「マクロ」ボタン → マクロの一覧から選んで「実行」（開発 → マクロ と同じ）
@@ -71,7 +73,6 @@ function loadBook(abs) {
     books.set(abs, (async () => {
       const wb = await newWorkbook();
       await wb.xlsx.readFile(abs);
-      wb.buttons = await readButtons(abs);
       return wb;
     })());
   }
@@ -79,6 +80,32 @@ function loadBook(abs) {
 }
 
 // ---- マクロを実行するボタン ----
+
+// ボタンは受講者がマクロを書いた節で自分で置くので、マクロの無い .xlsx には無い。
+// デモには、その節を終えた状態の .xlsm（book/sales.xlsx なら同じ節の book/sales.xlsm）のボタンを描く。
+const buttonCache = new Map();
+
+function loadButtons(lectureDir, rel) {
+  const abs = path.join(lectureDir, ...rel.replace(/\.xlsx$/, '.xlsm').split('/'));
+  if (!buttonCache.has(abs)) {
+    buttonCache.set(abs, access(abs).then(() => readButtons(abs), () => new Map()));
+  }
+  return buttonCache.get(abs);
+}
+
+/**
+ * デモに描くボタン。.xlsm にはその節で置いたボタンが全部あるので、macro / macros に書いたマクロ
+ * （本文のその時点で書き終えて、ボタンを置いたもの）のボタンだけを残す。どちらも無いデモには描かない。
+ */
+function pickButtons(all, attrs) {
+  const names = [attrs.macro, ...String(attrs.macros || '').split(',')].map((n) => (n || '').trim()).filter(Boolean);
+  const result = new Map();
+  for (const [sheet, list] of all) {
+    const kept = list.filter((b) => names.includes(b.macro));
+    if (kept.length) result.set(sheet, kept);
+  }
+  return result;
+}
 
 // exceljs はフォーム コントロールを読まないので、zip の中の VML（tools/build_workbooks.py が書くもの）から
 // ボタンを取り出す。返り値は Map<シート名, [{ col, row, cols, rows, text, macro }]>（col / row は 1 始まり）。
@@ -235,7 +262,7 @@ const colWidthPx = (w) => Math.round((w ?? 8.43) * 7 + 5);
  * after = Map<"F2", 値>。指定したセルには実行後の表示を data-after に持たせる。
  */
 /** シート 1 枚の表（<table>）を描く。after は実行後の値、before は描くときに上書きする値。 */
-function renderGrid(ws, { range, highlight, after, before, buttons = [], cellAttrs }) {
+function renderGrid(ws, { range, highlight, after, before, afterStyle, buttons = [], cellAttrs }) {
   const dims = ws.dimensions;
   // 範囲を指定しないときは、ボタンまで入る大きさで描く（ボタンは表の右に置いてある）。
   const view = parseRange(range) ?? {
@@ -323,6 +350,7 @@ function renderGrid(ws, { range, highlight, after, before, buttons = [], cellAtt
         attrs.push(`data-after-raw="${escapeHtml(rawValue(v))}"`);
         if ((typeof v === 'number' || v instanceof Date) && !align) attrs.push('data-after-number');
       }
+      if (afterStyle?.has(ref)) attrs.push(`data-after-style="${escapeHtml(afterStyle.get(ref))}"`);
       // ボタンは左上のセルに重ねて、ボタンの大きさ（列幅の合計 × 行数）で描く。
       const button = buttonAt(r, c);
       let buttonHtml = '';
@@ -353,16 +381,18 @@ function renderGrid(ws, { range, highlight, after, before, buttons = [], cellAtt
  *   sheetValues     … Map<シート名, Map<ref, 値>>。ws 以外のシートに描くときに上書きする値
  *   extraTabs       … 実行で増えるシート [{ name, from }]。from のシートをコピーした中身に
  *                     sheetValues.get(name) を上書きして描き、実行するまで隠しておく
+ *   removedTabs     … 実行で消えるシート [{ name, from }]。描き方は extraTabs と同じで、最初から見せておく
+ *   afterStyle      … Map<ref, CSS>。ws のセルに実行後に足す書式
  */
-function renderSheet(wb, ws, { range, highlight, after, before, sheetValues = new Map(), extraTabs = [], fileName, ribbon = '', menubar = false, menu, blank = false, cellAttrs }) {
+function renderSheet(wb, ws, { range, highlight, after, before, afterStyle, sheetValues = new Map(), extraTabs = [], removedTabs = [], fileName, ribbon = '', menubar = false, menu, blank = false, cellAttrs, buttonsBySheet = new Map() }) {
   const panes = [];
   const tabs = [];
   const sheets = blank ? [ws] : wb.worksheets;
   for (const s of sheets) {
     const active = s === ws;
-    const buttons = wb.buttons?.get(s.name) ?? [];
+    const buttons = buttonsBySheet?.get(s.name) ?? [];
     const table = active
-      ? renderGrid(s, { range, highlight, after, before, buttons, cellAttrs })
+      ? renderGrid(s, { range, highlight, after, before, afterStyle, buttons, cellAttrs })
       : renderGrid(s, { before: sheetValues.get(s.name), buttons });
     panes.push(`<div class="sheet__grid" data-sheet="${escapeHtml(s.name)}"${active ? '' : ' hidden'}>${table}</div>`);
     // 空白のブックは、新しく作ったときの名前を環境ごとに出す（Excel は Book1 / Sheet1）。
@@ -371,16 +401,19 @@ function renderSheet(wb, ws, { range, highlight, after, before, sheetValues = ne
       : escapeHtml(s.name);
     tabs.push(`<button type="button" class="sheet__tab${active ? ' is-active' : ''}" data-sheet="${escapeHtml(s.name)}">${label}</button>`);
   }
-  // 実行で増えるシート（`tabs = ...`）。最初は隠しておき、実行すると出す。
-  for (const t of extraTabs) {
+  // 実行で消えるシート（`deltabs = ...`）は最初から見せておき、増えるシート（`tabs = ...`）は隠しておく。
+  const pushTab = (t, kind) => {
     const src = t.from ? wb.getWorksheet(t.from) : null;
     const values = sheetValues.get(t.name);
     const table = src
       ? renderGrid(src, { before: values })
       : renderGrid(blankSheet(), { range: rangeFor(values), before: values });
+    const hide = kind === 'added' ? ' hidden' : '';
     panes.push(`<div class="sheet__grid" data-sheet="${escapeHtml(t.name)}" hidden>${table}</div>`);
-    tabs.push(`<button type="button" class="sheet__tab sheet__tab--added" data-sheet="${escapeHtml(t.name)}" hidden>${escapeHtml(t.name)}</button>`);
-  }
+    tabs.push(`<button type="button" class="sheet__tab sheet__tab--${kind}" data-sheet="${escapeHtml(t.name)}"${hide}>${escapeHtml(t.name)}</button>`);
+  };
+  for (const t of removedTabs) pushTab(t, 'removed');
+  for (const t of extraTabs) pushTab(t, 'added');
   const file = blank
     ? `<span class="sheet__file"><span class="sheet__only--excel">Book1</span><span class="sheet__only--sheets">無題のスプレッドシート</span></span>`
     : `<span class="sheet__file">${escapeHtml(fileName)}</span>`;
@@ -393,7 +426,7 @@ function renderSheet(wb, ws, { range, highlight, after, before, sheetValues = ne
     file +
     `</div>` +
     ribbon +
-    (menubar ? menubarHtml(menu, wb.buttons?.get(ws.name) ?? []) : '') +
+    (menubar ? menubarHtml(menu, buttonsBySheet?.get(ws.name) ?? []) : '') +
     `<div class="sheet__formulabar">` +
     `<span class="sheet__namebox"></span><span class="sheet__fx">fx</span><span class="sheet__formula"></span>` +
     `</div>` +
@@ -503,8 +536,8 @@ function safeRel(rel) {
   return s;
 }
 
-async function sheetHtml(attrs, lectureAbsDir, after, { allowBlank = false, ribbon = '', menubar = false, before, sheetValues, extraTabs, cellAttrs } = {}) {
-  const common = { highlight: attrs.highlight, after, ribbon, menubar, menu: attrs.menu, before, sheetValues, extraTabs, cellAttrs };
+async function sheetHtml(attrs, lectureAbsDir, after, { allowBlank = false, ribbon = '', menubar = false, before, afterStyle, sheetValues, extraTabs, removedTabs, cellAttrs } = {}) {
+  const common = { highlight: attrs.highlight, after, ribbon, menubar, menu: attrs.menu, before, afterStyle, sheetValues, extraTabs, removedTabs, cellAttrs };
   // book を指定しないときは空白のブック。シート名は sheet 属性（既定 Sheet1）。
   if (allowBlank && !attrs.book) {
     const wb = await newWorkbook();
@@ -523,9 +556,10 @@ async function sheetHtml(attrs, lectureAbsDir, after, { allowBlank = false, ribb
   }
   const ws = attrs.sheet ? wb.getWorksheet(attrs.sheet) : wb.worksheets[0];
   if (!ws) return { error: `no sheet "${attrs.sheet}" in ${rel}` };
-  const hasButtons = Boolean(wb.buttons?.get(ws.name)?.length);
+  const buttonsBySheet = pickButtons(await loadButtons(dir, rel), attrs);
+  const hasButtons = Boolean(buttonsBySheet?.get(ws.name)?.length);
   const hasMenu = Boolean(attrs.menu && hasButtons);
-  return { html: renderSheet(wb, ws, { ...common, range: attrs.range, fileName: path.basename(rel) }), hasMenu, hasButtons };
+  return { html: renderSheet(wb, ws, { ...common, range: attrs.range, fileName: path.basename(rel), buttonsBySheet }), hasMenu, hasButtons };
 }
 
 // ---- ::::sheetdemo ----
@@ -583,7 +617,22 @@ function fillRange(rangeText, valuesText, map) {
 const MSGBOX_RE = /^\s*msgbox(?:\.(excel|sheets))?\s*=\s*(.*)$/i;
 const LOG_RE = /^\s*log(?:\.(excel|sheets))?\s*=\s*(.*)$/i;
 const BEFORE_RE = /^\s*before\s+(.*)$/i;
-const TABS_RE = /^\s*tabs\s*=\s*(.*)$/i;
+const TABS_RE = /^\s*(del)?tabs\s*=\s*(.*)$/i;
+const STYLE_RE = /^\s*style\s+([A-Za-z]+\d+(?::[A-Za-z]+\d+)?)\s*=\s*(.*)$/i;
+
+/** `background #1f4e79, color #fff, bold, border` を CSS にする。読めない語は null。 */
+function styleCss(text) {
+  const css = [];
+  for (const part of text.split(',').map((x) => x.trim()).filter(Boolean)) {
+    const [key, value] = part.split(/\s+/);
+    if (key === 'background' && value) css.push(`background-color:${value}`);
+    else if (key === 'color' && value) css.push(`color:${value}`);
+    else if (key === 'bold') css.push('font-weight:700');
+    else if (key === 'border') css.push('outline:1px solid #222;outline-offset:-1px');
+    else return null;
+  }
+  return css.join(';');
+}
 
 /** 実行で出すログ（VBA は Debug.Print のイミディエイト ウィンドウ、GAS は console.log の実行ログ）。 */
 function logHtml(log, { excelOnly = false } = {}) {
@@ -693,6 +742,8 @@ export async function buildSheetDemo({ caption, attrs, lines, lectureAbsDir, whe
   const msg = {};
   const log = { excel: [], sheets: [] };
   const extraTabs = [];
+  const removedTabs = [];
+  const afterStyle = new Map();
   // 選んでいるシート（attrs.sheet、無ければ先頭）以外のシート名が付いた行は、そのシートの中身として描く。
   const putSheet = (name, entries) => {
     if (!sheetValues.has(name)) sheetValues.set(name, new Map());
@@ -713,9 +764,25 @@ export async function buildSheetDemo({ caption, attrs, lines, lectureAbsDir, whe
     const tb = line.match(TABS_RE);
     if (tb) {
       // `新しいシート <- 元のシート` で、元のシートをコピーした中身にする。
-      for (const t of tb[1].split(',').map((x) => x.trim()).filter(Boolean)) {
+      for (const t of tb[2].split(',').map((x) => x.trim()).filter(Boolean)) {
         const [name, from] = t.split('<-').map((x) => x.trim());
-        extraTabs.push({ name, from: from || null });
+        (tb[1] ? removedTabs : extraTabs).push({ name, from: from || null });
+      }
+      continue;
+    }
+    const st = line.match(STYLE_RE);
+    if (st) {
+      const css = styleCss(st[2]);
+      const r = parseRange(st[1]);
+      if (css === null || !r) {
+        console.warn(`[sheets] ::::sheetdemo: cannot read "${line}" in ${where}`);
+        continue;
+      }
+      for (let row = r.top; row <= r.bottom; row++) {
+        for (let col = r.left; col <= r.right; col++) {
+          const ref = `${numToCol(col)}${row}`;
+          afterStyle.set(ref, [afterStyle.get(ref), css].filter(Boolean).join(';'));
+        }
       }
       continue;
     }
@@ -734,7 +801,7 @@ export async function buildSheetDemo({ caption, attrs, lines, lectureAbsDir, whe
   }
   const hasMsg = msg.excel !== undefined || msg.sheets !== undefined;
   const hasLog = log.excel.length > 0 || log.sheets.length > 0;
-  const canRun = after.size || hasMsg || hasLog || extraTabs.length;
+  const canRun = after.size || afterStyle.size || hasMsg || hasLog || extraTabs.length || removedTabs.length;
   const useMacro = Boolean(canRun && attrs.macro);
   const names = useMacro
     ? [...new Set([attrs.macro, ...String(attrs.macros || '').split(',').map((n) => n.trim()).filter(Boolean)])]
@@ -769,7 +836,7 @@ export async function buildSheetDemo({ caption, attrs, lines, lectureAbsDir, whe
       `</div>` +
       `</div>`
     : '';
-  const { html, error, hasMenu, hasButtons } = await sheetHtml(attrs, lectureAbsDir, after, { allowBlank: true, ribbon, menubar: true, before, sheetValues, extraTabs });
+  const { html, error, hasMenu, hasButtons } = await sheetHtml(attrs, lectureAbsDir, after, { allowBlank: true, ribbon, menubar: true, before, afterStyle, sheetValues, extraTabs, removedTabs });
   if (error) {
     console.warn(`[sheets] ::::sheetdemo ${error} in ${where} (skipped)`);
     return null;

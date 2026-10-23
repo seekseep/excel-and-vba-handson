@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="450" viewBox="0 0 1040 450" font-family="'Hiragino Sans','Noto Sans JP','Yu Gothic','Segoe UI',sans-serif">
+<defs><marker id="aR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#475569"/></marker><marker id="aRsub" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#94a3b8"/></marker></defs>
+<rect x="0" y="0" width="1040" height="450" fill="#ffffff"/>
+<rect x="46" y="30" width="220" height="44" rx="8" fill="#dcfce7" stroke="#22c55e" stroke-width="2.0"/>
+<text x="156" y="60" text-anchor="middle" font-size="21.666666666666668" fill="#0f172a" font-weight="400">スプレッドシート</text>
+<rect x="30" y="70" width="400" height="340" rx="8" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2.0"/>
+<rect x="46" y="90" width="368" height="40" rx="4" fill="#dcfce7" stroke="#22c55e" stroke-width="2.0"/>
+<text x="60" y="117" text-anchor="start" font-size="18.77777777777778" fill="#475569" font-weight="400">ファイル  編集  …  拡張機能</text>
+<rect x="240" y="136" width="170" height="44" rx="6" fill="#fef9c3" stroke="#f59e0b" stroke-width="3.5"/>
+<text x="325" y="164" text-anchor="middle" font-size="21.666666666666668" fill="#0f172a" font-weight="400">Apps Script</text>
+<rect x="52" y="200" width="84" height="30" rx="2" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2.0"/>
+<rect x="142" y="200" width="84" height="30" rx="2" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2.0"/>
+<rect x="232" y="200" width="84" height="30" rx="2" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2.0"/>
+<rect x="322" y="200" width="84" height="30" rx="2" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2.0"/>
+<rect x="52" y="234" width="84" height="30" rx="2" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2.0"/>
+<rect x="142" y="234" width="84" height="30" rx="2" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2.0"/>
+<rect x="232" y="234" width="84" height="30" rx="2" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2.0"/>
+<rect x="322" y="234" width="84" height="30" rx="2" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2.0"/>
+<rect x="52" y="268" width="84" height="30" rx="2" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2.0"/>
+<rect x="142" y="268" width="84" height="30" rx="2" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2.0"/>
+<rect x="232" y="268" width="84" height="30" rx="2" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2.0"/>
+<rect x="322" y="268" width="84" height="30" rx="2" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2.0"/>
+<rect x="52" y="302" width="84" height="30" rx="2" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2.0"/>
+<rect x="142" y="302" width="84" height="30" rx="2" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2.0"/>
+<rect x="232" y="302" width="84" height="30" rx="2" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2.0"/>
+<rect x="322" y="302" width="84" height="30" rx="2" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2.0"/>
+<rect x="110" y="250" width="240" height="64" rx="8" fill="#dbeafe" stroke="#3b82f6" stroke-width="3.5"/>
+<text x="230" y="290" text-anchor="middle" font-size="21.666666666666668" fill="#0f172a" font-weight="400">こんにちは</text>
+<text x="230" y="388" text-anchor="middle" font-size="18.77777777777778" fill="#475569" font-weight="400">結果（小窓・セルの値）はここに出る</text>
+<rect x="626" y="30" width="220" height="44" rx="8" fill="#dbeafe" stroke="#3b82f6" stroke-width="2.0"/>
+<text x="736" y="60" text-anchor="middle" font-size="21.666666666666668" fill="#0f172a" font-weight="400">Apps Script</text>
+<rect x="610" y="70" width="400" height="340" rx="8" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2.0"/>
+<rect x="626" y="90" width="368" height="40" rx="4" fill="#dbeafe" stroke="#3b82f6" stroke-width="2.0"/>
+<rect x="800" y="94" width="90" height="32" rx="6" fill="#fef9c3" stroke="#f59e0b" stroke-width="3.5"/>
+<text x="845" y="116" text-anchor="middle" font-size="18.77777777777778" fill="#0f172a" font-weight="400">▶ 実行</text>
+<text x="640" y="117" text-anchor="start" font-size="18.77777777777778" fill="#475569" font-weight="400">hello ▾</text>
+<text x="634" y="170" text-anchor="start" font-size="21.666666666666668" fill="#0f172a" font-weight="400">コード.gs</text>
+<text x="634" y="214" text-anchor="start" font-size="21.666666666666668" fill="#475569" font-weight="400" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">function hello() {</text>
+<text x="660" y="248" text-anchor="start" font-size="21.666666666666668" fill="#475569" font-weight="400" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">SpreadsheetApp.getUi()</text>
+<text x="660" y="280" text-anchor="start" font-size="21.666666666666668" fill="#475569" font-weight="400" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">  .alert('こんにちは');</text>
+<text x="634" y="314" text-anchor="start" font-size="21.666666666666668" fill="#475569" font-weight="400" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">}</text>
+<text x="810" y="388" text-anchor="middle" font-size="18.77777777777778" fill="#475569" font-weight="400">コードを書いて、関数を選んで実行</text>
+<path d="M416.00 158.00 L610.00 158.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<text x="520" y="210" text-anchor="middle" font-size="18.77777777777778" fill="#475569" font-weight="400"><tspan x="520" dy="0">① 拡張機能 →</tspan><tspan x="520" dy="27.2278">Apps Script で</tspan><tspan x="520" dy="27.2278">新しいタブに開く</tspan></text>
+<path d="M610.00 282.00 L356.00 282.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<text x="520" y="330" text-anchor="middle" font-size="18.77777777777778" fill="#475569" font-weight="400"><tspan x="520" dy="0">② ▶ 実行の結果は</tspan><tspan x="520" dy="27.2278">スプレッドシートの</tspan><tspan x="520" dy="27.2278">タブに戻って見る</tspan></text>
+</svg>

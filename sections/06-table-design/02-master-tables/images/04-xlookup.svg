@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="600" viewBox="0 0 900 600" font-family="'Hiragino Sans','Noto Sans JP','Yu Gothic','Segoe UI',sans-serif">
+<defs><marker id="aR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#475569"/></marker><marker id="aRsub" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#94a3b8"/></marker></defs>
+<rect x="0" y="0" width="900" height="600" fill="#ffffff"/>
+<text x="259.61" y="55" text-anchor="middle" font-size="21.25" fill="#475569" font-weight="600" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">=XLOOKUP(</text>
+<rect x="325.28" y="24" width="54.52" height="46" rx="6" fill="#fef9c3" stroke="#f59e0b" stroke-width="2.0"/>
+<text x="352.54" y="96" text-anchor="middle" font-size="16.25" fill="#475569" font-weight="400">探す値</text>
+<text x="352.54" y="55" text-anchor="middle" font-size="21.25" fill="#475569" font-weight="600" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">B2</text>
+<text x="392.43" y="55" text-anchor="middle" font-size="21.25" fill="#475569" font-weight="600" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">,</text>
+<rect x="405.06" y="24" width="125.24" height="46" rx="6" fill="#dbeafe" stroke="#3b82f6" stroke-width="2.0"/>
+<text x="467.68" y="96" text-anchor="middle" font-size="16.25" fill="#475569" font-weight="400">探す列</text>
+<text x="467.68" y="55" text-anchor="middle" font-size="21.25" fill="#475569" font-weight="600" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">顧客!A:A</text>
+<text x="542.93" y="55" text-anchor="middle" font-size="21.25" fill="#475569" font-weight="600" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">,</text>
+<rect x="555.56" y="24" width="125.24" height="46" rx="6" fill="#dcfce7" stroke="#22c55e" stroke-width="2.0"/>
+<text x="618.18" y="96" text-anchor="middle" font-size="16.25" fill="#475569" font-weight="400">返す列</text>
+<text x="618.18" y="55" text-anchor="middle" font-size="21.25" fill="#475569" font-weight="600" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">顧客!C:C</text>
+<text x="693.43" y="55" text-anchor="middle" font-size="21.25" fill="#475569" font-weight="600" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">)</text>
+<text x="100" y="175" text-anchor="end" font-size="21.25" fill="#475569" font-weight="600">売上</text>
+<rect x="120" y="150" width="70" height="38" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
+<text x="155" y="174.25" text-anchor="middle" font-size="15" font-weight="700" fill="#0f172a">A 日付</text>
+<rect x="190" y="150" width="130" height="38" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
+<text x="255" y="174.25" text-anchor="middle" font-size="15" font-weight="700" fill="#0f172a">B 顧客</text>
+<rect x="320" y="150" width="90" height="38" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
+<text x="365" y="174.25" text-anchor="middle" font-size="15" font-weight="700" fill="#0f172a">C 商品</text>
+<rect x="410" y="150" width="210" height="38" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
+<text x="515" y="174.25" text-anchor="middle" font-size="15" font-weight="700" fill="#0f172a">D 住所（この式）</text>
+<rect x="120" y="188" width="70" height="38" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="155" y="212.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">10/07</text>
+<rect x="190" y="188" width="130" height="38" fill="#fef9c3" stroke="#cbd5e1" stroke-width="1"/>
+<text x="255" y="212.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">ひまわり商事</text>
+<rect x="320" y="188" width="90" height="38" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="365" y="212.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">ホッチキス</text>
+<rect x="410" y="188" width="210" height="38" fill="#dcfce7" stroke="#cbd5e1" stroke-width="1"/>
+<text x="515" y="212.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">東京都中央区ひまわり…</text>
+<rect x="120" y="150" width="500" height="76" fill="none" stroke="#94a3b8" stroke-width="2"/>
+<text x="100" y="345" text-anchor="end" font-size="21.25" fill="#475569" font-weight="600">顧客</text>
+<rect x="120" y="320" width="140" height="38" fill="#dbeafe" stroke="#cbd5e1" stroke-width="1"/>
+<text x="190" y="344.25" text-anchor="middle" font-size="15" font-weight="700" fill="#0f172a">A 顧客名</text>
+<rect x="260" y="320" width="110" height="38" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
+<text x="315" y="344.25" text-anchor="middle" font-size="15" font-weight="700" fill="#0f172a">B 郵便番号</text>
+<rect x="370" y="320" width="210" height="38" fill="#dcfce7" stroke="#cbd5e1" stroke-width="1"/>
+<text x="475" y="344.25" text-anchor="middle" font-size="15" font-weight="700" fill="#0f172a">C 住所</text>
+<rect x="120" y="358" width="140" height="38" fill="#fef9c3" stroke="#cbd5e1" stroke-width="1"/>
+<text x="190" y="382.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">ひまわり商事</text>
+<rect x="260" y="358" width="110" height="38" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="315" y="382.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">〒104-0000</text>
+<rect x="370" y="358" width="210" height="38" fill="#dcfce7" stroke="#cbd5e1" stroke-width="1"/>
+<text x="475" y="382.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">東京都中央区ひまわり…</text>
+<rect x="120" y="396" width="140" height="38" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="190" y="420.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">あおば設計事務所</text>
+<rect x="260" y="396" width="110" height="38" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="315" y="420.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">〒160-0000</text>
+<rect x="370" y="396" width="210" height="38" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="475" y="420.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">東京都新宿区あおば台…</text>
+<rect x="120" y="434" width="140" height="38" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="190" y="458.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">みなと物産</text>
+<rect x="260" y="434" width="110" height="38" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="315" y="458.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">〒231-0000</text>
+<rect x="370" y="434" width="210" height="38" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="475" y="458.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">神奈川県横浜市中区…</text>
+<rect x="120" y="320" width="460" height="152" fill="none" stroke="#94a3b8" stroke-width="2"/>
+<path d="M255.00 226.00 L190.00 320.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<text x="207.181" y="269.844" text-anchor="middle" font-size="21.25" fill="#0f172a" font-weight="600">① A 列から探す</text>
+<rect x="116" y="354" width="468" height="46" rx="6" fill="none" stroke="#f59e0b" stroke-width="3" stroke-dasharray="7 6"/>
+<path d="M584.00 377.00 L680.00 377.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M680.00 377.00 L680.00 207.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M680.00 207.00 L620.00 207.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<text x="696" y="262" text-anchor="start" font-size="21.25" fill="#475569" font-weight="600"><tspan x="696" dy="0">② 同じ行の</tspan><tspan x="696" dy="30.8125">　 C 列を</tspan><tspan x="696" dy="30.8125">③ 返す</tspan></text>
+<rect x="120" y="510" width="660" height="60" rx="8" fill="#fef9c3" stroke="#f59e0b" stroke-width="2.0"/>
+<text x="450" y="548" text-anchor="middle" font-size="16.25" fill="#475569" font-weight="400">第 5 章のマクロも同じつなぎ方（顧客名で 2 枚のシートをつなぐ）</text>
+</svg>

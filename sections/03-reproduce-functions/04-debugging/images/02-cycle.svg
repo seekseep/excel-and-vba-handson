@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="440" viewBox="0 0 1000 440" font-family="'Hiragino Sans','Noto Sans JP','Yu Gothic','Segoe UI',sans-serif">
+<defs><marker id="aR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#475569"/></marker><marker id="aRsub" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#94a3b8"/></marker></defs>
+<rect x="0" y="0" width="1000" height="440" fill="#ffffff"/>
+<text x="500" y="44" text-anchor="middle" font-size="29.166666666666664" fill="#0f172a" font-weight="700">原因の探し方：4 つの手順をくり返す</text>
+<rect x="90" y="80" width="330" height="120" rx="16" fill="#fef9c3" stroke="#f59e0b" stroke-width="2.0"/>
+<text x="255" y="120" text-anchor="middle" font-size="23.61111111111111" fill="#475569" font-weight="600">① ずれを確かめる</text>
+<text x="255" y="154" text-anchor="middle" font-size="18.055555555555554" fill="#475569" font-weight="400"><tspan x="255" dy="0">期待（関数 68,580）と</tspan><tspan x="255" dy="26.1806">結果（VBA 67,330）の差は 1,250</tspan></text>
+<rect x="580" y="80" width="330" height="120" rx="16" fill="#dbeafe" stroke="#3b82f6" stroke-width="2.0"/>
+<text x="745" y="120" text-anchor="middle" font-size="23.61111111111111" fill="#475569" font-weight="600">② 怪しいところで止める</text>
+<text x="745" y="154" text-anchor="middle" font-size="18.055555555555554" fill="#475569" font-weight="400"><tspan x="745" dy="0">合計を足している行に</tspan><tspan x="745" dy="26.1806">ブレークポイント</tspan></text>
+<rect x="580" y="280" width="330" height="120" rx="16" fill="#dcfce7" stroke="#22c55e" stroke-width="2.0"/>
+<text x="745" y="320" text-anchor="middle" font-size="23.61111111111111" fill="#475569" font-weight="600">③ 比べながら進める</text>
+<text x="745" y="354" text-anchor="middle" font-size="18.055555555555554" fill="#475569" font-weight="400"><tspan x="745" dy="0">変数を見て 1 行ずつ。</tspan><tspan x="745" dy="26.1806">正しく動くときとどこから違うか</tspan></text>
+<rect x="90" y="280" width="330" height="120" rx="16" fill="#ede9fe" stroke="#8b5cf6" stroke-width="2.0"/>
+<text x="255" y="320" text-anchor="middle" font-size="23.61111111111111" fill="#475569" font-weight="600">④ 直して確かめる</text>
+<text x="255" y="354" text-anchor="middle" font-size="18.055555555555554" fill="#475569" font-weight="400"><tspan x="255" dy="0">直したらもう一度実行して、</tspan><tspan x="255" dy="26.1806">期待どおりになるか見る</tspan></text>
+<path d="M426.00 140.00 L574.00 140.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<path d="M745.00 206.00 L745.00 274.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<path d="M574.00 340.00 L426.00 340.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<path d="M255.00 274.00 L255.00 206.00" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 6" marker-end="url(#aRsub)"/>
+<text x="280" y="246" text-anchor="start" font-size="18.055555555555554" fill="#475569" font-weight="400">合わなければ ① から</text>
+</svg>

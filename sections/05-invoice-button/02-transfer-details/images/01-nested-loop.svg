@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="660" viewBox="0 0 860 660" font-family="'Hiragino Sans','Noto Sans JP','Yu Gothic','Segoe UI',sans-serif">
+<defs><marker id="aR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#475569"/></marker><marker id="aRsub" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#94a3b8"/></marker></defs>
+<rect x="0" y="0" width="860" height="660" fill="#ffffff"/>
+<rect x="40" y="30" width="780" height="580" rx="12" fill="#dbeafe" stroke="#3b82f6" stroke-width="2.0"/>
+<text x="64" y="70" text-anchor="start" font-size="25.083333333333332" fill="#0f172a" font-weight="700" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">For c = 2 To 最後の顧客の行</text>
+<text x="64" y="102" text-anchor="start" font-size="15.527777777777777" fill="#475569" font-weight="400">顧客を 1 社ずつ</text>
+<rect x="80" y="124" width="520" height="50" rx="8" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2.0"/>
+<text x="100" y="156" text-anchor="start" font-size="15.527777777777777" fill="#475569" font-weight="400">テンプレートをコピーして宛名を書く（5-1）</text>
+<rect x="80" y="192" width="520" height="60" rx="8" fill="#fef9c3" stroke="#f59e0b" stroke-width="2.0"/>
+<text x="100" y="230" text-anchor="start" font-size="20.305555555555554" fill="#475569" font-weight="600" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">lineRow = 12 ／ total = 0</text>
+<text x="640" y="216" text-anchor="start" font-size="15.527777777777777" fill="#b45309" font-weight="400"><tspan x="640" dy="0">1 社ごとに</tspan><tspan x="640" dy="22.5153">ここで初期化する</tspan></text>
+<rect x="80" y="272" width="700" height="210" rx="12" fill="#dcfce7" stroke="#22c55e" stroke-width="2.0"/>
+<text x="104" y="310" text-anchor="start" font-size="20.305555555555554" fill="#475569" font-weight="600" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">For i = 2 To 最後の売上の行</text>
+<text x="104" y="338" text-anchor="start" font-size="15.527777777777777" fill="#475569" font-weight="400">売上を 1 行ずつ</text>
+<polygon points="250,355 365,400 250,445 135,400" fill="#fef9c3" stroke="#f59e0b" stroke-width="3.5"/>
+<text x="250" y="405.435" text-anchor="middle" font-size="15.527777777777777" fill="#b45309" font-weight="400">この顧客の行？</text>
+<rect x="450" y="360" width="300" height="80" rx="8" fill="#dcfce7" stroke="#22c55e" stroke-width="2.0"/>
+<text x="600" y="392" text-anchor="middle" font-size="15.527777777777777" fill="#475569" font-weight="400">請求書の lineRow 行に書き写す</text>
+<text x="600" y="420" text-anchor="middle" font-size="15.527777777777777" fill="#475569" font-weight="400">total に足す・lineRow + 1</text>
+<path d="M371.00 400.00 L444.00 400.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<text x="407.5" y="388.954" text-anchor="middle" font-size="20.305555555555554" fill="#0f172a" font-weight="600">はい</text>
+<text x="740" y="470" text-anchor="end" font-size="20.305555555555554" fill="#475569" font-weight="600" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">Next i</text>
+<rect x="80" y="502" width="520" height="50" rx="8" fill="#ffedd5" stroke="#f97316" stroke-width="2.0"/>
+<text x="100" y="534" text-anchor="start" font-size="15.527777777777777" fill="#475569" font-weight="400">E33 と B9 に total を書く</text>
+<text x="796" y="590" text-anchor="end" font-size="20.305555555555554" fill="#475569" font-weight="600" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">Next c</text>
+<text x="430" y="642" text-anchor="middle" font-size="15.527777777777777" fill="#475569" font-weight="400">GAS では for (let c …) の中に for (let i …)。内側の } が先に閉じる</text>
+</svg>

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="986" height="240" viewBox="0 0 986 240" font-family="'Hiragino Sans','Noto Sans JP','Yu Gothic','Segoe UI',sans-serif">
+<defs><marker id="aR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#475569"/></marker><marker id="aRsub" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#94a3b8"/></marker></defs>
+<rect x="0" y="0" width="986" height="240" fill="#ffffff"/>
+<rect x="24" y="60" width="200" height="116" rx="8" fill="#dbeafe" stroke="#3b82f6" stroke-width="2.0"/>
+<text x="48" y="48" text-anchor="middle" font-size="28.758333333333333" fill="#0f172a" font-weight="700">1</text>
+<text x="124" y="126" text-anchor="middle" font-size="23.280555555555555" fill="#475569" font-weight="600">「開発」タブ</text>
+<rect x="270" y="60" width="200" height="116" rx="8" fill="#dbeafe" stroke="#3b82f6" stroke-width="2.0"/>
+<text x="294" y="48" text-anchor="middle" font-size="28.758333333333333" fill="#0f172a" font-weight="700">2</text>
+<text x="370" y="126" text-anchor="middle" font-size="23.280555555555555" fill="#475569" font-weight="600">「挿入」</text>
+<path d="M230.00 118.00 L264.00 118.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<rect x="516" y="60" width="200" height="116" rx="8" fill="#dbeafe" stroke="#3b82f6" stroke-width="2.0"/>
+<text x="540" y="48" text-anchor="middle" font-size="28.758333333333333" fill="#0f172a" font-weight="700">3</text>
+<text x="616" y="90" text-anchor="middle" font-size="17.802777777777777" fill="#475569" font-weight="400"><tspan x="616" dy="0">フォーム</tspan><tspan x="616" dy="25.814">コントロールの</tspan></text>
+<text x="616" y="158" text-anchor="middle" font-size="23.280555555555555" fill="#475569" font-weight="600">「ボタン」</text>
+<path d="M476.00 118.00 L510.00 118.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<rect x="762" y="60" width="200" height="116" rx="8" fill="#fef9c3" stroke="#f59e0b" stroke-width="2.0"/>
+<text x="786" y="48" text-anchor="middle" font-size="28.758333333333333" fill="#0f172a" font-weight="700">4</text>
+<text x="862" y="115" text-anchor="middle" font-size="17.802777777777777" fill="#475569" font-weight="400">空いているところを</text>
+<text x="862" y="158" text-anchor="middle" font-size="23.280555555555555" fill="#475569" font-weight="600">ドラッグ</text>
+<path d="M722.00 118.00 L756.00 118.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<text x="493" y="218" text-anchor="middle" font-size="17.802777777777777" fill="#475569" font-weight="400">置くと「マクロの登録」が開く</text>
+</svg>

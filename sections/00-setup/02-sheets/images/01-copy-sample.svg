@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="450" viewBox="0 0 1040 450" font-family="'Hiragino Sans','Noto Sans JP','Yu Gothic','Segoe UI',sans-serif">
+<defs><marker id="aR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#475569"/></marker><marker id="aRsub" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#94a3b8"/></marker></defs>
+<rect x="0" y="0" width="1040" height="450" fill="#ffffff"/>
+<text x="190" y="40" text-anchor="middle" font-size="24.555555555555554" fill="#475569" font-weight="600">サンプル（閲覧のみ）</text>
+<text x="850" y="40" text-anchor="middle" font-size="24.555555555555554" fill="#475569" font-weight="600">自分のコピー（マイドライブ）</text>
+<rect x="40" y="70" width="300" height="140" rx="16" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2.0"/>
+<svg x="58.0" y="86.0" width="40.0" height="40.0" viewBox="0 0 36 36"><path fill="#AAB8C2" d="M18 0C12.477 0 8 4.477 8 10v10h4V10a6 6 0 0 1 12 0v10h4V10c0-5.523-4.477-10-10-10Z"/><path fill="#FFAC33" d="M32 32a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4V18a4 4 0 0 1 4-4h20a4 4 0 0 1 4 4v14Z"/></svg>
+<text x="210" y="118" text-anchor="middle" font-size="30.333333333333332" fill="#0f172a" font-weight="700">始める状態</text>
+<text x="190" y="158" text-anchor="middle" font-size="18.77777777777778" fill="#475569" font-weight="400">コードは入っていない</text>
+<text x="190" y="188" text-anchor="middle" font-size="18.77777777777778" fill="#b91c1c" font-weight="400">書き込めない</text>
+<rect x="700" y="70" width="300" height="140" rx="16" fill="#dcfce7" stroke="#22c55e" stroke-width="2.0"/>
+<svg x="718.0" y="86.0" width="40.0" height="40.0" viewBox="0 0 36 36"><path fill="#D99E82" d="M35.222 33.598c-.647-2.101-1.705-6.059-2.325-7.566-.501-1.216-.969-2.438-1.544-3.014-.575-.575-1.553-.53-2.143.058 0 0-2.469 1.675-3.354 2.783-1.108.882-2.785 3.357-2.785 3.357-.59.59-.635 1.567-.06 2.143.576.575 1.798 1.043 3.015 1.544 1.506.62 5.465 1.676 7.566 2.325.359.11 1.74-1.271 1.63-1.63z"/><path fill="#EA596E" d="M13.643 5.308c1.151 1.151 1.151 3.016 0 4.167l-4.167 4.168c-1.151 1.15-3.018 1.15-4.167 0L1.141 9.475c-1.15-1.151-1.15-3.016 0-4.167l4.167-4.167c1.15-1.151 3.016-1.151 4.167 0l4.168 4.167z"/><path fill="#FFCC4D" d="M31.353 23.018l-4.17 4.17-4.163 4.165L7.392 15.726l8.335-8.334 15.626 15.626z"/><path fill="#292F33" d="M32.078 34.763s2.709 1.489 3.441.757c.732-.732-.765-3.435-.765-3.435s-2.566.048-2.676 2.678z"/><path fill="#CCD6DD" d="M2.183 10.517l8.335-8.335 5.208 5.209-8.334 8.335z"/><path fill="#99AAB5" d="M3.225 11.558l8.334-8.334 1.042 1.042L4.267 12.6zm2.083 2.086l8.335-8.335 1.042 1.042-8.335 8.334z"/></svg>
+<text x="870" y="118" text-anchor="middle" font-size="30.333333333333332" fill="#0f172a" font-weight="700">始める状態</text>
+<text x="850" y="158" text-anchor="middle" font-size="18.77777777777778" fill="#475569" font-weight="400">コードは入っていない</text>
+<text x="850" y="188" text-anchor="middle" font-size="18.77777777777778" fill="#15803d" font-weight="400">ここで作業する</text>
+<path d="M346.00 140.00 L694.00 140.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<text x="520" y="128.317" text-anchor="middle" font-size="24.555555555555554" fill="#0f172a" font-weight="600">コピーを作成</text>
+<text x="520" y="168" text-anchor="middle" font-size="18.77777777777778" fill="#475569" font-weight="400"><tspan x="520" dy="0">節の冒頭のボタン</tspan><tspan x="520" dy="27.2278">「サンプルの</tspan><tspan x="520" dy="27.2278">スプレッドシートをコピー」</tspan></text>
+<rect x="40" y="260" width="300" height="140" rx="16" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2.0"/>
+<svg x="58.0" y="276.0" width="40.0" height="40.0" viewBox="0 0 36 36"><path fill="#AAB8C2" d="M18 0C12.477 0 8 4.477 8 10v10h4V10a6 6 0 0 1 12 0v10h4V10c0-5.523-4.477-10-10-10Z"/><path fill="#FFAC33" d="M32 32a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4V18a4 4 0 0 1 4-4h20a4 4 0 0 1 4 4v14Z"/></svg>
+<text x="210" y="308" text-anchor="middle" font-size="30.333333333333332" fill="#0f172a" font-weight="700">完成版</text>
+<text x="190" y="348" text-anchor="middle" font-size="18.77777777777778" fill="#475569" font-weight="400">Apps Script 入り</text>
+<text x="190" y="378" text-anchor="middle" font-size="18.77777777777778" fill="#b91c1c" font-weight="400">書き込めない</text>
+<rect x="700" y="260" width="300" height="140" rx="16" fill="#dcfce7" stroke="#22c55e" stroke-width="2.0"/>
+<svg x="718.0" y="276.0" width="40.0" height="40.0" viewBox="0 0 36 36"><path fill="#D99E82" d="M35.222 33.598c-.647-2.101-1.705-6.059-2.325-7.566-.501-1.216-.969-2.438-1.544-3.014-.575-.575-1.553-.53-2.143.058 0 0-2.469 1.675-3.354 2.783-1.108.882-2.785 3.357-2.785 3.357-.59.59-.635 1.567-.06 2.143.576.575 1.798 1.043 3.015 1.544 1.506.62 5.465 1.676 7.566 2.325.359.11 1.74-1.271 1.63-1.63z"/><path fill="#EA596E" d="M13.643 5.308c1.151 1.151 1.151 3.016 0 4.167l-4.167 4.168c-1.151 1.15-3.018 1.15-4.167 0L1.141 9.475c-1.15-1.151-1.15-3.016 0-4.167l4.167-4.167c1.15-1.151 3.016-1.151 4.167 0l4.168 4.167z"/><path fill="#FFCC4D" d="M31.353 23.018l-4.17 4.17-4.163 4.165L7.392 15.726l8.335-8.334 15.626 15.626z"/><path fill="#292F33" d="M32.078 34.763s2.709 1.489 3.441.757c.732-.732-.765-3.435-.765-3.435s-2.566.048-2.676 2.678z"/><path fill="#CCD6DD" d="M2.183 10.517l8.335-8.335 5.208 5.209-8.334 8.335z"/><path fill="#99AAB5" d="M3.225 11.558l8.334-8.334 1.042 1.042L4.267 12.6zm2.083 2.086l8.335-8.335 1.042 1.042-8.335 8.334z"/></svg>
+<text x="870" y="308" text-anchor="middle" font-size="30.333333333333332" fill="#0f172a" font-weight="700">完成版</text>
+<text x="850" y="348" text-anchor="middle" font-size="18.77777777777778" fill="#475569" font-weight="400">Apps Script 入り</text>
+<text x="850" y="378" text-anchor="middle" font-size="18.77777777777778" fill="#15803d" font-weight="400">ここで作業する</text>
+<path d="M346.00 330.00 L694.00 330.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<text x="520" y="318.317" text-anchor="middle" font-size="24.555555555555554" fill="#0f172a" font-weight="600">コピーを作成</text>
+<text x="520" y="358" text-anchor="middle" font-size="18.77777777777778" fill="#475569" font-weight="400"><tspan x="520" dy="0">完成コードの欄のボタン</tspan><tspan x="520" dy="27.2278">「完成版の</tspan><tspan x="520" dy="27.2278">スプレッドシートをコピー」</tspan></text>
+</svg>

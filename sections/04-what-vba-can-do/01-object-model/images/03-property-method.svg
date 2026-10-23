@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="300" viewBox="0 0 720 300" font-family="'Hiragino Sans','Noto Sans JP','Yu Gothic','Segoe UI',sans-serif">
+<defs><marker id="aR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#475569"/></marker><marker id="aRsub" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#94a3b8"/></marker></defs>
+<rect x="0" y="0" width="720" height="300" fill="#ffffff"/>
+<text x="360" y="34" text-anchor="middle" font-size="17.0" fill="#475569" font-weight="600">部品（オブジェクト）の後ろに . を付けて書くもの</text>
+<rect x="16" y="56" width="336" height="228" rx="16" fill="#dbeafe" stroke="#3b82f6" stroke-width="2.0"/>
+<text x="184" y="90" text-anchor="middle" font-size="17.0" fill="#0f172a" font-weight="600">プロパティ ＝ 部品の状態</text>
+<text x="184" y="116" text-anchor="middle" font-size="15.0" fill="#475569" font-weight="400">読んだり書き換えたりできる</text>
+<rect x="40" y="134" width="288" height="38" rx="8" fill="#dbeafe" stroke="#3b82f6" stroke-width="2.0"/>
+<text x="56" y="159" text-anchor="start" font-size="15.0" fill="#0f172a" font-weight="700" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">.Value</text>
+<text x="312" y="159" text-anchor="end" font-size="15.0" fill="#475569" font-weight="400">値</text>
+<rect x="40" y="182" width="288" height="38" rx="8" fill="#dbeafe" stroke="#3b82f6" stroke-width="2.0"/>
+<text x="56" y="207" text-anchor="start" font-size="15.0" fill="#0f172a" font-weight="700" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">.Name</text>
+<text x="312" y="207" text-anchor="end" font-size="15.0" fill="#475569" font-weight="400">名前</text>
+<rect x="40" y="230" width="288" height="38" rx="8" fill="#dbeafe" stroke="#3b82f6" stroke-width="2.0"/>
+<text x="56" y="255" text-anchor="start" font-size="15.0" fill="#0f172a" font-weight="700" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">.Interior.Color</text>
+<text x="312" y="255" text-anchor="end" font-size="15.0" fill="#475569" font-weight="400">背景色</text>
+<rect x="368" y="56" width="336" height="228" rx="16" fill="#ede9fe" stroke="#8b5cf6" stroke-width="2.0"/>
+<text x="536" y="90" text-anchor="middle" font-size="17.0" fill="#0f172a" font-weight="600">メソッド ＝ 部品にさせる動作</text>
+<text x="536" y="116" text-anchor="middle" font-size="15.0" fill="#475569" font-weight="400">部品に命令して動かす</text>
+<rect x="392" y="134" width="288" height="38" rx="8" fill="#ede9fe" stroke="#8b5cf6" stroke-width="2.0"/>
+<text x="408" y="159" text-anchor="start" font-size="15.0" fill="#0f172a" font-weight="700" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">.Copy</text>
+<text x="664" y="159" text-anchor="end" font-size="15.0" fill="#475569" font-weight="400">コピー</text>
+<rect x="392" y="182" width="288" height="38" rx="8" fill="#ede9fe" stroke="#8b5cf6" stroke-width="2.0"/>
+<text x="408" y="207" text-anchor="start" font-size="15.0" fill="#0f172a" font-weight="700" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">.Delete</text>
+<text x="664" y="207" text-anchor="end" font-size="15.0" fill="#475569" font-weight="400">削除</text>
+<rect x="392" y="230" width="288" height="38" rx="8" fill="#ede9fe" stroke="#8b5cf6" stroke-width="2.0"/>
+<text x="408" y="255" text-anchor="start" font-size="15.0" fill="#0f172a" font-weight="700" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">.Add</text>
+<text x="664" y="255" text-anchor="end" font-size="15.0" fill="#475569" font-weight="400">追加</text>
+</svg>

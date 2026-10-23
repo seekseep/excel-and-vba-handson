@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="360" viewBox="0 0 900 360" font-family="'Hiragino Sans','Noto Sans JP','Yu Gothic','Segoe UI',sans-serif">
+<defs><marker id="aR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#475569"/></marker><marker id="aRsub" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#94a3b8"/></marker></defs>
+<rect x="0" y="0" width="900" height="360" fill="#ffffff"/>
+<text x="450" y="42" text-anchor="middle" font-size="21.25" fill="#475569" font-weight="600">シート名が「請求書_」で始まるか</text>
+<text x="40" y="104" text-anchor="start" font-size="26.25" fill="#15803d" font-weight="700">◯ 残す</text>
+<rect x="170" y="76" width="80" height="44" rx="6" fill="#dcfce7" stroke="#22c55e" stroke-width="2.0"/>
+<text x="210" y="105" text-anchor="middle" font-size="16.25" fill="#475569" font-weight="400">売上</text>
+<rect x="262" y="76" width="80" height="44" rx="6" fill="#dcfce7" stroke="#22c55e" stroke-width="2.0"/>
+<text x="302" y="105" text-anchor="middle" font-size="16.25" fill="#475569" font-weight="400">顧客</text>
+<rect x="354" y="76" width="200" height="44" rx="6" fill="#dcfce7" stroke="#22c55e" stroke-width="2.0"/>
+<text x="454" y="105" text-anchor="middle" font-size="16.25" fill="#475569" font-weight="400">請求書テンプレート</text>
+<text x="576" y="104" text-anchor="start" font-size="16.25" fill="#475569" font-weight="400">4 文字目が「テ」なので残る</text>
+<text x="40" y="194" text-anchor="start" font-size="26.25" fill="#b91c1c" font-weight="700">✕ 消す</text>
+<rect x="170" y="166" width="210" height="44" rx="6" fill="#fee2e2" stroke="#ef4444" stroke-width="2.0"/>
+<text x="275" y="195" text-anchor="middle" font-size="16.25" fill="#475569" font-weight="400">請求書_ひまわり商事</text>
+<rect x="392" y="166" width="250" height="44" rx="6" fill="#fee2e2" stroke="#ef4444" stroke-width="2.0"/>
+<text x="517" y="195" text-anchor="middle" font-size="16.25" fill="#475569" font-weight="400">請求書_あおば設計事務所</text>
+<rect x="654" y="166" width="200" height="44" rx="6" fill="#fee2e2" stroke="#ef4444" stroke-width="2.0"/>
+<text x="754" y="195" text-anchor="middle" font-size="16.25" fill="#475569" font-weight="400">請求書_みなと物産</text>
+<rect x="170" y="226" width="210" height="44" rx="6" fill="#fee2e2" stroke="#ef4444" stroke-width="2.0"/>
+<text x="275" y="255" text-anchor="middle" font-size="16.25" fill="#475569" font-weight="400">請求書_さくら学習塾</text>
+<rect x="392" y="226" width="210" height="44" rx="6" fill="#fee2e2" stroke="#ef4444" stroke-width="2.0"/>
+<text x="497" y="255" text-anchor="middle" font-size="16.25" fill="#475569" font-weight="400">請求書_こもれび珈琲</text>
+<text x="450" y="330" text-anchor="middle" font-size="16.25" fill="#475569" font-weight="400" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">VBA: Left(ws.Name, 4) = "請求書_"　GAS: startsWith('請求書_')</text>
+</svg>

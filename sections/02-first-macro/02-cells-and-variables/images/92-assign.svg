@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="470" viewBox="0 0 1000 470" font-family="'Hiragino Sans','Noto Sans JP','Yu Gothic','Segoe UI',sans-serif">
+<defs><marker id="aR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#475569"/></marker><marker id="aRsub" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#94a3b8"/></marker></defs>
+<rect x="0" y="0" width="1000" height="470" fill="#ffffff"/>
+<text x="500" y="44" text-anchor="middle" font-size="29.166666666666664" fill="#0f172a" font-weight="700">「=」は「右側を計算して、左の箱に入れる」</text>
+<rect x="250" y="110" width="130" height="60" rx="10" fill="#dbeafe" stroke="#3b82f6" stroke-width="2.0"/>
+<text x="315" y="148" text-anchor="middle" font-size="36.11111111111111" fill="#0f172a" font-weight="700" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">total</text>
+<text x="420" y="150" text-anchor="middle" font-size="36.11111111111111" fill="#0f172a" font-weight="700">=</text>
+<rect x="460" y="110" width="290" height="60" rx="10" fill="#fef9c3" stroke="#f59e0b" stroke-width="2.0"/>
+<text x="605" y="148" text-anchor="middle" font-size="36.11111111111111" fill="#0f172a" font-weight="700" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">total + 金額</text>
+<text x="605" y="96" text-anchor="middle" font-size="23.61111111111111" fill="#475569" font-weight="600">① 先に右側を計算する</text>
+<path d="M605.00 176.00 L605.00 194.00 L605.00 208.00 Q605.00 222.00 591.00 222.00 L460.00 222.00 L329.00 222.00 Q315.00 222.00 315.00 208.00 L315.00 194.00 L315.00 176.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<text x="532.5" y="247.708" text-anchor="middle" font-size="20.833333333333332" fill="#0f172a" font-weight="400">② 結果を左の total に入れ直す</text>
+<text x="500" y="300" text-anchor="middle" font-size="23.61111111111111" fill="#475569" font-weight="600">くり返すたびに、箱の中身が入れ替わる</text>
+<rect x="90" y="330" width="140" height="80" rx="10" fill="#dbeafe" stroke="#3b82f6" stroke-width="2.0"/>
+<text x="160" y="352" text-anchor="middle" font-size="18.055555555555554" fill="#475569" font-weight="400" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">total</text>
+<text x="160" y="398" text-anchor="middle" font-size="29.166666666666664" fill="#0f172a" font-weight="700">0</text>
+<text x="160" y="440" text-anchor="middle" font-size="20.833333333333332" fill="#475569" font-weight="400">はじめ</text>
+<rect x="430" y="330" width="140" height="80" rx="10" fill="#dbeafe" stroke="#3b82f6" stroke-width="2.0"/>
+<text x="500" y="352" text-anchor="middle" font-size="18.055555555555554" fill="#475569" font-weight="400" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">total</text>
+<text x="500" y="398" text-anchor="middle" font-size="29.166666666666664" fill="#0f172a" font-weight="700">1250</text>
+<text x="500" y="440" text-anchor="middle" font-size="20.833333333333332" fill="#475569" font-weight="400">2 行目を足した</text>
+<rect x="770" y="330" width="140" height="80" rx="10" fill="#dbeafe" stroke="#3b82f6" stroke-width="2.0"/>
+<text x="840" y="352" text-anchor="middle" font-size="18.055555555555554" fill="#475569" font-weight="400" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">total</text>
+<text x="840" y="398" text-anchor="middle" font-size="29.166666666666664" fill="#0f172a" font-weight="700">3750</text>
+<text x="840" y="440" text-anchor="middle" font-size="20.833333333333332" fill="#475569" font-weight="400">3 行目を足した</text>
+<path d="M236.00 370.00 L424.00 370.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<text x="330" y="358.875" text-anchor="middle" font-size="20.833333333333332" fill="#0f172a" font-weight="400">0 + 1250</text>
+<path d="M576.00 370.00 L764.00 370.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<text x="670" y="358.875" text-anchor="middle" font-size="20.833333333333332" fill="#0f172a" font-weight="400">1250 + 2500</text>
+</svg>

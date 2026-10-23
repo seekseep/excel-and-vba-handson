@@ -1,0 +1,114 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="700" viewBox="0 0 900 700" font-family="'Hiragino Sans','Noto Sans JP','Yu Gothic','Segoe UI',sans-serif">
+<defs><marker id="aR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#475569"/></marker><marker id="aRsub" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#94a3b8"/></marker></defs>
+<rect x="0" y="0" width="900" height="700" fill="#ffffff"/>
+<text x="40" y="44" text-anchor="start" font-size="26.25" fill="#0f172a" font-weight="700">列の対応</text>
+<text x="134" y="94" text-anchor="end" font-size="21.25" fill="#475569" font-weight="600">売上</text>
+<rect x="150" y="64" width="110" height="34" fill="#dbeafe" stroke="#cbd5e1" stroke-width="1"/>
+<text x="205" y="86.25" text-anchor="middle" font-size="15" font-weight="700" fill="#0f172a">A</text>
+<rect x="260" y="64" width="110" height="34" fill="#dbeafe" stroke="#cbd5e1" stroke-width="1"/>
+<text x="315" y="86.25" text-anchor="middle" font-size="15" font-weight="700" fill="#0f172a">B</text>
+<rect x="370" y="64" width="110" height="34" fill="#dbeafe" stroke="#cbd5e1" stroke-width="1"/>
+<text x="425" y="86.25" text-anchor="middle" font-size="15" font-weight="700" fill="#0f172a">C</text>
+<rect x="480" y="64" width="110" height="34" fill="#dbeafe" stroke="#cbd5e1" stroke-width="1"/>
+<text x="535" y="86.25" text-anchor="middle" font-size="15" font-weight="700" fill="#0f172a">D</text>
+<rect x="590" y="64" width="110" height="34" fill="#dbeafe" stroke="#cbd5e1" stroke-width="1"/>
+<text x="645" y="86.25" text-anchor="middle" font-size="15" font-weight="700" fill="#0f172a">E</text>
+<rect x="700" y="64" width="110" height="34" fill="#dbeafe" stroke="#cbd5e1" stroke-width="1"/>
+<text x="755" y="86.25" text-anchor="middle" font-size="15" font-weight="700" fill="#0f172a">F</text>
+<rect x="150" y="98" width="110" height="34" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="205" y="120.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">日付</text>
+<rect x="260" y="98" width="110" height="34" fill="#fee2e2" stroke="#cbd5e1" stroke-width="1"/>
+<text x="315" y="120.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">顧客</text>
+<rect x="370" y="98" width="110" height="34" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="425" y="120.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">商品</text>
+<rect x="480" y="98" width="110" height="34" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="535" y="120.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">単価</text>
+<rect x="590" y="98" width="110" height="34" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="645" y="120.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">数量</text>
+<rect x="700" y="98" width="110" height="34" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="755" y="120.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">金額</text>
+<rect x="150" y="64" width="660" height="68" fill="none" stroke="#3b82f6" stroke-width="2"/>
+<text x="134" y="254" text-anchor="end" font-size="21.25" fill="#475569" font-weight="600">請求書</text>
+<rect x="150" y="224" width="110" height="34" fill="#ffedd5" stroke="#cbd5e1" stroke-width="1"/>
+<text x="205" y="246.25" text-anchor="middle" font-size="15" font-weight="700" fill="#0f172a">A</text>
+<rect x="260" y="224" width="110" height="34" fill="#ffedd5" stroke="#cbd5e1" stroke-width="1"/>
+<text x="315" y="246.25" text-anchor="middle" font-size="15" font-weight="700" fill="#0f172a">B</text>
+<rect x="370" y="224" width="110" height="34" fill="#ffedd5" stroke="#cbd5e1" stroke-width="1"/>
+<text x="425" y="246.25" text-anchor="middle" font-size="15" font-weight="700" fill="#0f172a">C</text>
+<rect x="480" y="224" width="110" height="34" fill="#ffedd5" stroke="#cbd5e1" stroke-width="1"/>
+<text x="535" y="246.25" text-anchor="middle" font-size="15" font-weight="700" fill="#0f172a">D</text>
+<rect x="590" y="224" width="110" height="34" fill="#ffedd5" stroke="#cbd5e1" stroke-width="1"/>
+<text x="645" y="246.25" text-anchor="middle" font-size="15" font-weight="700" fill="#0f172a">E</text>
+<rect x="150" y="258" width="110" height="34" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="205" y="280.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">日付</text>
+<rect x="260" y="258" width="110" height="34" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="315" y="280.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">商品</text>
+<rect x="370" y="258" width="110" height="34" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="425" y="280.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">単価</text>
+<rect x="480" y="258" width="110" height="34" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="535" y="280.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">数量</text>
+<rect x="590" y="258" width="110" height="34" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="645" y="280.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">金額</text>
+<rect x="150" y="224" width="550" height="68" fill="none" stroke="#f97316" stroke-width="2"/>
+<path d="M205.00 132.00 L205.00 224.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<path d="M425.00 132.00 L315.00 224.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<path d="M535.00 132.00 L425.00 224.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<path d="M645.00 132.00 L535.00 224.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<path d="M755.00 132.00 L645.00 224.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<text x="315" y="166" text-anchor="middle" font-size="16.25" fill="#b91c1c" font-weight="400">✕ 書かない</text>
+<text x="40" y="370" text-anchor="start" font-size="26.25" fill="#0f172a" font-weight="700">行の対応（ひまわり商事のとき）</text>
+<rect x="60" y="394" width="50" height="34" fill="#dbeafe" stroke="#cbd5e1" stroke-width="1"/>
+<text x="85" y="416.25" text-anchor="middle" font-size="15" font-weight="700" fill="#0f172a">i</text>
+<rect x="110" y="394" width="170" height="34" fill="#dbeafe" stroke="#cbd5e1" stroke-width="1"/>
+<text x="195" y="416.25" text-anchor="middle" font-size="15" font-weight="700" fill="#0f172a">売上の顧客（B 列）</text>
+<rect x="60" y="428" width="50" height="34" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="85" y="450.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">2</text>
+<rect x="110" y="428" width="170" height="34" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="195" y="450.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">あおば設計事務所</text>
+<rect x="60" y="462" width="50" height="34" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="85" y="484.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">3</text>
+<rect x="110" y="462" width="170" height="34" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="195" y="484.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">みなと物産</text>
+<rect x="60" y="496" width="50" height="34" fill="#fef9c3" stroke="#cbd5e1" stroke-width="1"/>
+<text x="85" y="518.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">4</text>
+<rect x="110" y="496" width="170" height="34" fill="#fef9c3" stroke="#cbd5e1" stroke-width="1"/>
+<text x="195" y="518.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">ひまわり商事</text>
+<rect x="60" y="530" width="50" height="34" fill="#fef9c3" stroke="#cbd5e1" stroke-width="1"/>
+<text x="85" y="552.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">5</text>
+<rect x="110" y="530" width="170" height="34" fill="#fef9c3" stroke="#cbd5e1" stroke-width="1"/>
+<text x="195" y="552.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">ひまわり商事</text>
+<rect x="60" y="564" width="50" height="34" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="85" y="586.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">6</text>
+<rect x="110" y="564" width="170" height="34" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="195" y="586.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">みなと物産</text>
+<rect x="60" y="598" width="50" height="34" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="85" y="620.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">7</text>
+<rect x="110" y="598" width="170" height="34" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="195" y="620.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">さくら学習塾</text>
+<rect x="60" y="632" width="50" height="34" fill="#fef9c3" stroke="#cbd5e1" stroke-width="1"/>
+<text x="85" y="654.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">8</text>
+<rect x="110" y="632" width="170" height="34" fill="#fef9c3" stroke="#cbd5e1" stroke-width="1"/>
+<text x="195" y="654.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">ひまわり商事</text>
+<rect x="60" y="394" width="220" height="272" fill="none" stroke="#3b82f6" stroke-width="2"/>
+<rect x="590" y="462" width="90" height="34" fill="#ffedd5" stroke="#cbd5e1" stroke-width="1"/>
+<text x="635" y="484.25" text-anchor="middle" font-size="15" font-weight="700" fill="#0f172a">lineRow</text>
+<rect x="680" y="462" width="190" height="34" fill="#ffedd5" stroke="#cbd5e1" stroke-width="1"/>
+<text x="775" y="484.25" text-anchor="middle" font-size="15" font-weight="700" fill="#0f172a">請求書の商品（B 列）</text>
+<rect x="590" y="496" width="90" height="34" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="635" y="518.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">12</text>
+<rect x="680" y="496" width="190" height="34" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="775" y="518.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">ホッチキス</text>
+<rect x="590" y="530" width="90" height="34" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="635" y="552.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">13</text>
+<rect x="680" y="530" width="190" height="34" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="775" y="552.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">コピー用紙</text>
+<rect x="590" y="564" width="90" height="34" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="635" y="586.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">14</text>
+<rect x="680" y="564" width="190" height="34" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="775" y="586.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">ノート</text>
+<rect x="590" y="462" width="280" height="136" fill="none" stroke="#f97316" stroke-width="2"/>
+<path d="M280.00 513.00 L590.00 513.00" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aRsub)"/>
+<path d="M280.00 547.00 L590.00 547.00" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aRsub)"/>
+<path d="M280.00 649.00 L590.00 581.00" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aRsub)"/>
+<text x="730" y="638" text-anchor="middle" font-size="16.25" fill="#475569" font-weight="400"><tspan x="730" dy="0">一致した行だけ書き写し、</tspan><tspan x="730" dy="23.5625">そのたびに lineRow を 1 つ進める</tspan></text>
+</svg>

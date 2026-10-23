@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="500" viewBox="0 0 720 500" font-family="'Hiragino Sans','Noto Sans JP','Yu Gothic','Segoe UI',sans-serif">
+<defs><marker id="aR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#475569"/></marker><marker id="aRsub" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#94a3b8"/></marker></defs>
+<rect x="0" y="0" width="720" height="500" fill="#ffffff"/>
+<text x="66" y="34" text-anchor="start" font-size="15.0" fill="#475569" font-weight="400">ss は SpreadsheetApp.getActiveSpreadsheet()（デモの 1 行目で作る）</text>
+<rect x="66" y="56" width="80" height="40" rx="8" fill="#dcfce7" stroke="#22c55e" stroke-width="2.0"/>
+<text x="106" y="81" text-anchor="middle" font-size="15.0" fill="#0f172a" font-weight="700" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">ss</text>
+<text x="106" y="130" text-anchor="middle" font-size="15.0" fill="#475569" font-weight="400">このスプレッドシートの</text>
+<text x="156" y="84" text-anchor="middle" font-size="21.0" fill="#0f172a" font-weight="700" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">.</text>
+<rect x="166" y="56" width="219.68" height="40" rx="8" fill="#dbeafe" stroke="#3b82f6" stroke-width="2.0"/>
+<text x="275.84" y="81" text-anchor="middle" font-size="15.0" fill="#0f172a" font-weight="700" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">getSheetByName('売上')</text>
+<text x="275.84" y="130" text-anchor="middle" font-size="15.0" fill="#475569" font-weight="400">売上シートの</text>
+<text x="395.68" y="84" text-anchor="middle" font-size="21.0" fill="#0f172a" font-weight="700" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">.</text>
+<rect x="405.68" y="56" width="151.04" height="40" rx="8" fill="#fef9c3" stroke="#f59e0b" stroke-width="2.0"/>
+<text x="481.2" y="81" text-anchor="middle" font-size="15.0" fill="#0f172a" font-weight="700" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">getRange('B2')</text>
+<text x="481.2" y="130" text-anchor="middle" font-size="15.0" fill="#475569" font-weight="400">B2 セルの</text>
+<text x="566.72" y="84" text-anchor="middle" font-size="21.0" fill="#0f172a" font-weight="700" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">.</text>
+<rect x="576.72" y="56" width="113.6" height="40" rx="8" fill="#ffedd5" stroke="#f97316" stroke-width="2.0"/>
+<text x="633.52" y="81" text-anchor="middle" font-size="15.0" fill="#0f172a" font-weight="700" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">getValue()</text>
+<text x="633.52" y="130" text-anchor="middle" font-size="15.0" fill="#475569" font-weight="400">値を読む</text>
+<rect x="16" y="156" width="688" height="328" rx="16" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2.0"/>
+<text x="32" y="184" text-anchor="start" font-size="17.0" fill="#475569" font-weight="600">Apps Script から見た Google スプレッドシート（SpreadsheetApp）</text>
+<rect x="54" y="198" width="636" height="272" rx="16" fill="#dcfce7" stroke="#22c55e" stroke-width="2.0"/>
+<text x="68" y="226" text-anchor="start" font-size="17.0" fill="#475569" font-weight="600">スプレッドシート（Spreadsheet）</text>
+<rect x="154" y="240" width="522" height="216" rx="16" fill="#dbeafe" stroke="#3b82f6" stroke-width="2.0"/>
+<text x="168" y="268" text-anchor="start" font-size="17.0" fill="#475569" font-weight="600">シート（Sheet）</text>
+<text x="168" y="316" text-anchor="start" font-size="15.0" fill="#475569" font-weight="400"><tspan x="168" dy="0">「売上」という</tspan><tspan x="168" dy="21.75">名前のシート</tspan></text>
+<rect x="393.68" y="282" width="268.32" height="160" rx="16" fill="#fef9c3" stroke="#f59e0b" stroke-width="2.0"/>
+<text x="407.68" y="310" text-anchor="start" font-size="17.0" fill="#475569" font-weight="600">セル・範囲（Range）</text>
+<text x="407.68" y="340" text-anchor="start" font-size="15.0" fill="#475569" font-weight="400">getRange(2, 2) とも書ける</text>
+<rect x="572.72" y="374" width="76" height="40" rx="8" fill="#ffedd5" stroke="#f97316" stroke-width="2.0"/>
+<text x="610.72" y="399" text-anchor="middle" font-size="15.0" fill="#0f172a" font-weight="400">値</text>
+</svg>

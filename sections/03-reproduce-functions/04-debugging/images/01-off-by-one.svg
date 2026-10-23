@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="430" viewBox="0 0 1000 430" font-family="'Hiragino Sans','Noto Sans JP','Yu Gothic','Segoe UI',sans-serif">
+<defs><marker id="aR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#475569"/></marker><marker id="aRsub" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#94a3b8"/></marker></defs>
+<rect x="0" y="0" width="1000" height="430" fill="#ffffff"/>
+<text x="500" y="44" text-anchor="middle" font-size="29.166666666666664" fill="#0f172a" font-weight="700">3 行目から足し始めると、2 行目の分だけ足りない</text>
+<text x="520" y="88" text-anchor="middle" font-size="18.055555555555554" fill="#475569" font-weight="400">2〜31 行目の金額（1 マス ＝ 1 行）</text>
+<text x="40" y="120" text-anchor="start" font-size="23.61111111111111" fill="#475569" font-weight="600" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">SumTotal</text>
+<text x="40" y="146" text-anchor="start" font-size="18.055555555555554" fill="#475569" font-weight="400">i = 2 から</text>
+<rect x="190" y="100" width="22" height="34" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+<text x="201" y="122" text-anchor="middle" font-size="18.055555555555554" fill="#475569" font-weight="400">2</text>
+<rect x="212" y="100" width="22" height="34" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+<text x="223" y="122" text-anchor="middle" font-size="18.055555555555554" fill="#475569" font-weight="400">3</text>
+<rect x="234" y="100" width="22" height="34" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+<rect x="256" y="100" width="22" height="34" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+<rect x="278" y="100" width="22" height="34" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+<rect x="300" y="100" width="22" height="34" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+<rect x="322" y="100" width="22" height="34" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+<rect x="344" y="100" width="22" height="34" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+<rect x="366" y="100" width="22" height="34" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+<rect x="388" y="100" width="22" height="34" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+<rect x="410" y="100" width="22" height="34" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+<rect x="432" y="100" width="22" height="34" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+<rect x="454" y="100" width="22" height="34" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+<rect x="476" y="100" width="22" height="34" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+<rect x="498" y="100" width="22" height="34" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+<rect x="520" y="100" width="22" height="34" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+<rect x="542" y="100" width="22" height="34" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+<rect x="564" y="100" width="22" height="34" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+<rect x="586" y="100" width="22" height="34" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+<rect x="608" y="100" width="22" height="34" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+<rect x="630" y="100" width="22" height="34" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+<rect x="652" y="100" width="22" height="34" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+<rect x="674" y="100" width="22" height="34" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+<rect x="696" y="100" width="22" height="34" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+<rect x="718" y="100" width="22" height="34" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+<rect x="740" y="100" width="22" height="34" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+<rect x="762" y="100" width="22" height="34" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+<rect x="784" y="100" width="22" height="34" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+<rect x="806" y="100" width="22" height="34" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+<rect x="828" y="100" width="22" height="34" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+<text x="839" y="122" text-anchor="middle" font-size="18.055555555555554" fill="#475569" font-weight="400">31</text>
+<text x="866" y="123" text-anchor="start" font-size="29.166666666666664" fill="#0f172a" font-weight="700">68,580</text>
+<text x="40" y="250" text-anchor="start" font-size="23.61111111111111" fill="#475569" font-weight="600" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">SumTotal</text>
+<text x="40" y="276" text-anchor="start" font-size="23.61111111111111" fill="#475569" font-weight="600" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">WithBug</text>
+<text x="40" y="300" text-anchor="start" font-size="18.055555555555554" fill="#475569" font-weight="400">i = 3 から</text>
+<rect x="190" y="230" width="22" height="34" fill="#ffffff" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="4 3"/>
+<text x="201" y="252" text-anchor="middle" font-size="18.055555555555554" fill="#475569" font-weight="400">2</text>
+<rect x="212" y="230" width="22" height="34" fill="#ffedd5" stroke="#f97316" stroke-width="1.5"/>
+<text x="223" y="252" text-anchor="middle" font-size="18.055555555555554" fill="#475569" font-weight="400">3</text>
+<rect x="234" y="230" width="22" height="34" fill="#ffedd5" stroke="#f97316" stroke-width="1.5"/>
+<rect x="256" y="230" width="22" height="34" fill="#ffedd5" stroke="#f97316" stroke-width="1.5"/>
+<rect x="278" y="230" width="22" height="34" fill="#ffedd5" stroke="#f97316" stroke-width="1.5"/>
+<rect x="300" y="230" width="22" height="34" fill="#ffedd5" stroke="#f97316" stroke-width="1.5"/>
+<rect x="322" y="230" width="22" height="34" fill="#ffedd5" stroke="#f97316" stroke-width="1.5"/>
+<rect x="344" y="230" width="22" height="34" fill="#ffedd5" stroke="#f97316" stroke-width="1.5"/>
+<rect x="366" y="230" width="22" height="34" fill="#ffedd5" stroke="#f97316" stroke-width="1.5"/>
+<rect x="388" y="230" width="22" height="34" fill="#ffedd5" stroke="#f97316" stroke-width="1.5"/>
+<rect x="410" y="230" width="22" height="34" fill="#ffedd5" stroke="#f97316" stroke-width="1.5"/>
+<rect x="432" y="230" width="22" height="34" fill="#ffedd5" stroke="#f97316" stroke-width="1.5"/>
+<rect x="454" y="230" width="22" height="34" fill="#ffedd5" stroke="#f97316" stroke-width="1.5"/>
+<rect x="476" y="230" width="22" height="34" fill="#ffedd5" stroke="#f97316" stroke-width="1.5"/>
+<rect x="498" y="230" width="22" height="34" fill="#ffedd5" stroke="#f97316" stroke-width="1.5"/>
+<rect x="520" y="230" width="22" height="34" fill="#ffedd5" stroke="#f97316" stroke-width="1.5"/>
+<rect x="542" y="230" width="22" height="34" fill="#ffedd5" stroke="#f97316" stroke-width="1.5"/>
+<rect x="564" y="230" width="22" height="34" fill="#ffedd5" stroke="#f97316" stroke-width="1.5"/>
+<rect x="586" y="230" width="22" height="34" fill="#ffedd5" stroke="#f97316" stroke-width="1.5"/>
+<rect x="608" y="230" width="22" height="34" fill="#ffedd5" stroke="#f97316" stroke-width="1.5"/>
+<rect x="630" y="230" width="22" height="34" fill="#ffedd5" stroke="#f97316" stroke-width="1.5"/>
+<rect x="652" y="230" width="22" height="34" fill="#ffedd5" stroke="#f97316" stroke-width="1.5"/>
+<rect x="674" y="230" width="22" height="34" fill="#ffedd5" stroke="#f97316" stroke-width="1.5"/>
+<rect x="696" y="230" width="22" height="34" fill="#ffedd5" stroke="#f97316" stroke-width="1.5"/>
+<rect x="718" y="230" width="22" height="34" fill="#ffedd5" stroke="#f97316" stroke-width="1.5"/>
+<rect x="740" y="230" width="22" height="34" fill="#ffedd5" stroke="#f97316" stroke-width="1.5"/>
+<rect x="762" y="230" width="22" height="34" fill="#ffedd5" stroke="#f97316" stroke-width="1.5"/>
+<rect x="784" y="230" width="22" height="34" fill="#ffedd5" stroke="#f97316" stroke-width="1.5"/>
+<rect x="806" y="230" width="22" height="34" fill="#ffedd5" stroke="#f97316" stroke-width="1.5"/>
+<rect x="828" y="230" width="22" height="34" fill="#ffedd5" stroke="#f97316" stroke-width="1.5"/>
+<text x="839" y="252" text-anchor="middle" font-size="18.055555555555554" fill="#475569" font-weight="400">31</text>
+<text x="866" y="253" text-anchor="start" font-size="29.166666666666664" fill="#b91c1c" font-weight="700">67,330</text>
+<rect x="220" y="300" width="300" height="46" rx="10" fill="#fee2e2" stroke="#ef4444" stroke-width="2.0"/>
+<text x="370" y="329" text-anchor="middle" font-size="20.833333333333332" fill="#475569" font-weight="400">2 行目の 1,250 が足されない</text>
+<path d="M293.62 298.14 L201.00 268.00" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aRsub)"/>
+<text x="500" y="400" text-anchor="middle" font-size="23.61111111111111" fill="#475569" font-weight="600">差は 68,580 − 67,330 ＝ 1,250。これは 2 行目の金額と同じ</text>
+</svg>

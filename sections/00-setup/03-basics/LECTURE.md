@@ -184,7 +184,9 @@ function createInvoices() {
 
 ### セルを読み書きする
 
-セルは「番地」か「行と列の番号」で指します。B2 は 2 行目の 2 列目です。（2・3 章）
+セルは「番地」か「行と列の番号」で指します。（2・3 章）
+
+![B2 のセルは、番地なら Range("B2")（GAS は getRange('B2')）、行と列の番号なら Cells(2, 2)（GAS は getRange(2, 2)）で指す。番号は 2 行目, 2 列目の順で、行が先、列が後](./images/01-cell-address.svg)
 
 :::::platform
 ::::excel
@@ -241,13 +243,13 @@ salesSheet.getRange('A1').setValue('日付');
 
 明細の行数は月によって変わるので、最後の行を数えて使います。（3 章）
 
+![A 列のいちばん下の行（Rows.Count。1048576 行目）から End(xlUp)（Ctrl + ↑）で上へ飛ぶと、値がある最後の行の 31 行目で止まり、lastRow = 31 になる。GAS は sheet.getLastRow() で同じ 31 が返る](./images/02-last-row.svg)
+
 :::::platform
 ::::excel
 ```vb
 lastRow = Cells(Rows.Count, 1).End(xlUp).Row
 ```
-
-A 列のいちばん下から `Ctrl` + `↑` で上に飛んだ先の行番号です。
 ::::
 ::::sheets
 ```js
@@ -357,7 +359,7 @@ const folder = file.getParents().next();    // このスプレッドシートの
 
 :::::platform
 ::::excel
-- **ボタン:** 「開発」→「挿入」→ フォーム コントロールの「ボタン」を置き、「マクロの登録」でマクロを選ぶ。第 3 章からの練習用ブックには、その章のマクロのボタンが最初から置いてある（押すだけで動く。右クリックで選択）
+- **ボタン:** 「開発」→「挿入」→ フォーム コントロールの「ボタン」を置き、「マクロの登録」でマクロを選ぶ。マクロを書いた節で、そのマクロのボタンを自分で置いていく（置き方は 2-1。右クリックで選択）
 - **開いたとき:** VBE の `ThisWorkbook` に `Private Sub Workbook_Open()` 〜 `End Sub` を書く
 ::::
 ::::sheets

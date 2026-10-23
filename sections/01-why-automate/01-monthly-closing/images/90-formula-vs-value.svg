@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="490" viewBox="0 0 1000 490" font-family="'Hiragino Sans','Noto Sans JP','Yu Gothic','Segoe UI',sans-serif">
+<defs><marker id="aR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#475569"/></marker><marker id="aRsub" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#94a3b8"/></marker></defs>
+<rect x="0" y="0" width="1000" height="490" fill="#ffffff"/>
+<text x="500" y="44" text-anchor="middle" font-size="29.166666666666664" fill="#0f172a" font-weight="700">関数は「式」が残り、VBA は「値」だけが残る</text>
+<text x="235" y="100" text-anchor="middle" font-size="23.61111111111111" fill="#475569" font-weight="600">関数で出したセル</text>
+<rect x="60" y="120" width="110" height="36" fill="#fef9c3" stroke="#cbd5e1" stroke-width="1"/>
+<text x="115" y="143.25" text-anchor="middle" font-size="15" font-weight="700" fill="#0f172a">D2 単価</text>
+<rect x="170" y="120" width="110" height="36" fill="#fef9c3" stroke="#cbd5e1" stroke-width="1"/>
+<text x="225" y="143.25" text-anchor="middle" font-size="15" font-weight="700" fill="#0f172a">E2 数量</text>
+<rect x="280" y="120" width="130" height="36" fill="#fef9c3" stroke="#cbd5e1" stroke-width="1"/>
+<text x="345" y="143.25" text-anchor="middle" font-size="15" font-weight="700" fill="#0f172a">F2 金額</text>
+<rect x="60" y="156" width="110" height="36" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="115" y="179.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">250</text>
+<rect x="170" y="156" width="110" height="36" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="225" y="179.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">5</text>
+<rect x="280" y="156" width="130" height="36" fill="#fef9c3" stroke="#cbd5e1" stroke-width="1"/>
+<text x="345" y="179.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">1250</text>
+<rect x="60" y="120" width="350" height="72" fill="none" stroke="#f59e0b" stroke-width="2"/>
+<text x="235" y="232" text-anchor="middle" font-size="23.61111111111111" fill="#475569" font-weight="600">F2 の中身は式 =D2*E2</text>
+<rect x="60" y="320" width="110" height="36" fill="#fef9c3" stroke="#cbd5e1" stroke-width="1"/>
+<text x="115" y="343.25" text-anchor="middle" font-size="15" font-weight="700" fill="#0f172a">D2 単価</text>
+<rect x="170" y="320" width="110" height="36" fill="#fef9c3" stroke="#cbd5e1" stroke-width="1"/>
+<text x="225" y="343.25" text-anchor="middle" font-size="15" font-weight="700" fill="#0f172a">E2 数量</text>
+<rect x="280" y="320" width="130" height="36" fill="#fef9c3" stroke="#cbd5e1" stroke-width="1"/>
+<text x="345" y="343.25" text-anchor="middle" font-size="15" font-weight="700" fill="#0f172a">F2 金額</text>
+<rect x="60" y="356" width="110" height="36" fill="#ffedd5" stroke="#cbd5e1" stroke-width="1"/>
+<text x="115" y="379.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">300</text>
+<rect x="170" y="356" width="110" height="36" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="225" y="379.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">5</text>
+<rect x="280" y="356" width="130" height="36" fill="#dcfce7" stroke="#cbd5e1" stroke-width="1"/>
+<text x="345" y="379.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">1500</text>
+<rect x="60" y="320" width="350" height="72" fill="none" stroke="#f59e0b" stroke-width="2"/>
+<path d="M235.00 250.00 L235.00 263.58" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M235.00 300.42 L235.00 314.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<text x="235" y="289.292" text-anchor="middle" font-size="20.833333333333332" fill="#0f172a" font-weight="400">D2 を 300 に書き換える</text>
+<text x="235" y="425" text-anchor="middle" font-size="23.61111111111111" fill="#15803d" font-weight="600">◯ すぐに計算し直す</text>
+<text x="765" y="100" text-anchor="middle" font-size="23.61111111111111" fill="#475569" font-weight="600">VBA が書いたセル</text>
+<rect x="590" y="120" width="110" height="36" fill="#dbeafe" stroke="#cbd5e1" stroke-width="1"/>
+<text x="645" y="143.25" text-anchor="middle" font-size="15" font-weight="700" fill="#0f172a">D2 単価</text>
+<rect x="700" y="120" width="110" height="36" fill="#dbeafe" stroke="#cbd5e1" stroke-width="1"/>
+<text x="755" y="143.25" text-anchor="middle" font-size="15" font-weight="700" fill="#0f172a">E2 数量</text>
+<rect x="810" y="120" width="130" height="36" fill="#dbeafe" stroke="#cbd5e1" stroke-width="1"/>
+<text x="875" y="143.25" text-anchor="middle" font-size="15" font-weight="700" fill="#0f172a">F2 金額</text>
+<rect x="590" y="156" width="110" height="36" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="645" y="179.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">250</text>
+<rect x="700" y="156" width="110" height="36" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="755" y="179.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">5</text>
+<rect x="810" y="156" width="130" height="36" fill="#dbeafe" stroke="#cbd5e1" stroke-width="1"/>
+<text x="875" y="179.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">1250</text>
+<rect x="590" y="120" width="350" height="72" fill="none" stroke="#3b82f6" stroke-width="2"/>
+<text x="765" y="232" text-anchor="middle" font-size="23.61111111111111" fill="#475569" font-weight="600">F2 の中身は値 1250</text>
+<rect x="590" y="320" width="110" height="36" fill="#dbeafe" stroke="#cbd5e1" stroke-width="1"/>
+<text x="645" y="343.25" text-anchor="middle" font-size="15" font-weight="700" fill="#0f172a">D2 単価</text>
+<rect x="700" y="320" width="110" height="36" fill="#dbeafe" stroke="#cbd5e1" stroke-width="1"/>
+<text x="755" y="343.25" text-anchor="middle" font-size="15" font-weight="700" fill="#0f172a">E2 数量</text>
+<rect x="810" y="320" width="130" height="36" fill="#dbeafe" stroke="#cbd5e1" stroke-width="1"/>
+<text x="875" y="343.25" text-anchor="middle" font-size="15" font-weight="700" fill="#0f172a">F2 金額</text>
+<rect x="590" y="356" width="110" height="36" fill="#ffedd5" stroke="#cbd5e1" stroke-width="1"/>
+<text x="645" y="379.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">300</text>
+<rect x="700" y="356" width="110" height="36" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="755" y="379.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">5</text>
+<rect x="810" y="356" width="130" height="36" fill="#fee2e2" stroke="#cbd5e1" stroke-width="1"/>
+<text x="875" y="379.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">1250</text>
+<rect x="590" y="320" width="350" height="72" fill="none" stroke="#3b82f6" stroke-width="2"/>
+<path d="M765.00 250.00 L765.00 263.58" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M765.00 300.42 L765.00 314.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<text x="765" y="289.292" text-anchor="middle" font-size="20.833333333333332" fill="#0f172a" font-weight="400">D2 を 300 に書き換える</text>
+<text x="765" y="425" text-anchor="middle" font-size="23.61111111111111" fill="#b91c1c" font-weight="600"><tspan x="765" dy="0">✕ 古いまま</tspan><tspan x="765" dy="34.2361">もう一度実行するまで変わらない</tspan></text>
+</svg>

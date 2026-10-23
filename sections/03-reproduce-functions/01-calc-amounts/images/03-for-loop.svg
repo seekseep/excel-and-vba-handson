@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="410" viewBox="0 0 1000 410" font-family="'Hiragino Sans','Noto Sans JP','Yu Gothic','Segoe UI',sans-serif">
+<defs><marker id="aR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#475569"/></marker><marker id="aRsub" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#94a3b8"/></marker></defs>
+<rect x="0" y="0" width="1000" height="410" fill="#ffffff"/>
+<text x="500" y="44" text-anchor="middle" font-size="29.166666666666664" fill="#0f172a" font-weight="700">1 周で 1 行。i が行番号になる</text>
+<rect x="30" y="110" width="390" height="190" rx="16" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2.0"/>
+<text x="50" y="150" text-anchor="start" font-size="23.61111111111111" fill="#475569" font-weight="600" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">For i = 2 To 31</text>
+<text x="78" y="196" text-anchor="start" font-size="20.833333333333332" fill="#0f172a" font-weight="400" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">Cells(i, 6) =</text>
+<text x="100" y="228" text-anchor="start" font-size="20.833333333333332" fill="#0f172a" font-weight="400" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">Cells(i, 4) * Cells(i, 5)</text>
+<text x="50" y="276" text-anchor="start" font-size="23.61111111111111" fill="#475569" font-weight="600" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">Next i</text>
+<text x="225" y="344" text-anchor="middle" font-size="20.833333333333332" fill="#475569" font-weight="400">i を 1 ずつ増やして 31 まで 30 回くり返す</text>
+<text x="225" y="374" text-anchor="middle" font-size="18.055555555555554" fill="#475569" font-weight="400">GAS では for (let i = 2; i &lt;= 31; i++) { }</text>
+<rect x="620" y="90" width="60" height="40" fill="#dbeafe" stroke="#cbd5e1" stroke-width="1"/>
+<text x="650" y="115.25" text-anchor="middle" font-size="15" font-weight="700" fill="#0f172a">行</text>
+<rect x="680" y="90" width="90" height="40" fill="#dbeafe" stroke="#cbd5e1" stroke-width="1"/>
+<text x="725" y="115.25" text-anchor="middle" font-size="15" font-weight="700" fill="#0f172a">D 単価</text>
+<rect x="770" y="90" width="90" height="40" fill="#dbeafe" stroke="#cbd5e1" stroke-width="1"/>
+<text x="815" y="115.25" text-anchor="middle" font-size="15" font-weight="700" fill="#0f172a">E 数量</text>
+<rect x="860" y="90" width="110" height="40" fill="#dbeafe" stroke="#cbd5e1" stroke-width="1"/>
+<text x="915" y="115.25" text-anchor="middle" font-size="15" font-weight="700" fill="#0f172a">F 金額</text>
+<rect x="620" y="130" width="60" height="40" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="650" y="155.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">2</text>
+<rect x="680" y="130" width="90" height="40" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="725" y="155.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">250</text>
+<rect x="770" y="130" width="90" height="40" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="815" y="155.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">5</text>
+<rect x="860" y="130" width="110" height="40" fill="#ffedd5" stroke="#cbd5e1" stroke-width="1"/>
+<text x="915" y="155.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">1250</text>
+<rect x="620" y="170" width="60" height="40" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="650" y="195.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">3</text>
+<rect x="680" y="170" width="90" height="40" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="725" y="195.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">250</text>
+<rect x="770" y="170" width="90" height="40" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="815" y="195.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">10</text>
+<rect x="860" y="170" width="110" height="40" fill="#ffedd5" stroke="#cbd5e1" stroke-width="1"/>
+<text x="915" y="195.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">2500</text>
+<rect x="620" y="210" width="60" height="40" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="650" y="235.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">4</text>
+<rect x="680" y="210" width="90" height="40" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="725" y="235.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">680</text>
+<rect x="770" y="210" width="90" height="40" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="815" y="235.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">2</text>
+<rect x="860" y="210" width="110" height="40" fill="#ffedd5" stroke="#cbd5e1" stroke-width="1"/>
+<text x="915" y="235.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">1360</text>
+<rect x="620" y="250" width="60" height="40" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="650" y="275.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">⋮</text>
+<rect x="680" y="250" width="90" height="40" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="725" y="275.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">⋮</text>
+<rect x="770" y="250" width="90" height="40" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="815" y="275.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">⋮</text>
+<rect x="860" y="250" width="110" height="40" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="915" y="275.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">⋮</text>
+<rect x="620" y="290" width="60" height="40" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="650" y="315.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">31</text>
+<rect x="680" y="290" width="90" height="40" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="725" y="315.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">60</text>
+<rect x="770" y="290" width="90" height="40" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="815" y="315.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">20</text>
+<rect x="860" y="290" width="110" height="40" fill="#ffedd5" stroke="#cbd5e1" stroke-width="1"/>
+<text x="915" y="315.25" text-anchor="middle" font-size="15" font-weight="400" fill="#0f172a">1200</text>
+<rect x="620" y="90" width="350" height="240" fill="none" stroke="#3b82f6" stroke-width="2"/>
+<text x="525" y="110" text-anchor="middle" font-size="20.833333333333332" fill="#475569" font-weight="400">i の値</text>
+<text x="795" y="364" text-anchor="middle" font-size="20.833333333333332" fill="#475569" font-weight="400">どの行も D × E を F に書く</text>
+<rect x="470" y="135" width="110" height="30" rx="15" fill="#fef9c3" stroke="#f59e0b" stroke-width="2.0"/>
+<text x="525" y="156" text-anchor="middle" font-size="20.833333333333332" fill="#475569" font-weight="400">i = 2</text>
+<path d="M586.00 150.00 L616.00 150.00" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aRsub)"/>
+<rect x="470" y="175" width="110" height="30" rx="15" fill="#fef9c3" stroke="#f59e0b" stroke-width="2.0"/>
+<text x="525" y="196" text-anchor="middle" font-size="20.833333333333332" fill="#475569" font-weight="400">i = 3</text>
+<path d="M586.00 190.00 L616.00 190.00" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aRsub)"/>
+<rect x="470" y="215" width="110" height="30" rx="15" fill="#fef9c3" stroke="#f59e0b" stroke-width="2.0"/>
+<text x="525" y="236" text-anchor="middle" font-size="20.833333333333332" fill="#475569" font-weight="400">i = 4</text>
+<path d="M586.00 230.00 L616.00 230.00" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aRsub)"/>
+<rect x="470" y="295" width="110" height="30" rx="15" fill="#fef9c3" stroke="#f59e0b" stroke-width="2.0"/>
+<text x="525" y="316" text-anchor="middle" font-size="20.833333333333332" fill="#475569" font-weight="400">i = 31</text>
+<path d="M586.00 310.00 L616.00 310.00" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aRsub)"/>
+</svg>

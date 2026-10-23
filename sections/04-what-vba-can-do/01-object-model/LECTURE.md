@@ -20,27 +20,22 @@ title: Excel は部品の入れ子
 
 ## Excel は部品の入れ子でできている
 
-VBA から見ると、Excel は「部品の中に部品が入っている」構造になっています。
+VBA から見ると、Excel は「部品の中に部品が入っている」構造になっています。この部品のことを **オブジェクト** と呼びます。外側から内側へ、`.`（ドット）でたどって指定します。
 
-| 部品 | VBA での呼び方 | 例 |
-|---|---|---|
-| Excel そのもの | `Application` | |
-| ブック（ファイル） | `Workbook` | `ThisWorkbook`（このマクロが入っているブック） |
-| シート | `Worksheet` | `Worksheets("売上")` |
-| セル・範囲 | `Range` | `Range("B2")`、`Cells(2, 2)` |
+:::::platform
+::::excel
+![VBA から見た Excel の入れ子。Excel そのもの（Application）の中にブック（Workbook）、その中にシート（Worksheet）、その中にセル・範囲（Range）がある。ThisWorkbook . Worksheets("売上") . Range("B2") . Value は「このブックの」「売上シートの」「B2 セルの」「値」と読み、先頭の ThisWorkbook と Worksheets("売上") を省略すると、いま開いているシートが対象になる](./images/01-nesting.svg)
+::::
+::::sheets
+![Apps Script から見たスプレッドシートの入れ子。スプレッドシート（Spreadsheet）の中にシート（Sheet）、その中にセル・範囲（Range）がある。ss.getSheetByName('売上').getRange('B2').getValue() は「このスプレッドシートの」「売上シートの」「B2 セルの」「値を読む」と読む](./images/02-nesting-gas.svg)
+::::
+:::::
 
-この部品のことを **オブジェクト** と呼びます。外側から内側へ、`.`（ドット）でたどって指定します。
+第 2〜3 章で書いた `Range("B2")` は、ブックとシートを省略した書き方です。
 
-```vb
-ThisWorkbook.Worksheets("売上").Range("B2").Value
-```
+オブジェクトの後ろに `.` で付けるものには、2 種類あります。
 
-「このブックの」「売上シートの」「B2 セルの」「値」と読みます。第 2〜3 章で書いた `Range("B2")` は、ブックとシートを省略した書き方で、そのときは **いま開いているシート** が対象になります。
-
-オブジェクトには 2 種類の要素があります。
-
-- **プロパティ** … 部品の状態。読んだり書き換えたりできる（`.Value` 値、`.Name` 名前、`.Interior.Color` 背景色）
-- **メソッド** … 部品にさせる動作（`.Copy` コピー、`.Delete` 削除、`.Add` 追加）
+![プロパティは部品の状態で、読んだり書き換えたりできる（.Value 値、.Name 名前、.Interior.Color 背景色）。メソッドは部品にさせる動作（.Copy コピー、.Delete 削除、.Add 追加）](./images/03-property-method.svg)
 
 :::::platform
 ::::excel

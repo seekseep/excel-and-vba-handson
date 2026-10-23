@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="500" viewBox="0 0 720 500" font-family="'Hiragino Sans','Noto Sans JP','Yu Gothic','Segoe UI',sans-serif">
+<defs><marker id="aR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#475569"/></marker><marker id="aRsub" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#94a3b8"/></marker></defs>
+<rect x="0" y="0" width="720" height="500" fill="#ffffff"/>
+<rect x="48" y="46" width="358.56" height="60" rx="12" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2.0" stroke-dasharray="7 6"/>
+<text x="227.28" y="34" text-anchor="middle" font-size="15.0" fill="#475569" font-weight="400">ここを省略すると「いま開いているシート」になる</text>
+<rect x="56" y="56" width="132.32" height="40" rx="8" fill="#dcfce7" stroke="#22c55e" stroke-width="2.0"/>
+<text x="122.16" y="81" text-anchor="middle" font-size="15.0" fill="#0f172a" font-weight="700" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">ThisWorkbook</text>
+<text x="122.16" y="130" text-anchor="middle" font-size="15.0" fill="#475569" font-weight="400">このブックの</text>
+<text x="198.32" y="84" text-anchor="middle" font-size="21.0" fill="#0f172a" font-weight="700" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">.</text>
+<rect x="208.32" y="56" width="182.24" height="40" rx="8" fill="#dbeafe" stroke="#3b82f6" stroke-width="2.0"/>
+<text x="299.44" y="81" text-anchor="middle" font-size="15.0" fill="#0f172a" font-weight="700" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">Worksheets("売上")</text>
+<text x="299.44" y="130" text-anchor="middle" font-size="15.0" fill="#475569" font-weight="400">売上シートの</text>
+<text x="400.56" y="84" text-anchor="middle" font-size="21.0" fill="#0f172a" font-weight="700" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">.</text>
+<rect x="410.56" y="56" width="122.96" height="40" rx="8" fill="#fef9c3" stroke="#f59e0b" stroke-width="2.0"/>
+<text x="472.04" y="81" text-anchor="middle" font-size="15.0" fill="#0f172a" font-weight="700" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">Range("B2")</text>
+<text x="472.04" y="130" text-anchor="middle" font-size="15.0" fill="#475569" font-weight="400">B2 セルの</text>
+<text x="543.52" y="84" text-anchor="middle" font-size="21.0" fill="#0f172a" font-weight="700" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">.</text>
+<rect x="553.52" y="56" width="66.8" height="40" rx="8" fill="#ffedd5" stroke="#f97316" stroke-width="2.0"/>
+<text x="586.92" y="81" text-anchor="middle" font-size="15.0" fill="#0f172a" font-weight="700" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">Value</text>
+<text x="586.92" y="130" text-anchor="middle" font-size="15.0" fill="#475569" font-weight="400">値</text>
+<rect x="16" y="156" width="688" height="328" rx="16" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2.0"/>
+<text x="32" y="184" text-anchor="start" font-size="17.0" fill="#475569" font-weight="600">Excel そのもの（Application）</text>
+<rect x="44" y="198" width="646" height="272" rx="16" fill="#dcfce7" stroke="#22c55e" stroke-width="2.0"/>
+<text x="58" y="226" text-anchor="start" font-size="17.0" fill="#475569" font-weight="600">ブック（Workbook）</text>
+<text x="58" y="274" text-anchor="start" font-size="15.0" fill="#475569" font-weight="400"><tspan x="58" dy="0">このマクロが</tspan><tspan x="58" dy="21.75">入っているブック</tspan></text>
+<rect x="196.32" y="240" width="479.68" height="216" rx="16" fill="#dbeafe" stroke="#3b82f6" stroke-width="2.0"/>
+<text x="210.32" y="268" text-anchor="start" font-size="17.0" fill="#475569" font-weight="600">シート（Worksheet）</text>
+<text x="210.32" y="316" text-anchor="start" font-size="15.0" fill="#475569" font-weight="400"><tspan x="210.32" dy="0">「売上」という</tspan><tspan x="210.32" dy="21.75">名前のシート</tspan></text>
+<rect x="398.56" y="282" width="263.44" height="160" rx="16" fill="#fef9c3" stroke="#f59e0b" stroke-width="2.0"/>
+<text x="412.56" y="310" text-anchor="start" font-size="17.0" fill="#475569" font-weight="600">セル・範囲（Range）</text>
+<text x="412.56" y="340" text-anchor="start" font-size="15.0" fill="#475569" font-weight="400">Cells(2, 2) とも書ける</text>
+<rect x="549.52" y="374" width="100" height="40" rx="8" fill="#ffedd5" stroke="#f97316" stroke-width="2.0"/>
+<text x="599.52" y="399" text-anchor="middle" font-size="15.0" fill="#0f172a" font-weight="400">値（Value）</text>
+</svg>

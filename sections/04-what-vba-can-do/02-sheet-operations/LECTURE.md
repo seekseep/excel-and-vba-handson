@@ -54,13 +54,36 @@ for (let i = 2; i <= lastRow; i++) {
 ::::
 :::::
 
+ブラウザ上で再現したデモで、表の見た目が変わる様子を見てみましょう。
+
+:::::platform
+::::excel
+「売上」シートの **表を整える** ボタンを押します（「開発」タブ →「マクロ」で `DecorateSales` を選んで「実行」を押しても同じです）。
+::::
+::::sheets
+Apps Script エディタの関数の選択欄で `decorateSales` を選び、「▶ 実行」を押します。
+::::
+:::::
+
+::::sheetdemo[DecorateSales を実行すると、見出しに色が付き、罫線が引かれ、5,000 円以上の金額が赤い太字になる]{book="book/sales.xlsx" sheet="売上" macro="DecorateSales" macros="ShowObjects,DecorateSales,SplitByCustomer,DeleteDemoSheets,SaveBackup"}
+style A1:F1 = background #1f4e79, color #ffffff
+style A1:F31 = border
+style F7 = color #c00000, bold
+style F12 = color #c00000, bold
+style F15 = color #c00000, bold
+style F17 = color #c00000, bold
+style F19 = color #c00000, bold
+::::
+
 :::notice[それ、条件付き書式でもできます]
 「5,000 円以上を赤くする」だけなら、Excel の **条件付き書式** のほうが向いています。値が変われば自動で色も変わるからです。第 3 章の「関数で十分だった」と同じで、VBA は他の機能でできないところに使うのが基本です。
 :::
 
 ## デモ 2: 顧客ごとにシートを分ける（`SplitByCustomer`）
 
-ここからが関数ではできない操作です。5 社それぞれの名前のシートを作り、その会社の明細だけを書き写します。
+ここからが関数ではできない操作です。5 社それぞれの名前のシートを作り、その会社の明細だけを書き写します。くり返しが 2 重になっていて、外側で顧客を 1 社ずつ、内側で売上の行を 1 行ずつ見ていきます。
+
+![SplitByCustomer のデータの動き。① 外側のくり返しで、c = 5 から 9 まで H 列の顧客名を 1 社ずつ customerName に取り出す。② 内側のくり返しで、i = 2 から 31 まで売上の行を上から見て、B 列が customerName と同じ行（ひまわり商事なら 4・5・8 行目）を探す。③ 見つけた行の A〜F 列を、足したシート「ひまわり商事」の outRow 行目にコピーする。outRow は書き写す先の行で、2 から始めて 1 行書くたびに 1 増やす（2 → 3 → 4）。次の顧客では 2 から数え直す](./images/01-split-flow.svg)
 
 :::::platform
 ::::excel
@@ -83,7 +106,6 @@ Next c
 
 - `Worksheets.Add(After:=...)` … いちばん後ろに新しいシートを足す
 - `.Copy 貼り付け先` … 範囲をコピーして貼り付ける
-- `outRow` … 書き写し先の次の行。1 行書くたびに 1 増やす
 
 第 3 章の `For` と `If` が、そのまま使われていることに注目してください。
 ::::
@@ -195,6 +217,26 @@ for (const sheet of ss.getSheets()) {
 ::::
 :::::
 
+デモでは、`SplitByCustomer` で増えた 5 枚のシートがある状態から始めます。
+
+:::::platform
+::::excel
+「売上」シートの **増えたシートを消す** ボタンを押します（「開発」タブ →「マクロ」で `DeleteDemoSheets` を選んで「実行」を押しても同じです）。
+::::
+::::sheets
+Apps Script エディタの関数の選択欄で `deleteDemoSheets` を選び、「▶ 実行」を押します。
+::::
+:::::
+
+::::sheetdemo[DeleteDemoSheets を実行すると、「売上」以外のシートが消える]{book="book/sales.xlsx" sheet="売上" macro="DeleteDemoSheets" macros="ShowObjects,DecorateSales,SplitByCustomer,DeleteDemoSheets,SaveBackup"}
+deltabs = ひまわり商事, あおば設計事務所, みなと物産, さくら学習塾, こもれび珈琲
+ひまわり商事!A1:F1 = 日付, 顧客, 商品, 単価, 数量, 金額
+あおば設計事務所!A1:F1 = 日付, 顧客, 商品, 単価, 数量, 金額
+みなと物産!A1:F1 = 日付, 顧客, 商品, 単価, 数量, 金額
+さくら学習塾!A1:F1 = 日付, 顧客, 商品, 単価, 数量, 金額
+こもれび珈琲!A1:F1 = 日付, 顧客, 商品, 単価, 数量, 金額
+::::
+
 ## デモ 3: ファイルを保存する（`SaveBackup`）
 
 日時入りの名前で、ブックのコピーを保存します。毎月の締めの前にバックアップを取る、といった使い方ができます。
@@ -207,9 +249,9 @@ fileName = ThisWorkbook.Path & Application.PathSeparator & _
 ThisWorkbook.SaveCopyAs fileName
 ```
 
-- `ThisWorkbook.Path` … このブックが保存されているフォルダ
-- `Application.PathSeparator` … フォルダの区切り文字（Windows は `\`、Mac は `/`）
-- 行末の ` _` … 長い行を途中で折り返す記号
+![保存するファイルのパスは 5 つの部品を & でつないだもの。ThisWorkbook.Path（このブックのフォルダ）、Application.PathSeparator（区切り。Windows は \、Mac は /）、"売上_バックアップ_"（決まった文字）、Format(Now, "yyyymmdd_hhnnss")（今の日時。年月日_時分秒）、".xlsm"（拡張子）。例: C:\Users\…\Documents\売上_バックアップ_20261022_143005.xlsm](./images/02-backup-filename.svg)
+
+1 行目の行末の ` _` は、長い行を途中で折り返す記号です。
 ::::
 ::::sheets
 ```js
@@ -220,6 +262,22 @@ DriveApp.getFileById(ss.getId()).makeCopy('売上_バックアップ_' + stamp);
 コピーは Google ドライブに保存されます。ドライブを操作するので、初回は追加の承認を求められます。
 ::::
 :::::
+
+保存が終わると、保存した場所をメッセージで知らせます。
+
+:::::platform
+::::excel
+「売上」シートの **バックアップを保存** ボタンを押します（「開発」タブ →「マクロ」で `SaveBackup` を選んで「実行」を押しても同じです）。
+::::
+::::sheets
+Apps Script エディタの関数の選択欄で `saveBackup` を選び、「▶ 実行」を押します。
+::::
+:::::
+
+::::sheetdemo[SaveBackup を実行すると、バックアップを保存して、保存した場所を知らせる]{book="book/sales.xlsx" sheet="売上" macro="SaveBackup" macros="ShowObjects,DecorateSales,SplitByCustomer,DeleteDemoSheets,SaveBackup"}
+msgbox = C:\Users\soyokaze\Documents\売上_バックアップ_20261031_180000.xlsm に保存しました
+msgbox.sheets = 売上_バックアップ_20261031_180000 をドライブに保存しました
+::::
 
 ## 帳票づくりにつなげる
 

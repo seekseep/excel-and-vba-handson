@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="420" viewBox="0 0 1000 420" font-family="'Hiragino Sans','Noto Sans JP','Yu Gothic','Segoe UI',sans-serif">
+<defs><marker id="aR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#475569"/></marker><marker id="aRsub" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#94a3b8"/></marker></defs>
+<rect x="0" y="0" width="1000" height="420" fill="#ffffff"/>
+<rect x="30" y="40" width="340" height="100" rx="16" fill="#dbeafe" stroke="#3b82f6" stroke-width="2.0"/>
+<text x="200" y="78" text-anchor="middle" font-size="23.61111111111111" fill="#0f172a" font-weight="600">VBE で F5</text>
+<text x="200" y="104" text-anchor="middle" font-size="18.055555555555554" fill="#475569" font-weight="400"><tspan x="200" dy="0">Sub の中にカーソルを置く</tspan><tspan x="200" dy="26.1806">（ツールバーの ▶ でも同じ）</tspan></text>
+<rect x="30" y="150" width="340" height="100" rx="16" fill="#dbeafe" stroke="#3b82f6" stroke-width="2.0"/>
+<text x="200" y="188" text-anchor="middle" font-size="23.61111111111111" fill="#0f172a" font-weight="600">「開発」→「マクロ」</text>
+<text x="200" y="214" text-anchor="middle" font-size="18.055555555555554" fill="#475569" font-weight="400"><tspan x="200" dy="0">一覧から Hello を選んで</tspan><tspan x="200" dy="26.1806">「実行」</tspan></text>
+<rect x="30" y="260" width="340" height="100" rx="16" fill="#dbeafe" stroke="#3b82f6" stroke-width="2.0"/>
+<text x="200" y="298" text-anchor="middle" font-size="23.61111111111111" fill="#0f172a" font-weight="600">シートのボタン</text>
+<text x="200" y="324" text-anchor="middle" font-size="18.055555555555554" fill="#475569" font-weight="400"><tspan x="200" dy="0">完成ブックの「あいさつする」</tspan><tspan x="200" dy="26.1806">（置き方は 5-3）</tspan></text>
+<polygon points="535.2,150 624.8,150 660,200 624.8,250 535.2,250 500,200" fill="#ede9fe" stroke="#8b5cf6" stroke-width="3.5"/>
+<text x="580" y="208" text-anchor="middle" font-size="29.166666666666664" fill="#0f172a" font-weight="700" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">Hello</text>
+<svg x="824.0" y="148.1" width="72.0" height="72.0" viewBox="0 0 36 36"><path fill="#BDDDF4" d="M18 1C8.059 1 0 7.268 0 15c0 4.368 2.574 8.268 6.604 10.835C6.08 28.144 4.859 31.569 2 35c5.758-.96 9.439-3.761 11.716-6.416 1.376.262 2.805.416 4.284.416 9.941 0 18-6.268 18-14S27.941 1 18 1z"/><circle fill="#2A6797" cx="18" cy="15" r="2"/><circle fill="#2A6797" cx="26" cy="15" r="2"/><circle fill="#2A6797" cx="10" cy="15" r="2"/></svg>
+<text x="860" y="249.028" text-anchor="middle" font-size="23.61111111111111" fill="#475569" font-weight="600">「こんにちは、VBA！」</text>
+<path d="M376.00 90.00 L394.00 90.00 L562.00 90.00 Q580.00 90.00 580.00 108.00 L580.00 126.00 L580.00 144.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<path d="M376.00 200.00 L494.00 200.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<path d="M376.00 310.00 L394.00 310.00 L562.00 310.00 Q580.00 310.00 580.00 292.00 L580.00 274.00 L580.00 256.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<path d="M666.00 200.00 L718.45 200.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+</svg>

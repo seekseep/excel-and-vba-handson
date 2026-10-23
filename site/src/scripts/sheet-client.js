@@ -148,6 +148,11 @@
       // リセットで元に戻すセルの印（見た目は変えない）。
       cell.classList.add('is-changed');
     });
+    // 実行で書式が変わるセル（`style ...`）。元の style 属性を取っておき、リセットで戻す。
+    demo.querySelectorAll('.sheet__cell[data-after-style]').forEach(function (cell) {
+      cell.dataset.beforeStyle = cell.getAttribute('style') || '';
+      cell.setAttribute('style', [cell.dataset.beforeStyle, cell.dataset.afterStyle].filter(Boolean).join(';'));
+    });
     // ログの欄と、実行で増えるシート（最初に足したものを選んだ状態にする）。
     var log = demo.querySelector('.sheetdemo__log');
     if (log) log.hidden = false;
@@ -158,6 +163,13 @@
     added.forEach(function (t) {
       t.hidden = false;
     });
+    // 実行で消えるシート（`deltabs = ...`）。開いていたら、最初のシートに戻す。
+    var removed = demo.querySelectorAll('.sheet__tab--removed');
+    removed.forEach(function (t) {
+      t.hidden = true;
+    });
+    var shown = demo.querySelector('.sheet__tab.is-active');
+    if (shown && shown.hidden) showSheet(demo.querySelector('.sheet'), demo.querySelector('.sheet__tab:not([hidden])').dataset.sheet);
     if (added.length && openAdded) showSheet(demo.querySelector('.sheet'), added[0].dataset.sheet);
     var dialog = demo.querySelector('.sheetdemo__dialog');
     if (dialog) {
@@ -351,6 +363,14 @@
     if (demo.dataset.startSheet) showSheet(demo.querySelector('.sheet'), demo.dataset.startSheet);
     demo.querySelectorAll('.sheet__tab--added').forEach(function (t) {
       t.hidden = true;
+    });
+    demo.querySelectorAll('.sheet__tab--removed').forEach(function (t) {
+      t.hidden = false;
+    });
+    demo.querySelectorAll('.sheet__cell[data-before-style]').forEach(function (cell) {
+      if (cell.dataset.beforeStyle) cell.setAttribute('style', cell.dataset.beforeStyle);
+      else cell.removeAttribute('style');
+      delete cell.dataset.beforeStyle;
     });
     demo.querySelectorAll('.sheet__cell.is-changed').forEach(function (cell) {
       cell.textContent = cell.dataset.before;

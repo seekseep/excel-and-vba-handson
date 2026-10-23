@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="500" viewBox="0 0 960 500" font-family="'Hiragino Sans','Noto Sans JP','Yu Gothic','Segoe UI',sans-serif">
+<defs><marker id="aR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#475569"/></marker><marker id="aRsub" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#94a3b8"/></marker></defs>
+<rect x="0" y="0" width="960" height="500" fill="#ffffff"/>
+<text x="160" y="44" text-anchor="middle" font-size="28.0" fill="#0f172a" font-weight="700">イベント</text>
+<text x="480" y="44" text-anchor="middle" font-size="28.0" fill="#0f172a" font-weight="700">登録</text>
+<text x="800" y="44" text-anchor="middle" font-size="28.0" fill="#0f172a" font-weight="700">手順のかたまり</text>
+<text x="30" y="100" text-anchor="start" font-size="22.666666666666664" fill="#475569" font-weight="600">Excel</text>
+<rect x="30" y="112" width="260" height="84" rx="8" fill="#fef9c3" stroke="#f59e0b" stroke-width="2.0"/>
+<text x="160" y="160" text-anchor="middle" font-size="17.333333333333332" fill="#475569" font-weight="400">シートのボタンを押す</text>
+<rect x="350" y="112" width="260" height="84" rx="8" fill="#dbeafe" stroke="#3b82f6" stroke-width="2.0"/>
+<text x="480" y="146" text-anchor="middle" font-size="17.333333333333332" fill="#475569" font-weight="400">「マクロの登録」で</text>
+<text x="480" y="174" text-anchor="middle" font-size="17.333333333333332" fill="#475569" font-weight="400">マクロを選ぶ</text>
+<rect x="670" y="112" width="260" height="84" rx="8" fill="#dcfce7" stroke="#22c55e" stroke-width="2.0"/>
+<text x="800" y="160" text-anchor="middle" font-size="17.333333333333332" fill="#475569" font-weight="400" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">Sub CreateInvoices()</text>
+<text x="30" y="256" text-anchor="start" font-size="22.666666666666664" fill="#475569" font-weight="600">スプレッドシート</text>
+<rect x="30" y="268" width="260" height="84" rx="8" fill="#fef9c3" stroke="#f59e0b" stroke-width="2.0"/>
+<text x="160" y="302" text-anchor="middle" font-size="17.333333333333332" fill="#475569" font-weight="400">メニュー「請求書」の</text>
+<text x="160" y="330" text-anchor="middle" font-size="17.333333333333332" fill="#475569" font-weight="400">項目を押す</text>
+<rect x="350" y="268" width="260" height="84" rx="8" fill="#dbeafe" stroke="#3b82f6" stroke-width="2.0"/>
+<text x="480" y="302" text-anchor="middle" font-size="17.333333333333332" fill="#475569" font-weight="400" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">.addItem('項目名',</text>
+<text x="480" y="330" text-anchor="middle" font-size="17.333333333333332" fill="#475569" font-weight="400" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">'関数名')</text>
+<rect x="670" y="268" width="260" height="84" rx="8" fill="#dcfce7" stroke="#22c55e" stroke-width="2.0"/>
+<text x="800" y="302" text-anchor="middle" font-size="17.333333333333332" fill="#475569" font-weight="400" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">function</text>
+<text x="800" y="330" text-anchor="middle" font-size="17.333333333333332" fill="#475569" font-weight="400" font-family="'SFMono-Regular','Consolas','Noto Sans Mono','Courier New',monospace">createInvoices()</text>
+<path d="M296.00 154.00 L344.00 154.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<path d="M616.00 154.00 L664.00 154.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<path d="M296.00 310.00 L344.00 310.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<path d="M616.00 310.00 L664.00 310.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<rect x="350" y="400" width="260" height="70" rx="8" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2.0" stroke-dasharray="7 6"/>
+<text x="480" y="430" text-anchor="middle" font-size="17.333333333333332" fill="#475569" font-weight="400">開いたとき（onOpen）に</text>
+<text x="480" y="456" text-anchor="middle" font-size="17.333333333333332" fill="#475569" font-weight="400">メニューを作って登録する</text>
+<path d="M480.00 394.00 L480.00 358.00" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aRsub)"/>
+</svg>

@@ -43,28 +43,16 @@ function writeCells() {
 ::::
 :::::
 
-実行して、シートの A1・B1・A2 に値が入ったことを確かめてください。ブラウザ上で再現したデモでも試せます。
-
-:::::platform
-::::excel
-「開発」タブの「マクロ」を押し、一覧から `WriteCells` を選んで「実行」を押します。
-::::
-::::sheets
-Apps Script エディタの関数の選択欄で `writeCells` を選び、「▶ 実行」を押します。
-::::
-:::::
+2-1 と同じ手順で `WriteCells`（GAS は `writeCells`）を実行して、シートの A1・B1・A2 に値が入ったことを確かめてください。ブラウザ上で再現したデモでも試せます。
 
 ::::sheetdemo[WriteCells を実行すると、A1・B1・A2 に値が入る]{macro="WriteCells" macros="Hello,WriteCells" stage="write-cells"}
 A1:B1 = 税抜価格, 1200
 A2 = 税込価格
 ::::
 
-セルは「行と列の番号」でも指せます。A1 は 1 行目の 1 列目、B1 は 1 行目の 2 列目です。
+セルは「行と列の番号」でも指せます。
 
-| 番地で指す | 番号で指す |
-|---|---|
-| `Range("B1")` | `Cells(1, 2)` |
-| `sheet.getRange('B1')` | `sheet.getRange(1, 2)` |
+![B2 のセルは、番地なら Range("B2")（GAS は getRange('B2')）、行と列の番号なら Cells(2, 2)（GAS は getRange(2, 2)）で指す。番号は 2 行目, 2 列目の順で、行が先、列が後](./images/01-cell-address.svg)
 
 番号で指す書き方は、第 3 章で「2 行目から 31 行目まで順番に」処理するときに使います。
 
@@ -105,16 +93,7 @@ function calcTaxIncluded() {
 ::::
 :::::
 
-B2 に `1320` と出れば成功です。
-
-:::::platform
-::::excel
-「開発」タブの「マクロ」を押し、一覧から `CalcTaxIncluded` を選んで「実行」を押します。
-::::
-::::sheets
-Apps Script エディタの関数の選択欄で `calcTaxIncluded` を選び、「▶ 実行」を押します。
-::::
-:::::
+`CalcTaxIncluded`（GAS は `calcTaxIncluded`）を実行して、B2 に `1320` と出れば成功です。
 
 ::::sheetdemo[CalcTaxIncluded を実行すると、B2 に税込価格が入る]{macro="CalcTaxIncluded" macros="Hello,WriteCells,CalcTaxIncluded"}
 before A1:B1 = 税抜価格, 1200
@@ -136,6 +115,10 @@ VBA の変数には、何を入れる箱かを `As` で指定します（**型**
 | `Date` | 日付 | 発行日 |
 
 計算の記号は `+`（足す）`-`（引く）`*`（掛ける）`/`（割る）です。
+
+`=` は右側を先に計算してから、その結果を左の箱に入れます。だから同じ変数を両側に書くと、中身を入れ直せます（第 3 章の合計で使います）。
+
+![total = total + 金額 は、右側の total + 金額 を先に計算してから、その結果を左の total の箱に入れ直す。くり返すと total は 0 → 1250 → 3750 と増えていく](./images/92-assign.svg)
 
 GAS では型を書きません。そのかわり、あとで中身を変える変数は `let`、変えない変数は `const` で作ります。
 

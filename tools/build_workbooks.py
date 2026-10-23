@@ -217,20 +217,19 @@ def write_invoice_template(ws):
     ws.print_area = "A1:E33"
 
 
-def save(wb, lecture_dir, name, end_state=None, buttons=(), start_buttons=None, with_start=True):
+def save(wb, lecture_dir, name, end_state=None, buttons=(), with_start=True):
     """
     .xlsx（節を始める状態。本文のデモもこれを描く）を保存し、マクロ入りの .xlsm も作る。
     with_start=False なら .xlsx は作らない（同じ章の前の節と同じ中身のとき）。
     end_state(wb) を渡すと、.xlsm はその節のマクロを実行し終えた後の値まで入れた状態にする
     （次の節を、ダウンロードした .xlsm からそのまま始められるように）。
-    buttons はマクロを実行するボタン（Button の並び）。start_buttons を渡すと .xlsx にはそちらを置く
-    （5-3 のように、ボタンを自分で置く節のため）。
+    buttons はマクロを実行するボタン（Button の並び）で、.xlsm にだけ置く。ボタンは受講者がマクロを
+    書いた節で自分で置くので、その節を終えた時点で置いてあるものを渡す。マクロの無い .xlsx には置かない。
     """
     if with_start:
         path = lecture_dir / "book" / f"{name}.xlsx"
         path.parent.mkdir(parents=True, exist_ok=True)
         wb.save(path)
-        add_buttons(wb, path, buttons if start_buttons is None else start_buttons)
         print(f"[build_workbooks] {path.relative_to(ROOT)}")
     if end_state:
         end_state(wb)
@@ -610,7 +609,7 @@ def main():
     # 2 章: 空白のブックから始める。終えた状態として、空のシートにマクロを入れたブックを作る
     for lecture, buttons in (
         ("01-hello-macro", pick(FIRST_BUTTONS, "Hello")),
-        ("02-cells-and-variables", pick(FIRST_BUTTONS, "Hello", "WriteCells", "CalcTaxIncluded")),
+        ("02-cells-and-variables", pick(FIRST_BUTTONS, "Hello")),
     ):
         wb = Workbook()
         wb.active.title = "Sheet1"
@@ -640,10 +639,10 @@ def main():
         for i, (name, *_rest) in enumerate(CUSTOMERS, start=5):
             wb["売上"].cell(row=i, column=10, value=totals[name])
 
-    # 前の節のブックで続ける人もいるので、章で使うボタンは最初の節から全部置いておく
+    # ボタンは受講者がマクロを書いた節で置く（3-1 で金額を計算、3-2 で残りの 2 つ）
     summary = pick(SALES_BUTTONS, "CalcAmounts", "SumTotal", "SumByCustomer")
     for lecture, end_state, buttons, with_start in (
-        ("01-calc-amounts", end_31, summary, True),
+        ("01-calc-amounts", end_31, pick(SALES_BUTTONS, "CalcAmounts"), True),
         ("02-sum-and-sumif", end_32, summary, False),
         ("03-debugger-intro", end_32, summary, False),
         ("04-debugging", end_34, summary + pick(SALES_BUTTONS, "SumAllCustomers", "SumTotalWithBug"), True),
@@ -668,13 +667,12 @@ def main():
         save(wb, SECTIONS / "04-what-vba-can-do" / lecture, "sales", buttons=buttons)
 
     # 5 章: 金額まで埋まった売上明細 + 顧客 + 請求書テンプレート
-    # 「請求書シートを消す」は 5-3 で受講者が自分で置くボタンなので、5-3 を終えた .xlsm にだけ置く。
-    # .xlsx は 5-1〜5-3 で同じ
+    # 「請求書を作る」は 5-1、「請求書シートを消す」は 5-3 で受講者が置く。.xlsx は 5-1〜5-3 で同じ
     create = pick(INVOICE_BUTTONS, "CreateInvoices")
-    for lecture, buttons, start_buttons, with_start in (
-        ("01-copy-template", create, None, True),
-        ("02-transfer-details", create, None, False),
-        ("03-pdf-and-button", list(INVOICE_BUTTONS.values()), create, False),
+    for lecture, buttons, with_start in (
+        ("01-copy-template", create, True),
+        ("02-transfer-details", create, False),
+        ("03-pdf-and-button", list(INVOICE_BUTTONS.values()), False),
     ):
         wb = Workbook()
         ws = wb.active
@@ -682,7 +680,7 @@ def main():
         write_sales_sheet(ws, sales, with_amount=True)
         write_customer_sheet(wb.create_sheet("顧客"))
         write_invoice_template(wb.create_sheet("請求書テンプレート"))
-        save(wb, SECTIONS / "05-invoice-button" / lecture, "invoice", buttons=buttons, start_buttons=start_buttons, with_start=with_start)
+        save(wb, SECTIONS / "05-invoice-button" / lecture, "invoice", buttons=buttons, with_start=with_start)
 
     # 6 章: 講義の表計算デモ用。マクロは無いので .xlsx だけ
     chapter6 = SECTIONS / "06-table-design"
